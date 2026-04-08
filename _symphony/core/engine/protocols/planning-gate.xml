@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Symphony Engine-Internal Protocol: planning-gate
+  Owned by Spec 2a. Engine-internal — not a cross-cutting protocol.
+  Invoked only when interaction_mode is "planning".
+  See docs/superpowers/specs/2026-04-08-symphony-core-engine-execution-design.md section 5.1 step 8
+-->
+<protocol name="planning-gate" version="0.0.2-alpha.1">
+  <objective>
+    Present a structured execution plan to the user before any workflow
+    step runs. Collect user approval or abort. Return the runtime
+    interaction mode (normal or YOLO) that the engine should use after
+    approval.
+  </objective>
+
+  <mandates>
+    <mandate>Invoked only when interaction_mode == "planning"</mandate>
+    <mandate>Parse instructions.xml into a structured plan — do not execute any step</mandate>
+    <mandate>Present the plan in fixed section order for predictability</mandate>
+    <mandate>Wait for user selection: a (normal) | y (YOLO) | r (revise) | x (abort)</mandate>
+    <mandate>Never auto-approve. The user must explicitly select a or y.</mandate>
+  </mandates>
+
+  <plan-sections>
+    <section name="Context">High-level goal statement from the workflow's description, the owner agent, the declared inputs, and the expected outputs</section>
+    <section name="Files to Modify">Every file path the plan will write to, extracted from step template-output declarations</section>
+    <section name="Detailed Edits">One line per step: step number, title, what the step produces, which skills it JIT-loads</section>
+    <section name="Implementation Order">The strict numerical step order as declared in instructions.xml</section>
+    <section name="Verification">Which gates fire pre-start and post-complete, which cross-cutting disciplines are invoked</section>
+  </plan-sections>
+
+  <flow>
+    <step n="1" title="Parse instructions for plan content">
+      <action>Read the already-loaded instructions.xml content</action>
+      <action>Extract each step's number, title, actions, template-output (if any), skill references</action>
+      <action>Extract gate declarations from workflow.yaml</action>
+      <action>Build the five Plan Sections listed above</action>
+    </step>
+    <step n="2" title="Present plan">
+      <action>Render the plan sections to the user in fixed order: Context, Files to Modify, Detailed Edits, Implementation Order, Verification</action>
+      <action>Omit any section that is empty (e.g., a workflow with no template-outputs has no Files to Modify)</action>
+    </step>
+    <step n="3" title="Collect user decision">
+      <action>Display prompt: "[a] Approve (normal) | [y] Approve (YOLO) | [r] Revise plan | [x] Abort"</action>
+      <action>Wait for user selection</action>
+    </step>
+    <step n="4" title="Handle decision">
+      <action if="user selects [a]">Return runtime_mode = normal. Engine proceeds to step 9 of workflow flow.</action>
+      <action if="user selects [y]">Return runtime_mode = YOLO. Engine proceeds to step 9 of workflow flow.</action>
+      <action if="user selects [r]">Ask user for feedback on the plan. Regenerate plan incorporating feedback. Re-present via step 2.</action>
+      <action if="user selects [x]">HALT the workflow with status halted_user_abort. Write checkpoint with abort reason.</action>
+    </step>
+  </flow>
+</protocol>
