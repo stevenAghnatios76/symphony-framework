@@ -1,0 +1,166 @@
+import { existsSync, readFileSync } from 'node:fs';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { describe, expect, it } from 'vitest';
+
+const __filename = fileURLToPath(import.meta.url);
+const root = resolve(dirname(__filename), '..');
+const exists = (p) => existsSync(resolve(root, p));
+const readText = (p) => readFileSync(resolve(root, p), 'utf8');
+
+describe('Symphony repo structure (architecture spec §4.1)', () => {
+  describe('top-level repo files', () => {
+    it('has package.json', () => {
+      expect(exists('package.json')).toBe(true);
+    });
+    it('has README.md', () => {
+      expect(exists('README.md')).toBe(true);
+    });
+    it('has CLAUDE.md', () => {
+      expect(exists('CLAUDE.md')).toBe(true);
+    });
+    it('has LICENSE', () => {
+      expect(exists('LICENSE')).toBe(true);
+    });
+    it('has .gitignore', () => {
+      expect(exists('.gitignore')).toBe(true);
+    });
+    it('has bin/symphony-cli.js', () => {
+      expect(exists('bin/symphony-cli.js')).toBe(true);
+    });
+  });
+
+  describe('_symphony/_config', () => {
+    it('has global.yaml', () => {
+      expect(exists('_symphony/_config/global.yaml')).toBe(true);
+    });
+    it('has manifest.yaml', () => {
+      expect(exists('_symphony/_config/manifest.yaml')).toBe(true);
+    });
+  });
+
+  describe('_symphony/core/engine — all 5 components', () => {
+    const components = [
+      'conductor.xml',
+      'wave-executor.xml',
+      'workflow-engine.xml',
+      'gate-enforcer.xml',
+      'task-runner.xml',
+    ];
+    for (const c of components) {
+      it(`has ${c}`, () => {
+        expect(exists(`_symphony/core/engine/${c}`)).toBe(true);
+      });
+    }
+  });
+
+  describe('_symphony/core/protocols — all 9 protocols', () => {
+    const protocols = [
+      'status-sync.xml',
+      'review-gate-check.xml',
+      'checkpoint-resume.xml',
+      'memory-hygiene.xml',
+      'artifact-enrichment-hook.xml',
+      'self-critique.xml',
+      'trust-levels.xml',
+      'anti-rationalization.xml',
+      'diagnose-then-fix.xml',
+    ];
+    for (const p of protocols) {
+      it(`has ${p}`, () => {
+        expect(exists(`_symphony/core/protocols/${p}`)).toBe(true);
+      });
+    }
+  });
+
+  describe('_symphony/core/adapter-registry', () => {
+    it('has claude-code.yaml', () => {
+      expect(exists('_symphony/core/adapter-registry/claude-code.yaml')).toBe(true);
+    });
+    it('has copilot.yaml', () => {
+      expect(exists('_symphony/core/adapter-registry/copilot.yaml')).toBe(true);
+    });
+  });
+
+  describe('_symphony/lifecycle — 5 phase directories', () => {
+    const phases = [
+      '1-analysis',
+      '2-planning',
+      '3-solutioning',
+      '4-implementation',
+      '5-deployment',
+    ];
+    for (const phase of phases) {
+      it(`has workflows/${phase}`, () => {
+        expect(exists(`_symphony/lifecycle/workflows/${phase}`)).toBe(true);
+      });
+    }
+    it('has lifecycle/agents', () => {
+      expect(exists('_symphony/lifecycle/agents')).toBe(true);
+    });
+    it('has lifecycle/templates', () => {
+      expect(exists('_symphony/lifecycle/templates')).toBe(true);
+    });
+  });
+
+  describe('_symphony module directories', () => {
+    const modules = [
+      'dev/agents',
+      'dev/skills',
+      'dev/knowledge',
+      'creative/agents',
+      'creative/workflows',
+      'testing/agents',
+      'testing/workflows',
+    ];
+    for (const m of modules) {
+      it(`has ${m}`, () => {
+        expect(exists(`_symphony/${m}`)).toBe(true);
+      });
+    }
+  });
+
+  describe('_symphony/_memory', () => {
+    it('has checkpoints directory', () => {
+      expect(exists('_symphony/_memory/checkpoints')).toBe(true);
+    });
+    it('has conductor-sidecar directory', () => {
+      expect(exists('_symphony/_memory/conductor-sidecar')).toBe(true);
+    });
+  });
+
+  describe('adapters/claude-code', () => {
+    it('has adapter.yaml', () => {
+      expect(exists('adapters/claude-code/adapter.yaml')).toBe(true);
+    });
+    it('has translator.js', () => {
+      expect(exists('adapters/claude-code/translator.js')).toBe(true);
+    });
+    it('has templates/command.md.tmpl', () => {
+      expect(exists('adapters/claude-code/templates/command.md.tmpl')).toBe(true);
+    });
+  });
+
+  describe('adapters/copilot', () => {
+    it('has adapter.yaml', () => {
+      expect(exists('adapters/copilot/adapter.yaml')).toBe(true);
+    });
+    it('has translator.js', () => {
+      expect(exists('adapters/copilot/translator.js')).toBe(true);
+    });
+    it('has templates/command.md.tmpl', () => {
+      expect(exists('adapters/copilot/templates/command.md.tmpl')).toBe(true);
+    });
+  });
+
+  describe('package.json sanity', () => {
+    it('declares name as symphony-framework', () => {
+      const pkg = JSON.parse(readText('package.json'));
+      expect(pkg.name).toBe('symphony-framework');
+    });
+    it('declares bin entry for symphony-framework', () => {
+      const pkg = JSON.parse(readText('package.json'));
+      expect(pkg.bin['symphony-framework']).toBe('./bin/symphony-cli.js');
+    });
+  });
+});
