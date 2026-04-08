@@ -1,24 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Symphony Task Runner — standalone task execution
-  See architecture spec §5.1
-
-  Contract:
-    1. Invoked for standalone tasks: reviews, audits, utilities (not full workflows)
-    2. Tasks declare their target, expected output, and optional gates
-    3. No phase routing — task execution is independent of the 5-phase lifecycle
-    4. Still subject to cross-cutting disciplines (self-critique, trust-levels,
-       anti-rationalization) because they are engine-level
-    5. Does NOT invoke the Wave Executor; tasks are single-step by definition
-
-  Status: stub — runtime implementation lands in Spec 2 Core Engine plan
+  Symphony Task Runner — standalone task execution (Kernel A simplified)
+  See docs/superpowers/specs/2026-04-08-symphony-core-engine-execution-design.md section 5.5
 -->
-<task-runner version="0.0.1">
-  <status>stub</status>
-  <contract>
-    <responsibility>single-step-task-execution</responsibility>
-    <responsibility>invoke-cross-cutting-protocols</responsibility>
-    <responsibility>produce-task-output</responsibility>
-  </contract>
-  <spec-reference>docs/superpowers/specs/2026-04-08-symphony-architecture-design.md#51-engine-components</spec-reference>
+<task-runner version="0.0.2-alpha.1">
+  <status>runtime</status>
+  <spec-reference>docs/superpowers/specs/2026-04-08-symphony-core-engine-execution-design.md</spec-reference>
+
+  <objective>
+    Execute standalone tasks: reviews, audits, utilities. Simpler than
+    the workflow engine — no workflow lifecycle, no variable resolution
+    chain, no pre-start or post-complete gates by default, no automatic
+    checkpointing. Tasks can opt in to self-critique or trust-levels by
+    declaring invoke tags in their own flow.
+  </objective>
+
+  <mandates>
+    <mandate>You are now the Symphony Task Runner. Follow these instructions EXACTLY.</mandate>
+    <mandate>Execute steps in strict numerical order. NEVER skip or reorder.</mandate>
+    <mandate>Enforce all critical mandates from the task config.</mandate>
+    <mandate>Report ALL findings — do not stop at the first error.</mandate>
+    <mandate>Stay within 40K tokens per activation.</mandate>
+  </mandates>
+
+  <inputs>
+    <input name="task_config" required="true">Absolute path to the task XML file to execute</input>
+  </inputs>
+
+  <flow>
+    <step n="1" title="Load task config">
+      <action>Read the task XML file at task_config</action>
+      <action>Parse: task id, name, objective</action>
+      <action>Extract critical mandates from llm critical blocks</action>
+      <action>Count total steps in the task's flow section</action>
+    </step>
+
+    <step n="2" title="Validate task structure">
+      <action>Verify the task XML has objective, flow, output elements</action>
+      <action>Verify each flow step has a title and at least one action</action>
+      <action if="validation fails">Report structural issues and still attempt execution (task runner is more permissive than workflow engine)</action>
+    </step>
+
+    <step n="3" title="Execute task flow">
+      <action>Process each step from the task flow section in strict numerical order</action>
+      <action>For each step: read the title and all actions</action>
+      <action>Execute each action using available tools</action>
+      <action>Collect results and findings continuously — never wait until the end to reveal issues</action>
+      <action>Summarize step results before moving to the next step</action>
+      <action if="a step contains invoke protocol tags">Invoke the referenced protocol (task runner honors opt-in protocol invocations but does not inject its own)</action>
+    </step>
+
+    <step n="4" title="Generate output">
+      <action>Read the output format specification from the task config</action>
+      <action>Compile all step results into the specified format</action>
+      <action if="output location is specified">Save to that location via atomic write</action>
+      <action if="no output location">Present the final output to the user</action>
+    </step>
+  </flow>
+
+  <what-task-runner-does-not-do>
+    <item>No variable resolution — tasks do not own a workflow.yaml</item>
+    <item>No owner persona adoption — tasks run engine-neutral</item>
+    <item>No pre-start or post-complete gates by default</item>
+    <item>No automatic checkpointing by default</item>
+    <item>No interaction-mode pacing — tasks are short and single-shot</item>
+    <item>No diagnose-then-fix loop injection — tasks handle their own errors</item>
+  </what-task-runner-does-not-do>
+
+  <supported-tags>
+    <structural>step action ask check</structural>
+    <persistence>output template-output</persistence>
+    <invocation>invoke (for opt-in protocol calls like self-critique or trust-levels)</invocation>
+  </supported-tags>
 </task-runner>
