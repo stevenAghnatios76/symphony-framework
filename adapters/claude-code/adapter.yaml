@@ -1,0 +1,15 @@
+# Symphony Claude Code adapter — installer-side manifest.
+# Mirrors _symphony/core/adapter-registry/claude-code.yaml but lives
+# alongside the translator code so the installer can locate both.
+
+id: claude-code
+target_tool: "Claude Code"
+translator_entry: "./translator.js"
+templates_dir: "./templates"
+
+output_paths:
+  commands: ".claude/commands/"
+  config: "CLAUDE.md"
+
+command_file_extension: ".md"
+command_naming_pattern: "symphony{-action}"
