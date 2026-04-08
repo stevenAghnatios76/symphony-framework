@@ -1,0 +1,38 @@
+# Symphony global configuration — single source of truth for project settings.
+# See architecture spec §2.6, §2.9, §11.2 for schema reference.
+
+framework_name: "Symphony"
+framework_version: "0.0.1"
+user_name: "your-name"
+project_name: "your-project"
+
+# Where application source code lives relative to project root.
+# "." means code lives alongside _symphony/. Otherwise a subdirectory path.
+project_path: "."
+
+# Context budget discipline (architecture spec §2.6)
+limits:
+  max_tokens_per_activation: 40000
+  max_agent_persona_lines: 200
+  max_instruction_step_lines: 150
+  max_skill_lines: 300
+  max_markdown_lines: 1000
+
+# Self-critique threshold (architecture spec §5.2)
+disciplines:
+  self_critique_threshold: 0.85
+
+# Conductor routing (architecture spec §8.1)
+conductor:
+  auto_dispatch_confidence: 0.80
+
+# Optional vault integration (architecture spec §11.2) — disabled by default
+vault:
+  enabled: false
+  integration: obsidian
+  vault_root: "{output_folder}"
+  wikilinks: true
+  tags: true
+  moc_dir: "_vault-moc"
+  dataview_queries: true
+  tag_prefix: "symphony"

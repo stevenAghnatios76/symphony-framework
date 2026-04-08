@@ -1,0 +1,25 @@
+# Symphony module manifest. Each module carries its own version.
+# Bumped independently when a module changes.
+
+modules:
+  core:
+    version: "0.0.1"
+    description: "Engine, protocols, adapter registry, memory"
+  lifecycle:
+    version: "0.0.1"
+    description: "5-phase lifecycle agents, workflows, templates"
+  dev:
+    version: "0.0.1"
+    description: "Developer agents, skills, knowledge fragments"
+  creative:
+    version: "0.0.1"
+    description: "Creative agents and workflows"
+  testing:
+    version: "0.0.1"
+    description: "Test architect and testing workflows"
+
+adapters:
+  claude-code:
+    version: "0.0.1"
+  copilot:
+    version: "0.0.1"
