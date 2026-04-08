@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Symphony Engine-Internal Protocol: variable-resolution
+  Owned by Spec 2a. Engine-internal — not a cross-cutting protocol.
+  See docs/superpowers/specs/2026-04-08-symphony-core-engine-execution-design.md section 5.1 step 2
+-->
+<protocol name="variable-resolution" version="0.0.2-alpha.1">
+  <objective>
+    Resolve template variables in workflow.yaml against _symphony/_config/global.yaml
+    before the workflow engine proceeds to preflight-check.
+  </objective>
+
+  <mandates>
+    <mandate>Two-level resolution only: workflow.yaml references resolve against global.yaml. No module-level inheritance chain.</mandate>
+    <mandate>No pre-resolved cache at v0.0.2-alpha.1. All resolution is runtime.</mandate>
+    <mandate>If any variable cannot be resolved, HALT with status halted_unresolved_variable. Do not guess or use defaults.</mandate>
+    <mandate>Variable names use curly-brace syntax: {project-root}, {project-path}, {memory-path}, {checkpoint-path}, {installed-path}, {date}.</mandate>
+  </mandates>
+
+  <supported-variables>
+    <variable name="project-root">The absolute filesystem path of the Symphony-installed project root. Read from {project-root}/_symphony/_config/global.yaml field project_root. If the field is missing, use the directory containing _symphony/.</variable>
+    <variable name="project-path">Where application source code lives. Read global.yaml field project_path. If the value is "." or the field is missing, set project-path = project-root. Otherwise project-path = project-root/project_path.</variable>
+    <variable name="memory-path">Absolute path to the Symphony memory root. Default: project-root/_symphony/_memory. Override via global.yaml field memory_path.</variable>
+    <variable name="checkpoint-path">Absolute path to the checkpoint directory. Default: memory-path/checkpoints. Override via global.yaml field checkpoint_path.</variable>
+    <variable name="installed-path">Absolute path of the current workflow directory (the directory containing workflow.yaml).</variable>
+    <variable name="date">Current ISO-8601 date (YYYY-MM-DD) at workflow start.</variable>
+  </supported-variables>
+
+  <flow>
+    <step n="1" title="Read global config">
+      <action>Read {project-root}/_symphony/_config/global.yaml</action>
+      <action>Extract: project_root, project_path, memory_path, checkpoint_path</action>
+    </step>
+    <step n="2" title="Resolve core variables">
+      <action>Set project-root to the detected filesystem path</action>
+      <action>Set project-path per the rule above</action>
+      <action>Set memory-path per the rule above</action>
+      <action>Set checkpoint-path per the rule above</action>
+      <action>Set installed-path to the directory containing the current workflow.yaml</action>
+      <action>Set date to the current ISO-8601 date</action>
+    </step>
+    <step n="3" title="Substitute in workflow.yaml">
+      <action>Walk workflow.yaml string values and substitute every {var} occurrence with its resolved value</action>
+      <action>Report any unresolved {var} reference</action>
+    </step>
+    <step n="4" title="HALT if unresolved">
+      <action>If any substitution left an unresolved {var}, HALT with status halted_unresolved_variable and the list of unresolved variable names</action>
+    </step>
+    <step n="5" title="Return resolved config">
+      <action>Return the substituted workflow.yaml to the calling engine</action>
+    </step>
+  </flow>
+</protocol>
