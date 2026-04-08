@@ -1,0 +1,29 @@
+# Symphony Claude Code adapter manifest (Core-side).
+# See architecture spec §7.2.
+# The adapter implementation lives at adapters/claude-code/ in the repo;
+# this file is Core's awareness of the adapter.
+
+id: claude-code
+target_tool: "Claude Code"
+target_tool_url: "https://docs.anthropic.com/en/docs/claude-code"
+
+output_paths:
+  commands: ".claude/commands/"
+  config: "CLAUDE.md"
+
+command_file_extension: ".md"
+command_naming_pattern: "symphony{-action}"
+
+supports:
+  model_frontmatter: true
+  slash_commands: true
+  agent_memory: true
+  model_selection_per_command: true
+
+capabilities_declared:
+  - sequential_workflows
+  - parallel_waves
+  - gate_enforcement
+  - self_critique
+  - ensemble_mode
+  - interaction_modes

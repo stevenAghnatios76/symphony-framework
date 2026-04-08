@@ -1,0 +1,27 @@
+# Symphony GitHub Copilot adapter manifest (Core-side).
+# See architecture spec §7.2.
+
+id: copilot
+target_tool: "GitHub Copilot"
+target_tool_url: "https://github.com/features/copilot"
+
+output_paths:
+  commands: ".github/prompts/"
+  config: ".github/copilot-instructions.md"
+
+command_file_extension: ".prompt.md"
+command_naming_pattern: "symphony{-action}"
+
+supports:
+  model_frontmatter: false
+  slash_commands: true
+  agent_memory: true
+  model_selection_per_command: false
+
+capabilities_declared:
+  - sequential_workflows
+  - parallel_waves
+  - gate_enforcement
+  - self_critique
+  - ensemble_mode
+  - interaction_modes
