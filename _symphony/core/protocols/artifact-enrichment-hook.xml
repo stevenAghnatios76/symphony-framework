@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Protocol: artifact-enrichment-hook
+  See architecture spec §2.9, §5.2, §11
+
+  Generic post-step hook mechanism. Invoked by the workflow engine AFTER
+  a step's template-output has been persisted. Hooks modify the artifact
+  on disk (add frontmatter, inject wikilinks, etc.) without touching the
+  engine's internal state.
+
+  Rules:
+    1. Hook failures NEVER halt a workflow (non-blocking)
+    2. Hooks only touch persisted artifact outputs, not step inputs
+    3. Hooks are opt-in per installation via global.yaml
+    4. Multiple hooks run sequentially in declared order
+
+  First integration: Obsidian vault (see _symphony/integrations/obsidian/
+  when installed via the with-vault obsidian flag).
+
+  Status: stub
+-->
+<protocol id="artifact-enrichment-hook" version="0.0.1">
+  <status>stub</status>
+  <invocation-point>post-step, after template-output persisted</invocation-point>
+  <blocking>false</blocking>
+  <scope>persisted artifacts only</scope>
+</protocol>

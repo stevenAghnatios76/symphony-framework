@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Protocol: status-sync
+  See architecture spec §5.2
+
+  Atomic update of story file, sprint-status.yaml, and story-index.yaml.
+  Story file is the source of truth; sprint-status.yaml and story-index.yaml
+  are derived/cached views that must stay in sync.
+
+  Contract:
+    - All story status transitions MUST go through this protocol
+    - Update is atomic: either all three artifacts update or none do
+    - On failure: revert all changes, raise error, halt workflow
+
+  Status: stub
+-->
+<protocol id="status-sync" version="0.0.1">
+  <status>stub</status>
+  <inputs>
+    <input>story_file_path</input>
+    <input>new_status</input>
+  </inputs>
+  <atomic-targets>
+    <target>story file (source of truth)</target>
+    <target>sprint-status.yaml (derived view)</target>
+    <target>story-index.yaml (derived view)</target>
+  </atomic-targets>
+</protocol>

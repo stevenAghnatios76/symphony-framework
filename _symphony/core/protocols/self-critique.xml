@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Protocol: self-critique
+  See architecture spec §5.2
+
+  Every agent self-critiques its output against a confidence threshold (>= 0.85)
+  before any template-output is persisted.
+
+  Flow:
+    1. Agent drafts output
+    2. Agent runs self-critique against the output
+    3. If confidence >= threshold: proceed, persist output
+    4. If confidence < threshold: retry once
+    5. If second attempt still below threshold: escalate to user
+
+  The threshold is configurable in global.yaml (default 0.85).
+
+  Invoked by the workflow engine before any template-output is persisted.
+  Still runs under YOLO interaction mode — YOLO never bypasses self-critique.
+
+  Status: stub
+-->
+<protocol id="self-critique" version="0.0.1">
+  <status>stub</status>
+  <default-threshold>0.85</default-threshold>
+  <on-low-confidence>retry-once-then-escalate</on-low-confidence>
+  <bypass-in-yolo>false</bypass-in-yolo>
+</protocol>

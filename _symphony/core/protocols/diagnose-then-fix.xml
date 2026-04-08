@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Protocol: diagnose-then-fix
+  See architecture spec §5.2, §8.2
+
+  Failure recovery protocol. When a workflow step fails:
+
+    1. The Wave Executor (or Workflow Engine) marks the step as faulted and
+       captures the error with full context
+    2. The Conductor dispatches a Debugger agent with the error context
+    3. The Debugger performs root-cause analysis — it does NOT fix anything
+    4. The Debugger's diagnosis is handed to the original agent (or a
+       replacement agent) for the fix
+    5. After the fix, ONLY the faulted step is retried (not the whole wave)
+    6. If the retry fails a second time, execution escalates to the user
+
+  Rationale: blind retry wastes context and often re-produces the same
+  failure. Root-cause first, then targeted fix.
+
+  This protocol is NOT opt-in per workflow — it triggers automatically on
+  any step failure and cannot be disabled.
+
+  Status: stub
+-->
+<protocol id="diagnose-then-fix" version="0.0.1">
+  <status>stub</status>
+  <opt-in>false</opt-in>
+  <escalation-threshold>2 consecutive retry failures</escalation-threshold>
+</protocol>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Protocol: review-gate-check
+  See architecture spec §2.8, §5.2
+
+  6-gate review orchestration with adaptive gate substitutions.
+  Inspects each story's traces_to field; for IR-/OR-/SR- prefixes,
+  applies infrastructure-story gate substitutions (§2.8 table).
+
+  Standard gates (application stories):
+    1. Code Review
+    2. QA Tests
+    3. Security Review
+    4. Test Automation
+    5. Test Review
+    6. Performance Review
+
+  Infrastructure-story substitutions:
+    - QA Tests -> Policy-as-Code Validation (checkov/tfsec/OPA)
+    - Test Automation -> Plan Validation + Drift Checks (terraform plan)
+    - Test Review -> Policy Review (OPA/Rego coverage)
+    - Performance Review -> Cost Review + Scaling Validation
+
+  Code Review and Security Review are unchanged for all story types.
+
+  On review -> done transition: delegates to status-sync protocol.
+
+  Status: stub
+-->
+<protocol id="review-gate-check" version="0.0.1">
+  <status>stub</status>
+  <depends-on>status-sync</depends-on>
+</protocol>

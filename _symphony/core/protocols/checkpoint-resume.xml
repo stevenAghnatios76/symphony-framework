@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Protocol: checkpoint-resume
+  See architecture spec §5.1, §5.2
+
+  Writes a checkpoint to _memory/checkpoints/ after each completed step.
+  Each checkpoint includes: workflow name, step number, key variables,
+  output file path, and files_touched with sha256 checksums.
+
+  On resume (/symphony-resume or automatic recovery):
+    1. Load the most recent checkpoint for the workflow
+    2. Verify each files_touched entry still matches its sha256
+    3. If any file was modified out-of-band: warn user, offer
+       Proceed / Start fresh / Review options
+    4. Resume from the last completed step
+
+  Status: stub
+-->
+<protocol id="checkpoint-resume" version="0.0.1">
+  <status>stub</status>
+  <checkpoint-path>_symphony/_memory/checkpoints/</checkpoint-path>
+  <checksum-algorithm>sha256</checksum-algorithm>
+</protocol>

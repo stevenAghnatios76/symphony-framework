@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Protocol: memory-hygiene
+  See architecture spec §5.2
+
+  Detects stale, contradicted, or orphaned decisions in agent memory sidecars
+  by cross-referencing sidecar contents against current planning and
+  architecture artifacts.
+
+  Detection categories:
+    - stale: decision references a file that no longer exists
+    - contradicted: decision conflicts with the latest architecture or PRD
+    - orphaned: decision is linked to a story/epic that has been removed
+
+  Output:
+    - Report of findings grouped by category
+    - User-facing options: prune, update, mark as historical
+
+  Recommended cadence: before each sprint.
+
+  Status: stub
+-->
+<protocol id="memory-hygiene" version="0.0.1">
+  <status>stub</status>
+  <detection-categories>
+    <category>stale (reference not found)</category>
+    <category>contradicted (conflicts with latest architecture)</category>
+    <category>orphaned (linked to removed story/epic)</category>
+  </detection-categories>
+</protocol>
