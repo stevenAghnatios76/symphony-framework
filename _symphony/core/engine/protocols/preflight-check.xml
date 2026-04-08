@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Symphony Engine-Internal Protocol: preflight-check
+  Owned by Spec 2a. Engine-internal — not a cross-cutting protocol.
+  See docs/superpowers/specs/2026-04-08-symphony-core-engine-execution-design.md section 5.1 step 4
+-->
+<protocol name="preflight-check" version="0.0.2-alpha.1">
+  <objective>
+    Validate all workflow inputs, declared files, and resolved variables
+    before the workflow engine enters the step loop. Collect ALL failures
+    and report them together — never stop at the first.
+  </objective>
+
+  <mandates>
+    <mandate>Run ONLY after variable-resolution has completed successfully</mandate>
+    <mandate>Collect all failures into a single report before halting</mandate>
+    <mandate>On any failure: HALT with the appropriate status</mandate>
+    <mandate>Never fabricate, guess, or default missing files</mandate>
+  </mandates>
+
+  <flow>
+    <step n="1" title="Verify inputs.required files exist">
+      <action>For each entry in workflow.yaml inputs.required: resolve its path (it is already resolved by variable-resolution) and verify the file exists on disk</action>
+      <action>If a required input file is missing: record failure category "missing_required_input" with the input ID and expected path</action>
+    </step>
+    <step n="2" title="Verify inputs.optional files (non-failing)">
+      <action>For each entry in workflow.yaml inputs.optional: check existence but do not fail if missing. Record which optional inputs are present for the engine's downstream logic.</action>
+    </step>
+    <step n="3" title="Verify checklist.md if declared">
+      <action>If workflow.yaml declares a checklist file path, verify it exists</action>
+      <action>If missing: record failure category "missing_checklist"</action>
+    </step>
+    <step n="4" title="Verify template.md if declared">
+      <action>If workflow.yaml declares a template file path, verify it exists</action>
+      <action>If missing: record failure category "missing_template"</action>
+    </step>
+    <step n="5" title="Verify all resolved variables are non-empty">
+      <action>For every variable resolved in variable-resolution, verify its value is non-empty</action>
+      <action>If empty: record failure category "empty_resolved_variable" with the variable name</action>
+    </step>
+    <step n="6" title="Verify gates.pre_start conditions are readable">
+      <action>For each pre_start gate declared in workflow.yaml, verify the gate's check descriptor is readable (the gate-enforcer will actually run them later)</action>
+      <action>If a gate's check field is missing or malformed: record failure category "malformed_pre_start_gate"</action>
+    </step>
+    <step n="7" title="Halt on failures or proceed">
+      <action>If any failures were recorded in steps 1-6: HALT with status halted_missing_file (if any missing-file failure) or halted_unresolved_variable (if any empty-variable failure) or halted_preflight_gate_malformed (if any gate descriptor failure). Report ALL failures in the halt message, not just the first.</action>
+      <action>If no failures: return success and proceed to step 7 of the workflow engine (pre-start gate enforcer)</action>
+    </step>
+  </flow>
+</protocol>
