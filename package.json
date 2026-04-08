@@ -1,0 +1,30 @@
+{
+  "name": "symphony-framework",
+  "version": "0.0.1",
+  "description": "AI agent framework that dispatches a coordinated team of specialist agents in parallel. Orchestrate your code.",
+  "type": "module",
+  "bin": {
+    "symphony-framework": "./bin/symphony-cli.js"
+  },
+  "files": [
+    "_symphony",
+    "adapters",
+    "bin",
+    "CLAUDE.md",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "validate-structure": "vitest run tests/structure.test.js"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "license": "AGPL-3.0",
+  "private": true,
+  "devDependencies": {
+    "vitest": "^1.6.0"
+  }
+}
