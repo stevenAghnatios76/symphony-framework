@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Symphony Task Runner — standalone task execution
+  See architecture spec §5.1
+
+  Contract:
+    1. Invoked for standalone tasks: reviews, audits, utilities (not full workflows)
+    2. Tasks declare their target, expected output, and optional gates
+    3. No phase routing — task execution is independent of the 5-phase lifecycle
+    4. Still subject to cross-cutting disciplines (self-critique, trust-levels,
+       anti-rationalization) because they are engine-level
+    5. Does NOT invoke the Wave Executor; tasks are single-step by definition
+
+  Status: stub — runtime implementation lands in Spec 2 Core Engine plan
+-->
+<task-runner version="0.0.1">
+  <status>stub</status>
+  <contract>
+    <responsibility>single-step-task-execution</responsibility>
+    <responsibility>invoke-cross-cutting-protocols</responsibility>
+    <responsibility>produce-task-output</responsibility>
+  </contract>
+  <spec-reference>docs/superpowers/specs/2026-04-08-symphony-architecture-design.md#51-engine-components</spec-reference>
+</task-runner>

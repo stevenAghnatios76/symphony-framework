@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Symphony Conductor — smart orchestrator
+  See architecture spec §8.1
+
+  Contract:
+    1. Entry point for every /symphony* command invocation
+    2. Parses user goal: intent verb, target noun, scope hint
+    3. Detects phase from project state (§8.1 phase detection rules)
+    4. Routes to workflow, direct agent, or fast path
+    5. Computes confidence score per dispatch; if >= 0.80 auto-dispatches,
+       otherwise presents top-2 routing options to the user
+    6. Writes every routing decision + outcome to _memory/conductor-sidecar/
+    7. Learns from user corrections across sessions
+
+  Status: stub — runtime implementation lands in Spec 2 Core Engine plan
+-->
+<conductor version="0.0.1">
+  <status>stub</status>
+  <contract>
+    <responsibility>goal-parsing</responsibility>
+    <responsibility>phase-detection</responsibility>
+    <responsibility>routing-decision</responsibility>
+    <responsibility>confidence-gating</responsibility>
+    <responsibility>routing-memory</responsibility>
+  </contract>
+  <memory-sidecar path="_symphony/_memory/conductor-sidecar/"/>
+  <spec-reference>docs/superpowers/specs/2026-04-08-symphony-architecture-design.md#81-the-conductor</spec-reference>
+</conductor>

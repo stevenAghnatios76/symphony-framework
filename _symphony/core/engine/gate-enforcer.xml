@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Symphony Gate Enforcer — HALT-gate mechanism
+  See architecture spec §2.4, §2.8, §5.1
+
+  Contract:
+    1. Reads gate declarations from each workflow's workflow.yaml
+    2. Runs pre_start gates BEFORE the workflow begins
+    3. Runs post_complete gates BEFORE the workflow is marked done
+    4. Gates HALT on failure — workflow cannot proceed or complete
+    5. Applies adaptive gate substitutions per §2.8:
+       inspects story traces_to field; for IR-/OR-/SR- prefixes, uses
+       the infrastructure-story gate set (IaC review, policy-as-code,
+       plan validation, policy review, cost review)
+    6. Delegates the review-gate-check protocol for the 6-gate review workflow
+
+  Status: stub — runtime implementation lands in Spec 2 Core Engine plan
+-->
+<gate-enforcer version="0.0.1">
+  <status>stub</status>
+  <contract>
+    <responsibility>read-gate-declarations-from-workflow-yaml</responsibility>
+    <responsibility>run-pre-start-gates</responsibility>
+    <responsibility>run-post-complete-gates</responsibility>
+    <responsibility>HALT-on-failure</responsibility>
+    <responsibility>adaptive-gate-substitutions-by-story-type</responsibility>
+  </contract>
+  <invariants>
+    <invariant>A failed gate stops execution; never advisory</invariant>
+    <invariant>Code review and security review stay unchanged across story types</invariant>
+  </invariants>
+  <spec-reference>docs/superpowers/specs/2026-04-08-symphony-architecture-design.md#24-quality-gates-halt-they-dont-warn</spec-reference>
+</gate-enforcer>

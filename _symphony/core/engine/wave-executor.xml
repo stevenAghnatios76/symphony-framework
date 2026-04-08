@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Symphony Wave Executor — parallel dispatcher with integration gates
+  See architecture spec §8.2
+
+  Contract:
+    1. Invoked only for workflows with execution.mode: parallel-waves
+    2. Loads the workflow's step DAG from instructions.xml
+    3. Topologically sorts steps; groups independent steps into waves of <= 4
+    4. Dispatches each wave as parallel subagents (one per step)
+    5. Subagents in the same wave operate in independent contexts; no shared state
+    6. At each wave boundary runs an integration gate:
+       - Aggregates outputs
+       - Detects conflicts (e.g., two steps writing the same file)
+       - Runs self-critique on aggregated output
+       - HALTs on failure
+    7. On subagent failure: triggers diagnose-then-fix loop via the Conductor
+    8. Retries only the faulted step, not the whole wave
+    9. Escalates to the user after a second consecutive retry failure
+
+  Status: stub — runtime implementation lands in Spec 2 Core Engine plan (+ Spec 4)
+-->
+<wave-executor version="0.0.1">
+  <status>stub</status>
+  <contract>
+    <responsibility>dag-topological-sort</responsibility>
+    <responsibility>wave-building (max 4 per wave)</responsibility>
+    <responsibility>parallel-subagent-dispatch</responsibility>
+    <responsibility>integration-gate-at-wave-boundary</responsibility>
+    <responsibility>failure-recovery-via-diagnose-then-fix</responsibility>
+  </contract>
+  <invariants>
+    <invariant>Subagents within a wave have independent context windows</invariant>
+    <invariant>Wave N+1 cannot start until wave N integration gate passes</invariant>
+    <invariant>Retry applies only to the faulted step, never the whole wave</invariant>
+    <invariant>Second consecutive retry failure escalates to the user</invariant>
+  </invariants>
+  <spec-reference>docs/superpowers/specs/2026-04-08-symphony-architecture-design.md#82-the-wave-executor</spec-reference>
+</wave-executor>
