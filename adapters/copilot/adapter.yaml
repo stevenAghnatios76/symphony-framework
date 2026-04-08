@@ -1,0 +1,13 @@
+# Symphony GitHub Copilot adapter — installer-side manifest.
+
+id: copilot
+target_tool: "GitHub Copilot"
+translator_entry: "./translator.js"
+templates_dir: "./templates"
+
+output_paths:
+  commands: ".github/prompts/"
+  config: ".github/copilot-instructions.md"
+
+command_file_extension: ".prompt.md"
+command_naming_pattern: "symphony{-action}"
