@@ -37,3 +37,68 @@ describe('Symphony engine XML — parse validity', () => {
     });
   }
 });
+
+const engineText = () => readText('_symphony/core/engine/workflow-engine.xml');
+
+describe('Symphony engine XML — contract markers on workflow-engine.xml', () => {
+  describe('extension point invocations (all eight)', () => {
+    const markers = [
+      '<invoke protocol="preflight-check" phase="before-workflow-start"/>',
+      '<invoke protocol="gate-enforcer" phase="pre-start"/>',
+      '<invoke protocol="gate-enforcer" phase="post-complete"/>',
+      '<invoke protocol="trust-levels" on="before-step-execute"/>',
+      '<invoke protocol="anti-rationalization" on="before-persist"/>',
+      '<invoke protocol="self-critique" on="before-persist"/>',
+      '<invoke protocol="checkpoint-resume" on="after-step-complete"/>',
+      '<invoke protocol="artifact-enrichment-hook" on="after-output-persist"/>',
+    ];
+    for (const marker of markers) {
+      it(`contains ${marker}`, () => {
+        expect(engineText()).toContain(marker);
+      });
+    }
+  });
+
+  describe('execution mode branches', () => {
+    it('has a sequential mode branch marker', () => {
+      expect(engineText()).toMatch(/execution_mode\s*==\s*['"]sequential['"]|<mode name="sequential"/);
+    });
+    it('has an ensemble mode branch marker', () => {
+      expect(engineText()).toMatch(/execution_mode\s*==\s*['"]ensemble['"]|<mode name="ensemble"/);
+    });
+    it('has a parallel-waves reservation with a Spec 4 handoff note', () => {
+      const text = engineText();
+      expect(text).toContain('parallel-waves');
+      expect(text).toContain('Spec 4');
+    });
+  });
+
+  describe('interaction modes', () => {
+    it('has a normal mode description', () => {
+      expect(engineText()).toMatch(/<mode name="normal">|interaction_mode\s*==\s*['"]normal['"]/);
+    });
+    it('has a YOLO mode description that mentions gates/self-critique cannot be bypassed', () => {
+      const text = engineText();
+      expect(text).toContain('YOLO');
+      expect(text).toMatch(/never bypass|NEVER bypass|does not bypass/i);
+    });
+    it('has a planning mode description that invokes planning-gate', () => {
+      const text = engineText();
+      expect(text).toContain('planning');
+      expect(text).toContain('planning-gate');
+    });
+  });
+
+  describe('HALT directives', () => {
+    const haltStatuses = [
+      'halted_unresolved_variable',
+      'halted_gate_failure',
+      'halted_retry_exhausted',
+    ];
+    for (const status of haltStatuses) {
+      it(`declares HALT status "${status}"`, () => {
+        expect(engineText()).toContain(status);
+      });
+    }
+  });
+});
