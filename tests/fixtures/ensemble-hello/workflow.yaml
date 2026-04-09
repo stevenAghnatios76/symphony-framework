@@ -1,0 +1,27 @@
+id: ensemble-hello
+phase: anytime
+owner: orchestrator
+model: opus
+
+execution:
+  mode: ensemble
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants:
+    - alpha
+    - beta
+  ensemble_turn_policy: round-robin
+  max_turns: 4
+
+inputs:
+  required: []
+  optional: []
+
+outputs:
+  primary: tests/fixtures/ensemble-hello/transcript.md
+
+gates:
+  pre_start:
+    - fixture-ensemble-hello-ready
+  post_complete:
+    - fixture-ensemble-hello-terminated

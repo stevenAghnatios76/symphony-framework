@@ -132,3 +132,36 @@ describe('Symphony engine fixtures — sequential-hello', () => {
     expect(existsSync(resolve(root, 'tests/fixtures/sequential-hello/template.md'))).toBe(true);
   });
 });
+
+describe('Symphony engine fixtures — ensemble-hello', () => {
+  it('workflow.yaml has all required fields including max_turns', () => {
+    const y = readYaml('tests/fixtures/ensemble-hello/workflow.yaml');
+    expect(y.id).toBe('ensemble-hello');
+    expect(y.execution.mode).toBe('ensemble');
+    expect(Array.isArray(y.execution.ensemble_participants)).toBe(true);
+    expect(y.execution.ensemble_participants).toEqual(['alpha', 'beta']);
+    expect(y.execution.ensemble_turn_policy).toBe('round-robin');
+    expect(typeof y.execution.max_turns).toBe('number');
+    expect(y.execution.max_turns).toBeGreaterThan(0);
+  });
+
+  it('instructions.xml parses and contains a non-empty topic block with no step control flow', () => {
+    const text = readText('tests/fixtures/ensemble-hello/instructions.xml');
+    expect(() => parser.parse(text)).not.toThrow();
+    expect(text).toMatch(/<topic>[\s\S]+<\/topic>/);
+    const stepMatches = text.match(/<step\s/g) || [];
+    expect(stepMatches.length).toBe(0);
+  });
+
+  it('every ensemble participant has a persona file under tests/fixtures/agents/', () => {
+    const y = readYaml('tests/fixtures/ensemble-hello/workflow.yaml');
+    for (const participant of y.execution.ensemble_participants) {
+      const personaPath = `tests/fixtures/agents/${participant}.md`;
+      expect(existsSync(resolve(root, personaPath))).toBe(true);
+    }
+  });
+
+  it('checklist.md exists', () => {
+    expect(existsSync(resolve(root, 'tests/fixtures/ensemble-hello/checklist.md'))).toBe(true);
+  });
+});

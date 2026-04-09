@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow name="ensemble-hello">
+  <topic>
+    The ensemble participants introduce themselves in one short turn each. Alpha speaks first, Beta speaks second. After two rounds total (four turns), the ensemble terminates.
+  </topic>
+</workflow>
