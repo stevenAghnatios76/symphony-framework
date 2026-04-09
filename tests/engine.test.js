@@ -165,3 +165,21 @@ describe('Symphony engine fixtures — ensemble-hello', () => {
     expect(existsSync(resolve(root, 'tests/fixtures/ensemble-hello/checklist.md'))).toBe(true);
   });
 });
+
+describe('Symphony engine fixtures — task-hello', () => {
+  it('task.xml exists, parses, and has the required shape', () => {
+    const text = readText('tests/fixtures/task-hello/task.xml');
+    expect(() => parser.parse(text)).not.toThrow();
+    expect(text).toContain('<task id="task-hello"');
+    expect(text).toContain('<objective>');
+    expect(text).toContain('<flow>');
+    const stepMatches = text.match(/<step\s/g) || [];
+    expect(stepMatches.length).toBeGreaterThanOrEqual(1);
+    expect(text).toContain('<output>');
+  });
+
+  it('task.xml contains no invoke protocol tags (task runner does not auto-invoke)', () => {
+    const text = readText('tests/fixtures/task-hello/task.xml');
+    expect(text).not.toContain('<invoke protocol=');
+  });
+});

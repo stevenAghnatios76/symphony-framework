@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<task id="task-hello" name="Fixture Task Hello" internal="true">
+  <objective>
+    Minimal standalone task used to verify the task-runner.xml structural tests.
+    Produces a one-line greeting output.
+  </objective>
+
+  <llm critical="true">
+    <mandate>You are executing a fixture task. Do exactly what the flow says, nothing more.</mandate>
+    <mandate>Report all findings. Do not stop at the first error.</mandate>
+  </llm>
+
+  <flow>
+    <step n="1" title="Generate greeting">
+      <action>Produce a single greeting string of the form: "Hello from task-hello."</action>
+    </step>
+  </flow>
+
+  <output>
+    <format>plain-text</format>
+    <description>A single greeting string.</description>
+  </output>
+</task>
