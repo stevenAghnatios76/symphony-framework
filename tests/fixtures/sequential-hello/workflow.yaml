@@ -1,0 +1,22 @@
+id: sequential-hello
+phase: anytime
+owner: orchestrator
+model: opus
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+
+inputs:
+  required: []
+  optional: []
+
+outputs:
+  primary: tests/fixtures/sequential-hello/hello-output.md
+
+gates:
+  pre_start:
+    - fixture-sequential-hello-ready
+  post_complete:
+    - fixture-sequential-hello-complete

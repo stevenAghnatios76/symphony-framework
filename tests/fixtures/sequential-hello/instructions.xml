@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow name="sequential-hello">
+  <step n="1" title="Greet">
+    <action>Produce a single greeting line declaring the workflow name and the current date</action>
+    <template-output file="tests/fixtures/sequential-hello/hello-output.md">
+      A one-line greeting of the form: "Hello from sequential-hello at {date}."
+    </template-output>
+  </step>
+</workflow>

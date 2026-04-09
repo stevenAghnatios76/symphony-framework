@@ -102,3 +102,33 @@ describe('Symphony engine XML — contract markers on workflow-engine.xml', () =
     }
   });
 });
+
+// --- Fixture tests ---------------------------------------------------------
+
+describe('Symphony engine fixtures — sequential-hello', () => {
+  it('workflow.yaml has all required fields', () => {
+    const y = readYaml('tests/fixtures/sequential-hello/workflow.yaml');
+    expect(y.id).toBe('sequential-hello');
+    expect(y.owner).toBe('orchestrator');
+    expect(y.execution.mode).toBe('sequential');
+    expect(y.inputs).toBeDefined();
+    expect(Array.isArray(y.inputs.required)).toBe(true);
+    expect(y.outputs.primary).toBe('tests/fixtures/sequential-hello/hello-output.md');
+    expect(Array.isArray(y.gates.pre_start)).toBe(true);
+    expect(Array.isArray(y.gates.post_complete)).toBe(true);
+  });
+
+  it('instructions.xml parses and contains exactly one step with a template-output', () => {
+    const text = readText('tests/fixtures/sequential-hello/instructions.xml');
+    expect(() => parser.parse(text)).not.toThrow();
+    const stepMatches = text.match(/<step\s/g) || [];
+    expect(stepMatches.length).toBe(1);
+    expect(text).toContain('<template-output file="tests/fixtures/sequential-hello/hello-output.md">');
+    expect(text).toContain('<action>');
+  });
+
+  it('checklist.md and template.md exist', () => {
+    expect(existsSync(resolve(root, 'tests/fixtures/sequential-hello/checklist.md'))).toBe(true);
+    expect(existsSync(resolve(root, 'tests/fixtures/sequential-hello/template.md'))).toBe(true);
+  });
+});
