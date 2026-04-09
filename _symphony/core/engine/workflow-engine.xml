@@ -1,43 +1,268 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Symphony Workflow Engine — sequential + ensemble step execution
-  See architecture spec §5.1, §6.4, §6.5
-
-  Contract:
-    1. Invoked for workflows with execution.mode: sequential OR ensemble
-    2. Sequential mode: linear step-by-step execution, single owner agent,
-       pauses at each <template-output> under normal interaction mode
-    3. Ensemble mode: turn loop over ensemble_participants with
-       ensemble_turn_policy (round-robin | facilitator-picks | user-picks);
-       user is inside the execution loop as a participant
-    4. Honors interaction modes: normal (pause at checkpoints),
-       YOLO (auto-proceed, never bypasses gates or self-critique),
-       planning (show plan, approve, then normal or YOLO)
-    5. Invokes the cross-cutting protocols before/after each step:
-       self-critique, trust-levels, anti-rationalization
-       (diagnose-then-fix is invoked only on failure)
-    6. Persists template-outputs and calls artifact-enrichment-hook after each persist
-    7. Writes a checkpoint after each completed step
-
-  Status: stub — runtime implementation lands in Spec 2 Core Engine plan
+  Symphony Workflow Engine — Kernel A (inline) + Kernel B (dispatch reservation)
+  Replaces the v0.0.1 foundation stub with the Spec 2a runtime.
+  See docs/superpowers/specs/2026-04-08-symphony-core-engine-execution-design.md
 -->
-<workflow-engine version="0.0.1">
-  <status>stub</status>
-  <supported-execution-modes>
-    <mode>sequential</mode>
-    <mode>ensemble</mode>
-  </supported-execution-modes>
-  <supported-interaction-modes>
-    <mode>normal</mode>
-    <mode>YOLO</mode>
-    <mode>planning</mode>
-  </supported-interaction-modes>
-  <contract>
-    <responsibility>step-loop-execution</responsibility>
-    <responsibility>ensemble-turn-loop-execution</responsibility>
-    <responsibility>template-output-persistence</responsibility>
-    <responsibility>invoke-cross-cutting-protocols</responsibility>
-    <responsibility>checkpoint-after-each-step</responsibility>
-  </contract>
-  <spec-reference>docs/superpowers/specs/2026-04-08-symphony-architecture-design.md#51-engine-components</spec-reference>
+<workflow-engine version="0.0.2-alpha.1">
+  <status>runtime</status>
+  <spec-reference>docs/superpowers/specs/2026-04-08-symphony-core-engine-execution-design.md</spec-reference>
+
+  <mandates>
+    <mandate>You are the Symphony Workflow Engine. Follow these instructions EXACTLY.</mandate>
+    <mandate>Execute steps in strict numerical order. NEVER skip or reorder.</mandate>
+    <mandate>Write a checkpoint after every completed step or turn, before advancing.</mandate>
+    <mandate>Quality gates HALT on failure. YOLO never bypasses quality gates, self-critique escalations, or HALTs.</mandate>
+    <mandate>JIT-load skills per step. Evict before the next step loads its own.</mandate>
+    <mandate>The persona file tells you HOW to speak. The engine tells you WHAT to do. You control step execution, not the persona's activation menu.</mandate>
+    <mandate>Stay within 40K tokens per activation via JIT skill eviction.</mandate>
+    <mandate>Every load-bearing failure writes a checkpoint with HALT status before exiting. No silent failures.</mandate>
+  </mandates>
+
+  <inputs>
+    <input name="workflow_path" required="true">Absolute path to the workflow directory (containing workflow.yaml)</input>
+    <input name="interaction_mode" required="false">One of normal|YOLO|planning. Overrides workflow.yaml default if set.</input>
+    <input name="checkpoint_path" required="true">Absolute path to the run's checkpoint file</input>
+  </inputs>
+
+  <execution-modes>
+    <mode name="sequential" kernel="A">Single owner agent, linear step execution, JIT skill eviction between steps</mode>
+    <mode name="ensemble" kernel="A">Multi-participant turn loop with persona hot-swap and eviction between turns</mode>
+    <mode name="parallel-waves" kernel="B">RESERVED FOR SPEC 4. At v0.0.2-alpha.1, HALT with "parallel-waves not yet implemented; Spec 4 required." See spec section 5.4 for the Kernel B dispatch call convention that Spec 4 must build on.</mode>
+  </execution-modes>
+
+  <interaction-modes>
+    <mode name="normal">
+      Default. Pause at every template-output (show diff, wait for [c]/[y]/[e]) and every ask tag.
+      Never auto-advance past an ask. When in doubt about whether to pause, PAUSE.
+    </mode>
+    <mode name="YOLO">
+      Auto-persist template-outputs without pausing. Auto-answer ask tags from context only when the answer is unambiguous; otherwise still pause.
+      YOLO never bypasses quality gates. YOLO never bypasses self-critique escalations. YOLO never bypasses HALTs.
+      User can say "switch to normal mode" at any time to return to normal pacing.
+    </mode>
+    <mode name="planning">
+      Before any step executes, invoke the planning-gate protocol. The planning-gate presents a structured plan and waits for user approval.
+      After approval, switch to normal or YOLO per user selection, then proceed to step 9.
+    </mode>
+  </interaction-modes>
+
+  <flow>
+    <step n="1" title="Entry from Conductor">
+      <action>Receive workflow_path, optional interaction_mode, checkpoint_path from the calling Conductor (or from /symphony-resume)</action>
+    </step>
+
+    <step n="2" title="Load workflow.yaml and resolve variables">
+      <action>Read {workflow_path}/workflow.yaml</action>
+      <invoke protocol="variable-resolution"/>
+      <on-failure>HALT with status halted_unresolved_variable</on-failure>
+    </step>
+
+    <step n="3" title="Load instructions.xml">
+      <action>Read {workflow_path}/instructions.xml in full — never use offset/limit</action>
+      <action>Count total steps N (for sequential workflows) or note that instructions contains only topic/setup/synthesis blocks (for ensemble workflows)</action>
+    </step>
+
+    <step n="4" title="Preflight check">
+      <invoke protocol="preflight-check" phase="before-workflow-start"/>
+      <on-failure>HALT with status halted_missing_file or halted_unresolved_variable per the failure category reported by preflight-check</on-failure>
+    </step>
+
+    <step n="5" title="Adopt owner persona">
+      <action if="workflow.yaml owner is 'orchestrator' or owner is absent">Skip persona adoption. Run engine-neutral.</action>
+      <action if="owner is a real agent id">Read _symphony/lifecycle/agents/{owner}.md</action>
+      <action if="owner is a real agent id">Adopt the persona's voice, style, expertise, and rules for the workflow duration</action>
+      <action if="owner is a real agent id">Do NOT execute the persona's own activation menu, greeting, or internal routing. The engine controls step execution, not the persona.</action>
+    </step>
+
+    <step n="6" title="Initialize or resume checkpoint">
+      <action>Check if checkpoint_path exists</action>
+      <branch if="checkpoint exists and status is one of halted_unresolved_variable, halted_missing_file, halted_gate_failure, halted_retry_exhausted, halted_user_abort, or faulted">
+        Enter resume semantics: read current_step_index, interaction_mode, owner_agent, ensemble_turn_pointer, files_touched, status, halt_reason. Invoke checkpoint-resume protocol to validate files_touched sha256. Present the halt context to the user. Resume at current_step_index + 1 (for complete steps) or re-run current_step_index (for faulted / halted mid-step).
+      </branch>
+      <branch if="checkpoint exists and status is complete">
+        Archive the prior checkpoint and fall through to new-run initialization.
+      </branch>
+      <branch if="checkpoint does not exist or fell through">
+        Write the initial checkpoint atomically with: workflow_id, run_id, execution_mode, interaction_mode, owner_agent, current_step_index=0, status="in_progress", started_at=now, files_touched=[]
+      </branch>
+    </step>
+
+    <step n="7" title="Pre-start gate">
+      <invoke protocol="gate-enforcer" phase="pre-start"/>
+      <on-failure>HALT with status halted_gate_failure and the gate name</on-failure>
+    </step>
+
+    <step n="8" title="Interaction mode branch">
+      <branch if="interaction_mode == 'planning'">
+        <invoke protocol="planning-gate"/>
+        <action>On user approval [a]: set runtime_mode = normal, continue to step 9</action>
+        <action>On user approval [y]: set runtime_mode = YOLO, continue to step 9</action>
+        <action>On user abort [x]: HALT with status halted_user_abort</action>
+      </branch>
+      <branch if="interaction_mode == 'normal' or interaction_mode == 'YOLO'">
+        Continue directly to step 9
+      </branch>
+    </step>
+
+    <step n="9" title="Execution mode dispatch">
+      <branch if="execution_mode == 'sequential'">Execute the sequential step loop (step-9-sequential below)</branch>
+      <branch if="execution_mode == 'ensemble'">Execute the ensemble turn loop (step-9-ensemble below)</branch>
+      <branch if="execution_mode == 'parallel-waves'">
+        HALT with message "parallel-waves not yet implemented; Spec 4 is required. The Kernel B dispatch call convention is defined in docs/superpowers/specs/2026-04-08-symphony-core-engine-execution-design.md section 5.4. When Spec 4 lands, it will wrap this engine as Kernel B."
+      </branch>
+    </step>
+
+    <step-block id="step-9-sequential" title="Sequential step loop">
+      <for-each from="i = 1" to="N">
+        <invoke protocol="trust-levels" on="before-step-execute"/>
+        <action>JIT-load all skills and knowledge fragments referenced in step i</action>
+        <action>Execute step i's actions in order: process action, ask, check, template-output, and invoke tags as they appear</action>
+        <action>In normal mode: pause at every ask tag and wait for user response</action>
+        <action>In YOLO mode: answer ask tags from context only when the answer is unambiguous; otherwise still pause</action>
+        <action if="step i contains an action type='subagent-dispatch' tag">
+          Dispatch a subagent per the structured subagent-dispatch payload. Wait for return. Present summary.
+          In normal mode, wait for user [c]ontinue before proceeding.
+        </action>
+        <invoke protocol="anti-rationalization" on="before-persist"/>
+        <invoke protocol="self-critique" on="before-persist"/>
+        <action>Persist template-output to the declared file path via atomic write</action>
+        <action if="interaction_mode == 'normal'">Show diff, wait for [c]/[y]/[e]. On [y] switch runtime to YOLO for the remainder of the workflow.</action>
+        <action if="interaction_mode == 'YOLO'">Auto-proceed without pausing</action>
+        <invoke protocol="artifact-enrichment-hook" on="after-output-persist"/>
+        <invoke protocol="checkpoint-resume" on="after-step-complete"/>
+        <action>Drop step i's skills and knowledge fragments from context. Persona stays; skills churn. This is the 40K budget enforcement mechanism.</action>
+        <action>Update the checkpoint: current_step_index = i, append files_touched with sha256</action>
+      </for-each>
+    </step-block>
+
+    <step-block id="step-9-ensemble" title="Ensemble turn loop">
+      <action>Read ensemble_participants, ensemble_turn_policy, and max_turns from workflow.yaml</action>
+      <action>Process any setup block from instructions.xml (load reference documents into the transcript)</action>
+      <action>Seed the shared transcript with the topic block from instructions.xml</action>
+      <action>Set turn_count = 0, terminated = false</action>
+      <while condition="turn_count &lt; max_turns and not terminated">
+        <action>Select next participant per ensemble_turn_policy (round-robin | facilitator-picks | user-picks)</action>
+        <action>JIT-load _symphony/lifecycle/agents/{participant}.md (or tests/fixtures/agents/{participant}.md for fixture workflows)</action>
+        <action if="participant persona file is missing">Log a warning, skip this turn, increment turn_count, continue the loop. Do NOT HALT.</action>
+        <action>Re-prime: "You are now {participant_name}. Your persona file is below. The shared transcript is below. Ignore any voice carried over from prior turns. Produce exactly one contribution as {participant_name} and stop."</action>
+        <invoke protocol="trust-levels" on="before-step-execute"/>
+        <action>Generate one contribution speaking as the participant</action>
+        <invoke protocol="anti-rationalization" on="before-persist"/>
+        <invoke protocol="self-critique" on="before-persist"/>
+        <action>Append the contribution to the shared transcript in-context</action>
+        <action>Persist the transcript snapshot to workflow outputs.primary path via atomic write</action>
+        <invoke protocol="artifact-enrichment-hook" on="after-output-persist"/>
+        <invoke protocol="checkpoint-resume" on="after-step-complete"/>
+        <action>EVICT the prior participant's persona from context. This is load-bearing — it mitigates persona bleed and parallels skill eviction in sequential mode.</action>
+        <action>Increment turn_count. Update checkpoint: ensemble_turn_pointer, files_touched with sha256.</action>
+        <action>Check termination: user calls it | facilitator declares consensus | checklist.md stopping criterion met | turn_count == max_turns → set terminated = true</action>
+        <action if="interaction_mode == 'normal' and not terminated">Show latest contribution, wait for user input before next turn</action>
+        <action if="interaction_mode == 'YOLO' and not terminated">Auto-advance to next turn (user can interrupt at any time by saying "switch to normal mode")</action>
+      </while>
+      <action>Process any synthesis block from instructions.xml (extract decisions into a structured section of the output file)</action>
+    </step-block>
+
+    <step n="10" title="Post-complete gate">
+      <invoke protocol="gate-enforcer" phase="post-complete"/>
+      <on-failure>HALT with status halted_gate_failure and the gate name</on-failure>
+    </step>
+
+    <step n="11" title="Archive checkpoint">
+      <action>Move the checkpoint from _symphony/_memory/checkpoints/ to _symphony/_memory/checkpoints/completed/</action>
+    </step>
+
+    <step n="12" title="Report complete">
+      <action>Report workflow complete with a summary of outputs, files_touched, and any lifecycle next-step suggestions</action>
+    </step>
+  </flow>
+
+  <error-handling>
+    <category name="missing_file">
+      <source>Preflight or step action references a file that does not exist</source>
+      <response>Report the missing path and expected source. Ask the user to provide the file or cancel. Wait for response. Retry the step after provision.</response>
+    </category>
+    <category name="unresolved_variable">
+      <source>variable-resolution cannot resolve a curly-brace reference</source>
+      <response>HALT immediately with status halted_unresolved_variable. Report the variable name and expected source. Do not guess or use defaults.</response>
+    </category>
+    <category name="quality_gate_failure">
+      <source>gate-enforcer returns FAIL at pre-start or post-complete</source>
+      <response>HALT immediately with status halted_gate_failure. Report which gate (pre-start or post-complete), which check, what was evaluated, why it failed. YOLO does not bypass this.</response>
+    </category>
+    <category name="self_critique_below_threshold">
+      <source>self-critique protocol returns confidence below the configured threshold</source>
+      <response>Retry the step ONCE (the agent re-drafts). If still below threshold, escalate to the user with the confidence score and a summary of what felt wrong. User approves, rejects, or revises. Write checkpoint only after resolution.</response>
+    </category>
+    <category name="step_action_runtime_failure">
+      <source>An action fails (shell non-zero exit, API error, assertion failure)</source>
+      <response>Trigger the diagnose-then-fix loop.</response>
+    </category>
+  </error-handling>
+
+  <diagnose-then-fix>
+    <trigger>step action runtime failure</trigger>
+    <instructions>
+      <step n="1">Mark the step faulted in the current checkpoint with the error capture</step>
+      <step n="2">Dispatch a Debugger subagent with: error text, step file, prior step outputs, workflow.yaml, any relevant logs</step>
+      <step n="3">The Debugger performs root-cause analysis ONLY. It does NOT fix anything. It returns a diagnosis: what broke, why, suggested fix target.</step>
+      <step n="4">Hand the diagnosis back to the step's owner (or a replacement) as additional context</step>
+      <step n="5">Retry ONLY the faulted step — not prior steps, not the whole workflow, not the whole wave</step>
+      <step n="6">On retry success: advance normally</step>
+      <step n="7">On retry failure: HALT with status halted_retry_exhausted. Write both error captures and the Debugger's diagnosis into the checkpoint.</step>
+    </instructions>
+    <rule>Never blind-retry. Blind retry wastes context and usually reproduces the same failure.</rule>
+    <rule>Escalate to the user after ONE retry. Parallelism does not change this threshold.</rule>
+    <rule>The Debugger agent's persona, methodology, and diagnosis format are defined by Spec 2b's diagnose-then-fix protocol. Spec 2a defines only this dispatch contract.</rule>
+  </diagnose-then-fix>
+
+  <halt-semantics>
+    <rule>Write the current checkpoint with status set to the appropriate halted_* value and halt_reason populated</rule>
+    <rule>Flush current-run state into the checkpoint: interaction_mode, owner_agent, current_step_index, ensemble_turn_pointer</rule>
+    <rule>Report the HALT reason clearly to the user: what failed, where, what the user can do</rule>
+    <rule>Do NOT advance current_step_index. Do NOT run post-complete gates. Do NOT archive the checkpoint.</rule>
+    <rule>Exit the engine. The user regains control.</rule>
+    <rule>HALT is a control-flow directive, not an exception. There is no stack to unwind — the engine is instructions, not code.</rule>
+  </halt-semantics>
+
+  <halt-directives>
+    <halt status="halted_unresolved_variable">Variable could not be resolved from global.yaml</halt>
+    <halt status="halted_missing_file">Required file declared in workflow.yaml does not exist</halt>
+    <halt status="halted_gate_failure">Pre-start or post-complete gate returned FAIL</halt>
+    <halt status="halted_retry_exhausted">Diagnose-then-fix loop retry failed</halt>
+    <halt status="halted_user_abort">User selected abort at the planning gate or during execution</halt>
+  </halt-directives>
+
+  <resume-semantics>
+    <rule>On invocation with a checkpoint_path that exists and has a halted_* or faulted status, enter resume mode</rule>
+    <rule>Invoke checkpoint-resume protocol to validate files_touched sha256 against on-disk content</rule>
+    <rule>If any file changed out-of-band: warn the user, offer Proceed / Start fresh / Review</rule>
+    <rule>Re-adopt owner persona per step 5 (unless owner is orchestrator)</rule>
+    <rule>Show the halt context to the user and confirm the underlying issue is resolved before retrying the failed step or gate</rule>
+    <rule>On status == complete: archive the prior checkpoint and start a fresh run</rule>
+  </resume-semantics>
+
+  <supported-tags>
+    <structural>workflow-engine flow step step-block action ask check branch while for-each</structural>
+    <invocation>invoke</invocation>
+    <persistence>template-output</persistence>
+    <control>goto anchor on-failure</control>
+    <delegation>invoke-workflow invoke-task subagent-dispatch (as action type)</delegation>
+    <deferred>parallel (not supported in Spec 2a; parallel-waves execution mode is Spec 4's Kernel B)</deferred>
+  </supported-tags>
+
+  <normative-rules>
+    <rule id="R-2a-1">Execution inside a single Kernel A is strictly serial. No step-level parallelism constructs.</rule>
+    <rule id="R-2a-2">Persona adoption provides voice, style, expertise, rules. The engine controls execution.</rule>
+    <rule id="R-2a-3">The engine writes its current state to the checkpoint after every completed step or turn, before advancing.</rule>
+    <rule id="R-2a-4">JIT loading applies to skills and knowledge fragments, evicted before the next step loads its own.</rule>
+    <rule id="R-2a-5">All load-bearing failures write a checkpoint with HALT status before exiting.</rule>
+    <rule id="R-2a-6">YOLO never bypasses quality gates, self-critique escalations, or HALTs.</rule>
+    <rule id="R-2a-7">Kernel A workflows may dispatch subagents from individual action steps via action type='subagent-dispatch'. Default remains inline.</rule>
+    <rule id="R-2a-8">Variable resolution is two-level only: workflow.yaml → global.yaml.</rule>
+    <rule id="R-2a-9">Workflows communicate through their outputs.primary file paths. No separate handoff protocol.</rule>
+    <rule id="R-2a-10">Ensemble workflows must declare execution.max_turns (default 50). The engine enforces this cap as a termination criterion.</rule>
+    <rule id="R-2a-11">When owner is 'orchestrator' or absent, the engine runs engine-neutral and skips persona adoption.</rule>
+    <rule id="R-2a-12">The engine retries a faulted step at most once via diagnose-then-fix. A second failure escalates to the user.</rule>
+  </normative-rules>
 </workflow-engine>
