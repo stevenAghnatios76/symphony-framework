@@ -2,25 +2,64 @@
 <!--
   Protocol: anti-rationalization
   See architecture spec §5.2
-
-  Every agent carries an Excuse -> Rebuttal table. When an agent drafts a
-  skip/defer/simplify decision, it checks the table first. If the draft
-  matches an excuse pattern, the rebuttal is applied and the decision
-  is reconsidered.
-
-  Purpose: catches common rationalization patterns that degrade quality
-  over time. Examples of excuses: "this edge case is rare", "good enough
-  for now", "we can fix this later", "the test can be skipped".
-
-  Agents declare their Excuse -> Rebuttal rows in the <anti-rationalization>
-  block of their agent file (see spec §6.1).
-
-  Invoked by the workflow engine whenever an agent produces a
-  skip/defer/simplify decision.
-
-  Status: stub
+  See Spec 2b §3.3
 -->
-<protocol id="anti-rationalization" version="0.0.1">
-  <status>stub</status>
-  <trigger>agent drafts a skip/defer/simplify decision</trigger>
+<protocol id="anti-rationalization" version="0.0.2-alpha.1">
+  <status>runtime</status>
+  <spec-reference>docs/superpowers/specs/2026-04-10-symphony-core-engine-remaining-design.md#33-anti-rationalization</spec-reference>
+
+  <mandates>
+    <mandate>Runs BEFORE self-critique so rationalizations are caught before confidence scoring.</mandate>
+    <mandate>The agent cannot rationalize skipping the anti-rationalization check itself.</mandate>
+    <mandate>Adding new excuses to a persona's table is encouraged as project-specific patterns emerge.</mandate>
+    <mandate>If no agent persona is loaded (orchestrator-owned workflow), use the built-in common excuse table.</mandate>
+  </mandates>
+
+  <built-in-excuse-table>
+    <excuse-rebuttal>
+      <excuse>This edge case is rare</excuse>
+      <rebuttal>Document the edge case. Let PM triage priority. Rare does not mean ignorable.</rebuttal>
+    </excuse-rebuttal>
+    <excuse-rebuttal>
+      <excuse>This is good enough</excuse>
+      <rebuttal>Check against acceptance criteria. If criteria are met, it IS good enough. If not, it is not.</rebuttal>
+    </excuse-rebuttal>
+    <excuse-rebuttal>
+      <excuse>We can fix this later</excuse>
+      <rebuttal>If the issue is known now, track it now. Create a tech-debt story or note it in the current story.</rebuttal>
+    </excuse-rebuttal>
+    <excuse-rebuttal>
+      <excuse>This is out of scope</excuse>
+      <rebuttal>Verify against the PRD traces_to chain. If truly out of scope, note it for the PM. If in scope, do the work.</rebuttal>
+    </excuse-rebuttal>
+    <excuse-rebuttal>
+      <excuse>The user probably doesn't care about this</excuse>
+      <rebuttal>The user defined acceptance criteria. Check them. Do not assume what the user cares about.</rebuttal>
+    </excuse-rebuttal>
+    <excuse-rebuttal>
+      <excuse>This would take too long</excuse>
+      <rebuttal>Estimate the actual effort. If genuinely large, flag as a scope concern rather than silently cutting.</rebuttal>
+    </excuse-rebuttal>
+  </built-in-excuse-table>
+
+  <flow>
+    <step n="1" title="Scan draft for skip/defer/simplify decisions">
+      <action>Read the draft output about to be persisted.</action>
+      <action>Identify any decisions that skip, defer, simplify, downgrade, or omit declared scope items.</action>
+      <action>If no such decisions found: return PASS.</action>
+    </step>
+    <step n="2" title="Load excuse table">
+      <action>If agent persona has anti-rationalization block: use persona table PLUS built-in table.</action>
+      <action>If no persona loaded: use only the built-in table.</action>
+    </step>
+    <step n="3" title="Check each decision against the table">
+      <action>For each skip/defer/simplify decision: compare against each excuse pattern (semantic match).</action>
+      <action>If match found: flag the rationalization, apply the rebuttal, revise the section.</action>
+      <action>If no match: leave unchanged, annotate as reviewed.</action>
+    </step>
+    <step n="4" title="Return result">
+      <action>If rationalizations caught and revised: return REVISED with count and summary.</action>
+      <action>If none found: return PASS.</action>
+    </step>
+  </flow>
 </protocol>
