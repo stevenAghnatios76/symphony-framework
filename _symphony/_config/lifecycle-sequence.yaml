@@ -361,3 +361,33 @@ create-stakeholder:
   command: /symphony-create-stakeholder
   next:
     standalone: true
+
+hub:
+  phase: anytime
+  command: /symphony-hub
+  next:
+    standalone: true
+
+status:
+  phase: anytime
+  command: /symphony-status
+  next:
+    standalone: true
+
+trello-sync:
+  phase: anytime
+  command: /symphony-trello-sync
+  next:
+    standalone: true
+
+trello-setup:
+  phase: anytime
+  command: /symphony-trello-setup
+  next:
+    standalone: true
+
+toggle:
+  phase: anytime
+  command: /symphony-toggle
+  next:
+    standalone: true
