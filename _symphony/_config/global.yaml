@@ -21,6 +21,7 @@ limits:
 # Self-critique threshold (architecture spec §5.2)
 disciplines:
   self_critique_threshold: 0.85
+  diagnose_confidence_threshold: 0.70
 
 # Conductor routing (architecture spec §8.1)
 conductor:
@@ -36,3 +37,6 @@ vault:
   moc_dir: "_vault-moc"
   dataview_queries: true
   tag_prefix: "symphony"
+
+# Hook registration (empty until Spec 8 adds integrations)
+hooks: []
