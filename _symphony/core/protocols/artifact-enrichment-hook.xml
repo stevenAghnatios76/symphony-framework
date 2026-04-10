@@ -2,26 +2,34 @@
 <!--
   Protocol: artifact-enrichment-hook
   See architecture spec §2.9, §5.2, §11
-
-  Generic post-step hook mechanism. Invoked by the workflow engine AFTER
-  a step's template-output has been persisted. Hooks modify the artifact
-  on disk (add frontmatter, inject wikilinks, etc.) without touching the
-  engine's internal state.
-
-  Rules:
-    1. Hook failures NEVER halt a workflow (non-blocking)
-    2. Hooks only touch persisted artifact outputs, not step inputs
-    3. Hooks are opt-in per installation via global.yaml
-    4. Multiple hooks run sequentially in declared order
-
-  First integration: Obsidian vault (see _symphony/integrations/obsidian/
-  when installed via the with-vault obsidian flag).
-
-  Status: stub
+  See Spec 2b §3.9
 -->
-<protocol id="artifact-enrichment-hook" version="0.0.1">
-  <status>stub</status>
-  <invocation-point>post-step, after template-output persisted</invocation-point>
-  <blocking>false</blocking>
-  <scope>persisted artifacts only</scope>
+<protocol id="artifact-enrichment-hook" version="0.0.2-alpha.1">
+  <status>runtime</status>
+  <spec-reference>docs/superpowers/specs/2026-04-10-symphony-core-engine-remaining-design.md#39-artifact-enrichment-hook</spec-reference>
+
+  <mandates>
+    <mandate>Hooks are non-blocking. A failing hook NEVER halts a workflow.</mandate>
+    <mandate>Hooks run after persist. They modify on-disk artifacts, not engine state.</mandate>
+    <mandate>Hooks run in declared order. Later hooks see earlier hooks' changes.</mandate>
+    <mandate>If no hooks registered in global.yaml, this protocol is a no-op.</mandate>
+  </mandates>
+
+  <flow>
+    <step n="1" title="Check for registered hooks">
+      <action>Read hooks array from global.yaml. If absent, empty, or all disabled: return (no-op).</action>
+    </step>
+    <step n="2" title="Match artifact against hook targets">
+      <action>For each hook: check if persisted artifact path matches hook's target_patterns (glob).</action>
+      <action>No match: skip hook.</action>
+    </step>
+    <step n="3" title="Invoke matching hooks">
+      <action>Provide: artifact_path, artifact_content, step_metadata (workflow_id, step_index, agent_id).</action>
+      <action>Hook may modify artifact in place.</action>
+      <action>On success: log and continue. On failure: log warning, do NOT halt, continue.</action>
+    </step>
+    <step n="4" title="Return">
+      <action>All hooks processed. Return. Workflow continues regardless.</action>
+    </step>
+  </flow>
 </protocol>
