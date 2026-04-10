@@ -34,4 +34,6 @@ Thumbs.db
 _symphony/_memory/checkpoints/*
 _symphony/_memory/*-sidecar/*
 !_symphony/_memory/checkpoints/.gitkeep
+!_symphony/_memory/checkpoints/SCHEMA.md
 !_symphony/_memory/conductor-sidecar/.gitkeep
+!_symphony/_memory/conductor-sidecar/SCHEMA.md
