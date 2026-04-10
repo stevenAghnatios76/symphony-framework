@@ -2,28 +2,41 @@
 <!--
   Protocol: diagnose-then-fix
   See architecture spec §5.2, §8.2
-
-  Failure recovery protocol. When a workflow step fails:
-
-    1. The Wave Executor (or Workflow Engine) marks the step as faulted and
-       captures the error with full context
-    2. The Conductor dispatches a Debugger agent with the error context
-    3. The Debugger performs root-cause analysis — it does NOT fix anything
-    4. The Debugger's diagnosis is handed to the original agent (or a
-       replacement agent) for the fix
-    5. After the fix, ONLY the faulted step is retried (not the whole wave)
-    6. If the retry fails a second time, execution escalates to the user
-
-  Rationale: blind retry wastes context and often re-produces the same
-  failure. Root-cause first, then targeted fix.
-
-  This protocol is NOT opt-in per workflow — it triggers automatically on
-  any step failure and cannot be disabled.
-
-  Status: stub
+  See Spec 2b §3.4
+  Absorbed from Gem Team: confidence threshold, max retry budgets, diagnosis-before-retry.
 -->
-<protocol id="diagnose-then-fix" version="0.0.1">
-  <status>stub</status>
-  <opt-in>false</opt-in>
-  <escalation-threshold>2 consecutive retry failures</escalation-threshold>
+<protocol id="diagnose-then-fix" version="0.0.2-alpha.1">
+  <status>runtime</status>
+  <spec-reference>docs/superpowers/specs/2026-04-10-symphony-core-engine-remaining-design.md#34-diagnose-then-fix</spec-reference>
+
+  <mandates>
+    <mandate>Never blind-retry. Always diagnose before retrying a failed step.</mandate>
+    <mandate>The debugger diagnoses; the original agent fixes. Separation of concerns.</mandate>
+    <mandate>Debugger confidence threshold is 0.7 (from global.yaml disciplines.diagnose_confidence_threshold, default 0.70).</mandate>
+    <mandate>Max 2 total attempts: original + 1 diagnosed retry. After that, escalate.</mandate>
+    <mandate>This protocol is NOT opt-in. It triggers automatically on any step failure.</mandate>
+  </mandates>
+
+  <flow>
+    <step n="1" title="Capture error context">
+      <action>Collect: error message, stack trace, failing step number and title, files involved, last successful output, workflow.yaml context.</action>
+      <action>Mark step faulted in checkpoint with error capture.</action>
+    </step>
+    <step n="2" title="Dispatch diagnosis">
+      <action>If Debugger agent persona exists at _symphony/lifecycle/agents/debugger.md: load and dispatch with error context. Debugger produces root-cause, affected files, fix recommendation. Debugger does NOT fix.</action>
+      <action>If no Debugger agent exists (pre-Spec 5): self-diagnose with same output format.</action>
+    </step>
+    <step n="3" title="Validate diagnosis confidence">
+      <action>Read threshold from global.yaml: disciplines.diagnose_confidence_threshold (default 0.70).</action>
+      <action>If confidence below 0.7: skip retry, escalate directly to user with original error + low-confidence diagnosis.</action>
+      <action>If confidence at or above 0.7: proceed to step 4.</action>
+    </step>
+    <step n="4" title="Apply fix and retry">
+      <action>Hand diagnosis to original agent. Agent applies fix. Retry the faulted step.</action>
+    </step>
+    <step n="5" title="Evaluate retry result">
+      <action>If retry succeeds: clear faulted status, update checkpoint, return PASS.</action>
+      <action>If retry fails: max 2 total attempts exhausted. Escalate to user with original error, diagnosis, fix attempted, new error. HALT with halted_retry_exhausted.</action>
+    </step>
+  </flow>
 </protocol>
