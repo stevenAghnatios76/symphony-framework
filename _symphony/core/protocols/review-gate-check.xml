@@ -2,32 +2,51 @@
 <!--
   Protocol: review-gate-check
   See architecture spec §2.8, §5.2
-
-  6-gate review orchestration with adaptive gate substitutions.
-  Inspects each story's traces_to field; for IR-/OR-/SR- prefixes,
-  applies infrastructure-story gate substitutions (§2.8 table).
-
-  Standard gates (application stories):
-    1. Code Review
-    2. QA Tests
-    3. Security Review
-    4. Test Automation
-    5. Test Review
-    6. Performance Review
-
-  Infrastructure-story substitutions:
-    - QA Tests -> Policy-as-Code Validation (checkov/tfsec/OPA)
-    - Test Automation -> Plan Validation + Drift Checks (terraform plan)
-    - Test Review -> Policy Review (OPA/Rego coverage)
-    - Performance Review -> Cost Review + Scaling Validation
-
-  Code Review and Security Review are unchanged for all story types.
-
-  On review -> done transition: delegates to status-sync protocol.
-
-  Status: stub
+  See Spec 2b §3.6
 -->
-<protocol id="review-gate-check" version="0.0.1">
-  <status>stub</status>
-  <depends-on>status-sync</depends-on>
+<protocol id="review-gate-check" version="0.0.2-alpha.1">
+  <status>runtime</status>
+  <spec-reference>docs/superpowers/specs/2026-04-10-symphony-core-engine-remaining-design.md#36-review-gate-check</spec-reference>
+
+  <mandates>
+    <mandate>Each story is evaluated independently with per-story gate selection.</mandate>
+    <mandate>Code Review and Security Review are always present regardless of story type.</mandate>
+    <mandate>A single gate failure means the story does not clear review.</mandate>
+    <mandate>Gate substitution is determined by the story's traces_to requirement ID prefix.</mandate>
+  </mandates>
+
+  <standard-gates description="Application stories (FR-, NFR- prefixes)">
+    <gate id="1" name="Code Review">Verify code review artifact exists covering all changed files.</gate>
+    <gate id="2" name="QA Tests">Verify unit/integration/e2e tests exist and pass.</gate>
+    <gate id="3" name="Security Review">Verify security review artifact exists (OWASP, dep scan, secrets).</gate>
+    <gate id="4" name="Test Automation">Verify automated test coverage meets threshold.</gate>
+    <gate id="5" name="Test Review">Verify test quality review artifact exists.</gate>
+    <gate id="6" name="Performance Review">Verify performance test results exist.</gate>
+  </standard-gates>
+
+  <infrastructure-gates description="Infrastructure stories (IR-, OR-, SR- prefixes) — §2.8">
+    <gate id="1" name="IaC Code Review">Same workflow, IaC expertise expected (Terraform, CloudFormation, Pulumi).</gate>
+    <gate id="2" name="Policy-as-Code Validation">checkov/tfsec/OPA pass replaces unit/integration tests.</gate>
+    <gate id="3" name="Security Review">Unchanged — critical for infrastructure.</gate>
+    <gate id="4" name="Plan Validation + Drift Checks">terraform plan assertions replace automated test coverage.</gate>
+    <gate id="5" name="Policy Review">OPA/Rego coverage replaces test quality review.</gate>
+    <gate id="6" name="Cost Review + Scaling Validation">Cost analysis and autoscaling validation replace load testing.</gate>
+  </infrastructure-gates>
+
+  <flow>
+    <step n="1" title="Receive stories">
+      <action>Receive: story_path or story_paths list.</action>
+    </step>
+    <step n="2" title="Classify each story">
+      <action>Read traces_to field. Extract requirement ID prefix.</action>
+      <action>FR-/NFR- = application (standard gates). IR-/OR-/SR- = infrastructure (adapted gates).</action>
+      <action>Unrecognized prefix: default to application. Log warning.</action>
+    </step>
+    <step n="3" title="Evaluate gates per story">
+      <action>For each story, evaluate all 6 gates from selected set. Record per-gate PASS/FAIL.</action>
+    </step>
+    <step n="4" title="Aggregate results">
+      <action>All 6 gates must PASS per story. Return overall PASS or FAIL with details.</action>
+    </step>
+  </flow>
 </protocol>
