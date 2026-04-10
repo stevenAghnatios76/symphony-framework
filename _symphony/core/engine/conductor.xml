@@ -1,29 +1,182 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Symphony Conductor — smart orchestrator
+  Symphony Conductor — smart orchestrator (Signature Feature #1)
   See architecture spec §8.1
-
-  Contract:
-    1. Entry point for every /symphony* command invocation
-    2. Parses user goal: intent verb, target noun, scope hint
-    3. Detects phase from project state (§8.1 phase detection rules)
-    4. Routes to workflow, direct agent, or fast path
-    5. Computes confidence score per dispatch; if >= 0.80 auto-dispatches,
-       otherwise presents top-2 routing options to the user
-    6. Writes every routing decision + outcome to _memory/conductor-sidecar/
-    7. Learns from user corrections across sessions
-
-  Status: stub — runtime implementation lands in Spec 2 Core Engine plan
+  See Spec 3: docs/superpowers/specs/2026-04-10-symphony-conductor-design.md
 -->
-<conductor version="0.0.1">
-  <status>stub</status>
-  <contract>
-    <responsibility>goal-parsing</responsibility>
-    <responsibility>phase-detection</responsibility>
-    <responsibility>routing-decision</responsibility>
-    <responsibility>confidence-gating</responsibility>
-    <responsibility>routing-memory</responsibility>
-  </contract>
+<conductor version="0.0.2-alpha.1">
+  <status>runtime</status>
+  <spec-reference>docs/superpowers/specs/2026-04-10-symphony-conductor-design.md</spec-reference>
+
+  <mandates>
+    <mandate>The Conductor never executes workflow steps itself. It routes and dispatches.</mandate>
+    <mandate>Phase detection rules are evaluated in the exact order listed. First match wins.</mandate>
+    <mandate>The Conductor's sidecar is privileged — it persists across sessions and accumulates routing intelligence.</mandate>
+    <mandate>YOLO interaction mode is passed through to the workflow engine, not consumed by the Conductor.</mandate>
+    <mandate>The Conductor presents routing decisions transparently. No silent routing.</mandate>
+    <mandate>User can always override by naming a specific workflow.</mandate>
+  </mandates>
+
+  <advisory-patterns description="Keyword hints for intent extraction. Advisory — AI applies judgment for ambiguous cases.">
+    <pattern intent="diagnose" keywords="fix, debug, error, trace, stack, broken, crash" routes-to="diagnose-then-fix path"/>
+    <pattern intent="overture" keywords="onboard, scan, analyze, discover, explore" routes-to="Overture workflow"/>
+    <pattern intent="quick" keywords="small, quick, hotfix, tweak, minor, patch" routes-to="quick-spec then quick-dev"/>
+    <pattern intent="create" keywords="create, build, write, design, draft, new" routes-to="phase-appropriate create workflow"/>
+    <pattern intent="edit" keywords="edit, update, revise, modify, change" routes-to="phase-appropriate edit workflow"/>
+    <pattern intent="review" keywords="review, check, validate, verify, audit" routes-to="phase-appropriate review workflow"/>
+    <pattern intent="plan" keywords="plan, sprint, schedule, prioritize" routes-to="sprint or phase planning"/>
+    <pattern intent="deploy" keywords="deploy, release, ship, publish, launch" routes-to="Phase 5 deployment workflows"/>
+    <pattern intent="brainstorm" keywords="brainstorm, ideate, explore ideas, discuss" routes-to="brainstorm workflow (ensemble)"/>
+    <pattern intent="status" keywords="status, progress, where, what's next" routes-to="sprint/epic status or phase summary"/>
+  </advisory-patterns>
+
+  <flow>
+    <step n="1" title="Receive user goal">
+      <action>Receive the user's natural-language goal from the /symphony command invocation.</action>
+      <action>If the user named a specific workflow (e.g., "/symphony-dev-story"), skip to step 6 with that workflow. Confidence = 1.0 (user-explicit).</action>
+    </step>
+
+    <step n="2" title="Parse intent">
+      <action>Extract from the user's goal: intent verb, target noun, scope hint.</action>
+      <action>Use the advisory-patterns above as guidance. Match the goal's language against pattern keywords.</action>
+      <action>If multiple patterns match, prefer the more specific one. If ambiguous, note both candidates for the confidence gate.</action>
+      <action>Record: parsed_intent = {verb, noun, scope}.</action>
+    </step>
+
+    <step n="3" title="Detect phase">
+      <action>Evaluate the following 9 rules in order. First match wins.</action>
+
+      <rule n="1" trigger="Intent matches diagnose pattern (fix/debug/error/trace/stack)">
+        Route to diagnose-then-fix path. Skip remaining rules. This bypasses phase detection.
+      </rule>
+
+      <rule n="2" trigger="Intent matches overture pattern (onboard/scan/analyze/discover)">
+        Route to Overture workflow. Entry mode: existing codebase.
+      </rule>
+
+      <rule n="3" trigger="Source code exists at project_path AND no Symphony planning artifacts exist (no docs/planning-artifacts/, no docs/implementation-artifacts/)">
+        Route to Overture path (auto-detected). This prevents users with existing codebases from being dumped into Phase 1. User can override at confidence gate.
+      </rule>
+
+      <rule n="4" trigger="Intent matches quick pattern AND approved architecture exists (docs/planning-artifacts/architecture.md)">
+        Route to quick path: quick-spec followed by quick-dev.
+      </rule>
+
+      <rule n="5" trigger="No product-brief exists (no docs/planning-artifacts/product-brief.md)">
+        Detected phase: 1-analysis. Greenfield entry.
+      </rule>
+
+      <rule n="6" trigger="Product-brief exists but no PRD (no docs/planning-artifacts/prd.md)">
+        Detected phase: 2-planning.
+      </rule>
+
+      <rule n="7" trigger="PRD exists but no architecture (no docs/planning-artifacts/architecture.md)">
+        Detected phase: 3-solutioning.
+      </rule>
+
+      <rule n="8" trigger="Architecture exists AND sprint is active (docs/implementation-artifacts/sprint-status.md exists with status: active)">
+        Detected phase: 4-implementation.
+      </rule>
+
+      <rule n="9" trigger="All stories have status done AND no release shipped (no docs/implementation-artifacts/release-plan.md or status: pending)">
+        Detected phase: 5-deployment.
+      </rule>
+
+      <rule n="fallback" trigger="Cannot determine phase from artifacts">
+        Present all 5 phases to the user. Ask which to enter. Wait for response.
+      </rule>
+    </step>
+
+    <step n="4" title="Classify complexity">
+      <action>Based on the parsed intent, scope hint, and artifact count, classify the task:</action>
+      <action>simple — single file, well-known pattern, quick keywords, small scope. Suggest quick path if architecture exists.</action>
+      <action>medium — multiple files, moderate scope, some unknowns. Standard workflow.</action>
+      <action>complex — multiple systems, unfamiliar domain, security-critical, high integration risk. Full workflow, consider parallel-waves.</action>
+      <action>Classification is advisory — it informs routing but the user confirms via confidence gate.</action>
+    </step>
+
+    <step n="5" title="Select workflow">
+      <action>Based on parsed intent + detected phase + complexity, select the most appropriate workflow id.</action>
+      <action>Consult _symphony/_config/lifecycle-sequence.yaml to validate the workflow exists and belongs to the detected phase.</action>
+      <action>If the intent clearly maps to a workflow (e.g., "create the PRD" + phase 2 = create-prd): select it.</action>
+      <action>If ambiguous: identify top-2 candidate workflows with reasons for each.</action>
+    </step>
+
+    <step n="6" title="Score confidence">
+      <action>Compute 3-component confidence score (0.0–1.0):</action>
+
+      <component name="intent_match" range="0.0-0.4">
+        Exact advisory pattern match = 0.35–0.40.
+        Semantic match but no exact pattern = 0.20–0.30.
+        Ambiguous or vague goal = 0.05–0.15.
+      </component>
+
+      <component name="project_state_clarity" range="0.0-0.3">
+        Single phase detection rule matched cleanly = 0.25–0.30.
+        Two possible phases from artifact state = 0.15–0.20.
+        Messy or contradictory artifact state = 0.05–0.10.
+      </component>
+
+      <component name="prior_routing_memory" range="0.0-0.3">
+        Scan _symphony/_memory/conductor-sidecar/routing-log.yaml for similar prior goals.
+        Exact prior goal with no user correction = 0.25–0.30.
+        Similar prior goal = 0.15–0.20.
+        No prior history = 0.10 (neutral — do not penalize first use).
+      </component>
+
+      <action>Sum the three components. Record as confidence score.</action>
+    </step>
+
+    <step n="7" title="Confidence gate">
+      <action>Read the auto-dispatch threshold from global.yaml: conductor.auto_dispatch_confidence (default 0.80).</action>
+
+      <branch if="confidence >= threshold">
+        <action>Auto-dispatch. Report to user: "Routing to /symphony-{workflow} (confidence: {score})"</action>
+      </branch>
+
+      <branch if="confidence &lt; threshold">
+        <action>Present top-2 candidate workflows to user with scores and reasoning.</action>
+        <action>Format: "I'm considering two options: (1) /symphony-{wf1} ({score1}) — {reason1}. (2) /symphony-{wf2} ({score2}) — {reason2}. Which one, or tell me more?"</action>
+        <action>Wait for user response. Accept: a number (1 or 2), a specific workflow name, or additional context to re-evaluate.</action>
+        <action>If user provides more context: re-run from step 2 with the enriched goal.</action>
+      </branch>
+
+      <branch if="user explicitly names a workflow at any point">
+        <action>Use the user's explicit choice. Set confidence = 1.0 (user-explicit). Skip to step 8.</action>
+      </branch>
+    </step>
+
+    <step n="8" title="Dispatch">
+      <action>Read the selected workflow's workflow.yaml to determine execution.mode.</action>
+
+      <branch if="execution.mode == 'sequential' or execution.mode == 'ensemble'">
+        <action>Invoke the workflow engine with: workflow_path = _symphony/lifecycle/workflows/{phase}/{workflow-id}/, interaction_mode (from user or default 'normal'), checkpoint_path = _symphony/_memory/checkpoints/{run-id}.yaml</action>
+      </branch>
+
+      <branch if="execution.mode == 'parallel-waves'">
+        <action>Invoke the wave executor. (Currently HALTs with "parallel-waves not yet implemented; Spec 4 required.")</action>
+      </branch>
+
+      <branch if="workflow directory not found">
+        <action>Report: "Workflow {workflow-id} is defined in the lifecycle sequence but its content has not been created yet (Spec 5). Available workflows: {list of directories that exist}."</action>
+      </branch>
+    </step>
+
+    <step n="9" title="Write routing memory">
+      <action>Append to _symphony/_memory/conductor-sidecar/routing-log.yaml:</action>
+      <action>Record: timestamp, user_goal, parsed_intent (verb/noun/scope), detected_phase, complexity, selected_workflow, confidence, confidence_breakdown (intent_match/project_state_clarity/prior_routing_memory), auto_dispatched, user_correction (null if no override, the override value if user corrected).</action>
+    </step>
+
+    <step n="10" title="Post-workflow next-step suggestion">
+      <action>After the dispatched workflow completes, read _symphony/_config/lifecycle-sequence.yaml.</action>
+      <action>Look up the completed workflow's entry. Read its next field.</action>
+      <action>If next.primary exists: suggest it. "Next recommended step: /symphony-{primary}."</action>
+      <action>If next.alternatives exist: list them. "Alternatives: /symphony-{alt} — {context}."</action>
+      <action>If next.on_pass/on_fail exist: suggest based on the workflow's outcome.</action>
+      <action>If next.terminal is true: report "Lifecycle complete."</action>
+      <action>If next.standalone is true: report "No specific next step. You can continue with any command."</action>
+    </step>
+  </flow>
+
   <memory-sidecar path="_symphony/_memory/conductor-sidecar/"/>
-  <spec-reference>docs/superpowers/specs/2026-04-08-symphony-architecture-design.md#81-the-conductor</spec-reference>
 </conductor>
