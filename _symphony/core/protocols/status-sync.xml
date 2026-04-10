@@ -2,27 +2,48 @@
 <!--
   Protocol: status-sync
   See architecture spec §5.2
-
-  Atomic update of story file, sprint-status.yaml, and story-index.yaml.
-  Story file is the source of truth; sprint-status.yaml and story-index.yaml
-  are derived/cached views that must stay in sync.
-
-  Contract:
-    - All story status transitions MUST go through this protocol
-    - Update is atomic: either all three artifacts update or none do
-    - On failure: revert all changes, raise error, halt workflow
-
-  Status: stub
+  See Spec 2b §3.5
 -->
-<protocol id="status-sync" version="0.0.1">
-  <status>stub</status>
-  <inputs>
-    <input>story_file_path</input>
-    <input>new_status</input>
-  </inputs>
-  <atomic-targets>
-    <target>story file (source of truth)</target>
-    <target>sprint-status.yaml (derived view)</target>
-    <target>story-index.yaml (derived view)</target>
-  </atomic-targets>
+<protocol id="status-sync" version="0.0.2-alpha.1">
+  <status>runtime</status>
+  <spec-reference>docs/superpowers/specs/2026-04-10-symphony-core-engine-remaining-design.md#35-status-sync</spec-reference>
+
+  <mandates>
+    <mandate>The story file is always the source of truth. Derived views are regenerated from story files.</mandate>
+    <mandate>Illegal status transitions return FAIL treated as gate failure.</mandate>
+    <mandate>All updates are atomic: if any derived view update fails, revert the story file change.</mandate>
+    <mandate>Never silently skip a status update.</mandate>
+  </mandates>
+
+  <allowed-transitions>
+    <transition from="draft" to="ready-for-dev"/>
+    <transition from="ready-for-dev" to="in-progress"/>
+    <transition from="in-progress" to="in-review"/>
+    <transition from="in-review" to="done"/>
+    <transition from="done" to="in-progress" requires="change-request"/>
+    <transition from="in-review" to="in-progress" requires="review-rejection"/>
+  </allowed-transitions>
+
+  <flow>
+    <step n="1" title="Receive inputs">
+      <action>Receive: story_path, new_status, optional sprint_status_path, optional story_index_path.</action>
+    </step>
+    <step n="2" title="Read current state">
+      <action>Read story file at story_path. Extract current status.</action>
+      <action>If story file does not exist: return FAIL.</action>
+    </step>
+    <step n="3" title="Validate transition">
+      <action>Check transition from current_status to new_status against allowed-transitions.</action>
+      <action>If not allowed: return FAIL with details.</action>
+    </step>
+    <step n="4" title="Apply updates atomically">
+      <action>Update story file status and updated_at timestamp.</action>
+      <action>If sprint_status_path provided: update derived view.</action>
+      <action>If story_index_path provided: update derived view.</action>
+      <action>If any derived view fails: revert story file. Return FAIL.</action>
+    </step>
+    <step n="5" title="Return result">
+      <action>Return PASS with story_path, old_status, new_status, files_modified.</action>
+    </step>
+  </flow>
 </protocol>
