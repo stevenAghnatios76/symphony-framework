@@ -2,22 +2,52 @@
 <!--
   Protocol: checkpoint-resume
   See architecture spec §5.1, §5.2
-
-  Writes a checkpoint to _memory/checkpoints/ after each completed step.
-  Each checkpoint includes: workflow name, step number, key variables,
-  output file path, and files_touched with sha256 checksums.
-
-  On resume (/symphony-resume or automatic recovery):
-    1. Load the most recent checkpoint for the workflow
-    2. Verify each files_touched entry still matches its sha256
-    3. If any file was modified out-of-band: warn user, offer
-       Proceed / Start fresh / Review options
-    4. Resume from the last completed step
-
-  Status: stub
+  See Spec 2b §3.7
 -->
-<protocol id="checkpoint-resume" version="0.0.1">
-  <status>stub</status>
-  <checkpoint-path>_symphony/_memory/checkpoints/</checkpoint-path>
-  <checksum-algorithm>sha256</checksum-algorithm>
+<protocol id="checkpoint-resume" version="0.0.2-alpha.1">
+  <status>runtime</status>
+  <spec-reference>docs/superpowers/specs/2026-04-10-symphony-core-engine-remaining-design.md#37-checkpoint-resume</spec-reference>
+
+  <mandates>
+    <mandate>Every completed step writes a checkpoint. No exceptions.</mandate>
+    <mandate>SHA256 verification is the integrity guarantee for resume.</mandate>
+    <mandate>Checkpoints survive context resets. They are the persistence layer.</mandate>
+    <mandate>On resume, the user must acknowledge any out-of-band file modifications.</mandate>
+  </mandates>
+
+  <checkpoint-schema>
+    <field name="workflow_id" type="string" required="true"/>
+    <field name="run_id" type="string" required="true"/>
+    <field name="execution_mode" type="enum" values="sequential,ensemble,parallel-waves" required="true"/>
+    <field name="interaction_mode" type="enum" values="normal,YOLO,planning" required="true"/>
+    <field name="owner_agent" type="string" required="true"/>
+    <field name="current_step_index" type="integer" required="true"/>
+    <field name="status" type="enum" values="in_progress,complete,halted_gate_failure,halted_unresolved_variable,halted_missing_file,halted_retry_exhausted,halted_user_abort,faulted" required="true"/>
+    <field name="halt_reason" type="string" required="false"/>
+    <field name="started_at" type="iso8601" required="true"/>
+    <field name="updated_at" type="iso8601" required="true"/>
+    <field name="ensemble_turn_pointer" type="object" required="false"/>
+    <field name="files_touched" type="array" required="true"/>
+  </checkpoint-schema>
+
+  <flow>
+    <step n="1" title="Write checkpoint (after-step-complete)">
+      <action>Receive: workflow_id, run_id, current_step_index, files_touched updates, status.</action>
+      <action>For each new file in files_touched: compute SHA256 hash.</action>
+      <action>Write to _symphony/_memory/checkpoints/{run_id}.yaml.</action>
+    </step>
+    <step n="2" title="Resume checkpoint (workflow-engine step 6)">
+      <action>Load checkpoint from _symphony/_memory/checkpoints/{run_id}.yaml.</action>
+      <action>If not found: return NOT_FOUND.</action>
+    </step>
+    <step n="3" title="Verify file integrity on resume">
+      <action>For each files_touched entry: compute current SHA256, compare to stored hash.</action>
+      <action>All match: return VERIFIED, report "Resuming from step N".</action>
+      <action>Mismatch: list changed files with path, expected SHA256, actual SHA256. Offer three options:</action>
+      <action>[p] Proceed — accept out-of-band changes, resume from next step.</action>
+      <action>[s] Start fresh — archive checkpoint, restart workflow from step 1.</action>
+      <action>[r] Review — show diff for each changed file, let user decide per-file.</action>
+      <action>Wait for user response. Do not auto-proceed.</action>
+    </step>
+  </flow>
 </protocol>
