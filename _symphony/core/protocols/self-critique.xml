@@ -2,27 +2,57 @@
 <!--
   Protocol: self-critique
   See architecture spec §5.2
-
-  Every agent self-critiques its output against a confidence threshold (>= 0.85)
-  before any template-output is persisted.
-
-  Flow:
-    1. Agent drafts output
-    2. Agent runs self-critique against the output
-    3. If confidence >= threshold: proceed, persist output
-    4. If confidence < threshold: retry once
-    5. If second attempt still below threshold: escalate to user
-
-  The threshold is configurable in global.yaml (default 0.85).
-
-  Invoked by the workflow engine before any template-output is persisted.
-  Still runs under YOLO interaction mode — YOLO never bypasses self-critique.
-
-  Status: stub
+  See Spec 2b: docs/superpowers/specs/2026-04-10-symphony-core-engine-remaining-design.md §3.1
 -->
-<protocol id="self-critique" version="0.0.1">
-  <status>stub</status>
-  <default-threshold>0.85</default-threshold>
-  <on-low-confidence>retry-once-then-escalate</on-low-confidence>
-  <bypass-in-yolo>false</bypass-in-yolo>
+<protocol id="self-critique" version="0.0.2-alpha.1">
+  <status>runtime</status>
+  <spec-reference>docs/superpowers/specs/2026-04-10-symphony-core-engine-remaining-design.md#31-self-critique</spec-reference>
+
+  <mandates>
+    <mandate>YOLO never bypasses self-critique. Even in YOLO mode, a below-threshold score triggers retry and potential escalation.</mandate>
+    <mandate>Max 1 retry. No infinite loops. Draft → critique → if low, re-draft once → critique again → if still low, escalate.</mandate>
+    <mandate>The confidence score is the agent's honest assessment. Do not inflate scores to avoid escalation.</mandate>
+    <mandate>The threshold is read from global.yaml disciplines.self_critique_threshold (default 0.85).</mandate>
+  </mandates>
+
+  <flow>
+    <step n="1" title="Read the draft output">
+      <action>Re-read the complete draft output that is about to be persisted (the template-output content).</action>
+    </step>
+
+    <step n="2" title="Evaluate confidence">
+      <action>Evaluate the draft against: (a) the step's stated goal from instructions.xml, (b) the workflow's acceptance criteria from checklist.md, (c) the agent persona's domain expertise standards.</action>
+      <action>Assign a confidence score from 0.0 to 1.0 reflecting how well the output meets all three criteria.</action>
+      <action>Be honest. Common reasons for low confidence: missing required sections, unsupported claims, contradictions with upstream artifacts, incomplete coverage of acceptance criteria, weak reasoning.</action>
+    </step>
+
+    <step n="3" title="Threshold check">
+      <action>Read the threshold from global.yaml: disciplines.self_critique_threshold (default 0.85 if absent).</action>
+      <branch if="confidence >= threshold">
+        Return PASS with the score. The output may be persisted.
+      </branch>
+      <branch if="confidence &lt; threshold">
+        Proceed to step 4 (retry).
+      </branch>
+    </step>
+
+    <step n="4" title="Retry once">
+      <action>Identify the specific weak areas that drove confidence below threshold.</action>
+      <action>Re-draft the output with explicit attention to those weak areas. Do not start from scratch — revise the weak sections.</action>
+      <action>Re-evaluate confidence on the new draft (repeat step 2 logic).</action>
+      <branch if="new confidence >= threshold">
+        Return PASS with the new score. The revised output replaces the original draft.
+      </branch>
+      <branch if="new confidence &lt; threshold">
+        Proceed to step 5 (escalate).
+      </branch>
+    </step>
+
+    <step n="5" title="Escalate to user">
+      <action>Present to the user: (a) the output draft, (b) the confidence score, (c) a summary of what feels wrong and why confidence remains low.</action>
+      <action>Offer three options: [a]pprove (override — accept the output as-is), [r]eject (abort the step), [e]dit (user edits the output inline).</action>
+      <action>Wait for user response. Do not auto-proceed.</action>
+      <action>On approve: return PASS (user-overridden). On reject: return FAIL — the workflow engine will HALT. On edit: persist the user's edited version and return PASS.</action>
+    </step>
+  </flow>
 </protocol>
