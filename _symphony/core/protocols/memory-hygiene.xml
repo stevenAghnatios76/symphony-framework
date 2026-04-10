@@ -2,29 +2,42 @@
 <!--
   Protocol: memory-hygiene
   See architecture spec §5.2
-
-  Detects stale, contradicted, or orphaned decisions in agent memory sidecars
-  by cross-referencing sidecar contents against current planning and
-  architecture artifacts.
-
-  Detection categories:
-    - stale: decision references a file that no longer exists
-    - contradicted: decision conflicts with the latest architecture or PRD
-    - orphaned: decision is linked to a story/epic that has been removed
-
-  Output:
-    - Report of findings grouped by category
-    - User-facing options: prune, update, mark as historical
-
-  Recommended cadence: before each sprint.
-
-  Status: stub
+  See Spec 2b §3.8
 -->
-<protocol id="memory-hygiene" version="0.0.1">
-  <status>stub</status>
-  <detection-categories>
-    <category>stale (reference not found)</category>
-    <category>contradicted (conflicts with latest architecture)</category>
-    <category>orphaned (linked to removed story/epic)</category>
-  </detection-categories>
+<protocol id="memory-hygiene" version="0.0.2-alpha.1">
+  <status>runtime</status>
+  <spec-reference>docs/superpowers/specs/2026-04-10-symphony-core-engine-remaining-design.md#38-memory-hygiene</spec-reference>
+
+  <mandates>
+    <mandate>Never auto-prune. Always present findings and let the user decide.</mandate>
+    <mandate>Run recommended before each sprint.</mandate>
+    <mandate>Conductor sidecar routing-log is excluded from staleness checks (append-only).</mandate>
+    <mandate>Invoked on demand via /symphony-memory-hygiene workflow, not automatically.</mandate>
+  </mandates>
+
+  <detection-heuristics>
+    <heuristic id="reference-not-found">Decision's traces_to file no longer exists.</heuristic>
+    <heuristic id="contradiction-with-latest">Decision conflicts with current version of referenced artifact.</heuristic>
+    <heuristic id="orphaned-by-scope-change">Decision references removed story/epic/requirement.</heuristic>
+    <heuristic id="age-based-staleness">Decision older than 3 sprints with no recent references.</heuristic>
+  </detection-heuristics>
+
+  <flow>
+    <step n="1" title="Scan sidecars">
+      <action>List all *-sidecar/ directories in _symphony/_memory/. Exclude conductor-sidecar.</action>
+    </step>
+    <step n="2" title="Read decisions">
+      <action>For each sidecar: read decisions.yaml. Skip if empty or absent.</action>
+    </step>
+    <step n="3" title="Apply detection heuristics">
+      <action>For each decision: run all 4 heuristics. Flag matches.</action>
+    </step>
+    <step n="4" title="Compile report">
+      <action>Group findings by sidecar, then by heuristic category.</action>
+      <action>Header: "Memory hygiene scan complete. Recommended cadence: before each sprint."</action>
+    </step>
+    <step n="5" title="Present actions">
+      <action>Per finding offer: [p]rune, [u]pdate, [a]rchive, [k]eep. Wait for user. Apply.</action>
+    </step>
+  </flow>
 </protocol>
