@@ -1,0 +1,363 @@
+# Symphony Lifecycle Sequence — workflow-to-workflow transition map
+# Consulted by the Conductor (step 10) after workflow completion.
+# See Spec 3: docs/superpowers/specs/2026-04-10-symphony-conductor-design.md §3
+
+# ═══════════════════════════════════════
+# PHASE 1: ANALYSIS
+# ═══════════════════════════════════════
+
+brainstorm:
+  phase: 1-analysis
+  command: /symphony-brainstorm
+  next:
+    primary: market-research
+    alternatives:
+      - workflow: domain-research
+        context: "If domain-specific research is needed first"
+      - workflow: tech-research
+        context: "If technology evaluation is needed first"
+
+market-research:
+  phase: 1-analysis
+  command: /symphony-market-research
+  next:
+    primary: domain-research
+    alternatives:
+      - workflow: product-brief
+        context: "If all research is complete"
+
+domain-research:
+  phase: 1-analysis
+  command: /symphony-domain-research
+  next:
+    primary: tech-research
+    alternatives:
+      - workflow: product-brief
+        context: "If all research is complete"
+
+tech-research:
+  phase: 1-analysis
+  command: /symphony-tech-research
+  next:
+    primary: advanced-elicitation
+    alternatives:
+      - workflow: product-brief
+        context: "If skipping advanced elicitation"
+
+advanced-elicitation:
+  phase: 1-analysis
+  command: /symphony-advanced-elicitation
+  next:
+    primary: product-brief
+
+product-brief:
+  phase: 1-analysis
+  command: /symphony-product-brief
+  next:
+    primary: create-prd
+
+# ═══════════════════════════════════════
+# PHASE 2: PLANNING
+# ═══════════════════════════════════════
+
+create-prd:
+  phase: 2-planning
+  command: /symphony-create-prd
+  next:
+    primary: validate-prd
+
+validate-prd:
+  phase: 2-planning
+  command: /symphony-validate-prd
+  next:
+    on_pass: create-ux
+    on_fail: edit-prd
+
+edit-prd:
+  phase: 2-planning
+  command: /symphony-edit-prd
+  next:
+    primary: validate-prd
+
+create-ux:
+  phase: 2-planning
+  command: /symphony-create-ux
+  next:
+    primary: review-a11y
+    alternatives:
+      - workflow: create-arch
+        context: "If accessibility review will be done later"
+
+review-a11y:
+  phase: 2-planning
+  command: /symphony-review-a11y
+  next:
+    primary: create-arch
+
+# ═══════════════════════════════════════
+# PHASE 3: SOLUTIONING
+# ═══════════════════════════════════════
+
+create-arch:
+  phase: 3-solutioning
+  command: /symphony-create-arch
+  next:
+    primary: test-design
+    alternatives:
+      - workflow: threat-model
+        context: "If threat modeling should come first"
+
+edit-arch:
+  phase: 3-solutioning
+  command: /symphony-edit-arch
+  next:
+    primary: readiness-check
+
+test-design:
+  phase: 3-solutioning
+  command: /symphony-test-design
+  next:
+    primary: create-epics
+
+create-epics:
+  phase: 3-solutioning
+  command: /symphony-create-epics
+  next:
+    primary: atdd
+    alternatives:
+      - workflow: threat-model
+        context: "If threat modeling not yet done"
+
+atdd:
+  phase: 3-solutioning
+  command: /symphony-atdd
+  next:
+    primary: threat-model
+    alternatives:
+      - workflow: trace
+        context: "If threat model and infra design already done"
+
+threat-model:
+  phase: 3-solutioning
+  command: /symphony-threat-model
+  next:
+    primary: infra-design
+
+infra-design:
+  phase: 3-solutioning
+  command: /symphony-infra-design
+  next:
+    primary: trace
+
+trace:
+  phase: 3-solutioning
+  command: /symphony-trace
+  next:
+    primary: readiness-check
+
+readiness-check:
+  phase: 3-solutioning
+  command: /symphony-readiness-check
+  next:
+    primary: create-story
+
+# ═══════════════════════════════════════
+# PHASE 4: IMPLEMENTATION
+# ═══════════════════════════════════════
+
+create-story:
+  phase: 4-implementation
+  command: /symphony-create-story
+  next:
+    primary: validate-story
+
+validate-story:
+  phase: 4-implementation
+  command: /symphony-validate-story
+  next:
+    on_pass: sprint-plan
+    on_fail: create-story
+    alternatives:
+      - workflow: create-story
+        context: "To create more stories before sprint planning"
+
+sprint-plan:
+  phase: 4-implementation
+  command: /symphony-sprint-plan
+  next:
+    primary: dev-story
+
+dev-story:
+  phase: 4-implementation
+  command: /symphony-dev-story
+  next:
+    primary: check-dod
+    alternatives:
+      - workflow: run-all-reviews
+        context: "If DoD was already verified"
+
+check-dod:
+  phase: 4-implementation
+  command: /symphony-check-dod
+  next:
+    on_pass: run-all-reviews
+    on_fail: dev-story
+
+code-review:
+  phase: 4-implementation
+  command: /symphony-code-review
+  next:
+    primary: run-all-reviews
+    alternatives:
+      - workflow: dev-story
+        context: "If review found issues requiring code changes"
+
+qa-tests:
+  phase: 4-implementation
+  command: /symphony-qa-tests
+  next:
+    primary: run-all-reviews
+
+security-review:
+  phase: 4-implementation
+  command: /symphony-security-review
+  next:
+    primary: run-all-reviews
+
+run-all-reviews:
+  phase: 4-implementation
+  command: /symphony-run-all-reviews
+  next:
+    primary: review-gate
+
+review-gate:
+  phase: 4-implementation
+  command: /symphony-review-gate
+  next:
+    on_pass: sprint-status
+    on_fail: dev-story
+
+sprint-status:
+  phase: 4-implementation
+  command: /symphony-sprint-status
+  next:
+    context_dependent: true
+    note: "If stories remain: dev-story. If all done: retro."
+
+retro:
+  phase: 4-implementation
+  command: /symphony-retro
+  next:
+    primary: sprint-plan
+    alternatives:
+      - workflow: release-plan
+        context: "If all epics complete, ready for deployment"
+
+change-request:
+  phase: 4-implementation
+  command: /symphony-change-request
+  next:
+    primary: correct-course
+    alternatives:
+      - workflow: edit-arch
+        context: "If architecture changes needed"
+
+correct-course:
+  phase: 4-implementation
+  command: /symphony-correct-course
+  next:
+    primary: sprint-status
+
+# ═══════════════════════════════════════
+# PHASE 5: DEPLOYMENT
+# ═══════════════════════════════════════
+
+release-plan:
+  phase: 5-deployment
+  command: /symphony-release-plan
+  next:
+    primary: rollback-plan
+
+rollback-plan:
+  phase: 5-deployment
+  command: /symphony-rollback-plan
+  next:
+    primary: deploy-checklist
+
+deploy-checklist:
+  phase: 5-deployment
+  command: /symphony-deploy-checklist
+  next:
+    primary: post-deploy
+
+post-deploy:
+  phase: 5-deployment
+  command: /symphony-post-deploy
+  next:
+    terminal: true
+    note: "Lifecycle complete. Start new cycle with /symphony-retro."
+
+# ═══════════════════════════════════════
+# OVERTURE (brownfield entry)
+# ═══════════════════════════════════════
+
+overture:
+  phase: 3-solutioning
+  command: /symphony-overture
+  next:
+    primary: create-arch
+    alternatives:
+      - workflow: test-design
+        context: "If architecture was generated by Overture scan"
+
+# ═══════════════════════════════════════
+# ANYTIME (no lifecycle position)
+# ═══════════════════════════════════════
+
+quick-spec:
+  phase: anytime
+  command: /symphony-quick-spec
+  next:
+    primary: quick-dev
+
+quick-dev:
+  phase: anytime
+  command: /symphony-quick-dev
+  next:
+    primary: code-review
+
+memory-hygiene:
+  phase: anytime
+  command: /symphony-memory-hygiene
+  next:
+    standalone: true
+
+document-project:
+  phase: anytime
+  command: /symphony-document-project
+  next:
+    standalone: true
+
+performance-review:
+  phase: anytime
+  command: /symphony-performance-review
+  next:
+    standalone: true
+
+tech-debt-review:
+  phase: anytime
+  command: /symphony-tech-debt-review
+  next:
+    standalone: true
+
+party:
+  phase: anytime
+  command: /symphony-party
+  next:
+    standalone: true
+
+create-stakeholder:
+  phase: anytime
+  command: /symphony-create-stakeholder
+  next:
+    standalone: true
