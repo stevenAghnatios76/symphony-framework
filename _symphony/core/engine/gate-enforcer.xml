@@ -2,32 +2,69 @@
 <!--
   Symphony Gate Enforcer — HALT-gate mechanism
   See architecture spec §2.4, §2.8, §5.1
-
-  Contract:
-    1. Reads gate declarations from each workflow's workflow.yaml
-    2. Runs pre_start gates BEFORE the workflow begins
-    3. Runs post_complete gates BEFORE the workflow is marked done
-    4. Gates HALT on failure — workflow cannot proceed or complete
-    5. Applies adaptive gate substitutions per §2.8:
-       inspects story traces_to field; for IR-/OR-/SR- prefixes, uses
-       the infrastructure-story gate set (IaC review, policy-as-code,
-       plan validation, policy review, cost review)
-    6. Delegates the review-gate-check protocol for the 6-gate review workflow
-
-  Status: stub — runtime implementation lands in Spec 2 Core Engine plan
+  See Spec 2b: docs/superpowers/specs/2026-04-10-symphony-core-engine-remaining-design.md §2
 -->
-<gate-enforcer version="0.0.1">
-  <status>stub</status>
-  <contract>
-    <responsibility>read-gate-declarations-from-workflow-yaml</responsibility>
-    <responsibility>run-pre-start-gates</responsibility>
-    <responsibility>run-post-complete-gates</responsibility>
-    <responsibility>HALT-on-failure</responsibility>
-    <responsibility>adaptive-gate-substitutions-by-story-type</responsibility>
-  </contract>
-  <invariants>
-    <invariant>A failed gate stops execution; never advisory</invariant>
-    <invariant>Code review and security review stay unchanged across story types</invariant>
-  </invariants>
-  <spec-reference>docs/superpowers/specs/2026-04-08-symphony-architecture-design.md#24-quality-gates-halt-they-dont-warn</spec-reference>
+<gate-enforcer version="0.0.2-alpha.1">
+  <status>runtime</status>
+  <spec-reference>docs/superpowers/specs/2026-04-10-symphony-core-engine-remaining-design.md#2-gate-enforcer-runtime</spec-reference>
+
+  <mandates>
+    <mandate>Gates HALT on failure. Never advisory, never warn-and-continue.</mandate>
+    <mandate>YOLO interaction mode does not bypass gates.</mandate>
+    <mandate>A workflow with no gates declared passes trivially (empty or absent gates array = PASS).</mandate>
+    <mandate>Gate evaluation order matches declaration order in workflow.yaml.</mandate>
+    <mandate>The gate enforcer never modifies artifacts. It only reads and evaluates.</mandate>
+  </mandates>
+
+  <flow>
+    <step n="1" title="Receive invocation">
+      <action>Receive phase parameter: "pre-start" or "post-complete"</action>
+      <action>Receive workflow.yaml reference from the calling workflow engine</action>
+    </step>
+
+    <step n="2" title="Read gate declarations">
+      <action>Read the gates.{phase} array from workflow.yaml (gates.pre_start or gates.post_complete)</action>
+      <action>If the gates array is empty or the gates key is absent for this phase: return PASS immediately. No gates declared means no checks needed.</action>
+    </step>
+
+    <step n="3" title="Evaluate each gate">
+      <for-each item="gate" in="gates array">
+        <action>Parse the gate condition. Gate conditions are natural-language assertions declared in workflow.yaml.</action>
+
+        <action title="Adaptive gate substitution (§2.8)">
+          If this gate is part of the 6-gate review process AND the current story's traces_to field
+          has a prefix of IR-, OR-, or SR- (infrastructure requirement), apply the substitution:
+          - "QA Tests" becomes "Policy-as-Code Validation (checkov/tfsec/OPA pass)"
+          - "Test Automation" becomes "Plan Validation + Drift Checks (terraform plan assertions)"
+          - "Test Review" becomes "Policy Review (OPA/Rego coverage)"
+          - "Performance Review" becomes "Cost Review + Scaling Validation"
+          - "Code Review" stays as "IaC Code Review" (same workflow, IaC expertise expected)
+          - "Security Review" stays unchanged
+          The substitution changes the evaluation criteria prompt, not the gate structure.
+        </action>
+
+        <action title="Evaluate condition">
+          Evaluate the gate condition based on its type:
+          - File existence: verify the file exists at the declared path
+          - Section completeness: read the file, check all required sections are present and non-empty
+          - Confidence threshold: check the last self-critique score in checkpoint metadata
+          - Approval status: check artifact frontmatter for "approved: true" or equivalent
+          - Test passage: verify the relevant test suite produces exit code 0
+          - Custom assertion: evaluate the natural-language condition against current project state
+        </action>
+
+        <action title="On failure">
+          If the condition fails: return FAIL immediately with:
+          - gate: the gate name/description from workflow.yaml
+          - phase: "pre-start" or "post-complete"
+          - reason: a clear explanation of why the gate failed and what needs to be fixed
+          Do NOT continue evaluating remaining gates. First failure halts.
+        </action>
+      </for-each>
+    </step>
+
+    <step n="4" title="All gates passed">
+      <action>All gates in the array evaluated successfully. Return PASS.</action>
+    </step>
+  </flow>
 </gate-enforcer>
