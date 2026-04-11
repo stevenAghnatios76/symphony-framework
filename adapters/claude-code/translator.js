@@ -1,25 +1,54 @@
 // Symphony Claude Code adapter — translator
-// See architecture spec §7.3.
-//
-// Contract: translate(corePath, userProjectPath, options) => Promise<void>
-// - Enumerate workflows in _symphony/lifecycle|dev|creative|testing
-// - Render a slash-command file per workflow using templates/command.md.tmpl
-// - Emit the files to userProjectPath/.claude/commands/
-// - Also emit the top-level /symphony entry command
-// - Write the CLAUDE.md guide at userProjectPath root
-//
-// Status: stub — real implementation lands in Spec 7 Runtime Adapters plan.
+// See architecture spec §7.3
+// See Spec 7: docs/superpowers/specs/2026-04-10-symphony-adapters-design.md §3
+
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { resolve, join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { enumerateWorkflows, renderTemplate } from '../../lib/adapter-utils.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const adapterDir = dirname(__filename);
 
 export async function translate(corePath, userProjectPath, options = {}) {
-  throw new Error(
-    'Symphony claude-code translator: not yet implemented. ' +
-    'See docs/superpowers/specs/2026-04-08-symphony-architecture-design.md §7.3 ' +
-    'for the contract. Real implementation in Spec 7 Runtime Adapters plan.'
-  );
+  const workflows = enumerateWorkflows(corePath);
+  const templatePath = join(adapterDir, 'templates', 'command.md.tmpl');
+  const template = readFileSync(templatePath, 'utf8');
+  const outDir = join(userProjectPath, '.claude', 'commands');
+
+  // Ensure output directory exists
+  mkdirSync(outDir, { recursive: true });
+
+  // Generate a command file per workflow
+  let count = 0;
+  for (const wf of workflows) {
+    const rendered = renderTemplate(template, {
+      description: wf.description,
+      model: wf.model,
+      workflow_path: wf.workflowPath,
+    });
+    writeFileSync(join(outDir, `symphony-${wf.id}.md`), rendered);
+    count++;
+  }
+
+  // Emit entry command
+  const entryContent = [
+    '---',
+    'description: Symphony — orchestrate your code',
+    'model: opus',
+    '---',
+    '',
+    'Load `{project-root}/_symphony/core/engine/conductor.xml` first.',
+    'Parse the user\'s goal from $ARGUMENTS and route to the appropriate workflow.',
+    '',
+  ].join('\n');
+  writeFileSync(join(outDir, 'symphony.md'), entryContent);
+
+  return { commands_generated: count, entry_command: 'symphony.md' };
 }
 
 export const metadata = {
   id: 'claude-code',
-  stub: true,
-  specReference: 'docs/superpowers/specs/2026-04-08-symphony-architecture-design.md#73-translator-contract-pseudocode',
+  stub: false,
+  specReference: 'docs/superpowers/specs/2026-04-10-symphony-adapters-design.md#3-claude-code-adapter',
 };
