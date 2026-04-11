@@ -1,0 +1,44 @@
+# Trello integration — hook registration and configuration reference.
+# See spec: Hub/Trello/Toggle §3
+# Activated by: integrations.trello.enabled in global.yaml
+
+id: trello
+name: "Trello Sprint Board"
+description: "Two-way sync between Symphony stories and Trello cards via MCP"
+
+# This integration registers as an artifact-enrichment-hook (architecture spec §2.9).
+# When status-sync updates a story, this hook fires to push the change to Trello.
+hook:
+  type: artifact-enrichment-hook
+  target_patterns:
+    - "docs/implementation-artifacts/stories/*.md"
+    - "docs/implementation-artifacts/sprint-status.md"
+  trigger_on:
+    - status_change
+    - story_created
+    - story_archived
+    - review_gate_completed
+
+# MCP server configuration reference
+mcp:
+  config_file: ".mcp.json"
+  server_name: "trello"
+  required_tools:
+    - createCard
+    - moveCard
+    - updateCard
+    - archiveCard
+    - getBoardCards
+    - getListCards
+    - createChecklistOnCard
+    - updateCheckItem
+    - addLabelToCard
+    - addComment
+
+# Prerequisites check
+setup:
+  command: /symphony-trello-setup
+  requires:
+    - "TRELLO_API_KEY environment variable set"
+    - "TRELLO_TOKEN environment variable set"
+    - "integrations.trello.board_id configured in global.yaml"
