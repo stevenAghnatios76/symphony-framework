@@ -28,7 +28,7 @@
   <execution-modes>
     <mode name="sequential" kernel="A">Single owner agent, linear step execution, JIT skill eviction between steps</mode>
     <mode name="ensemble" kernel="A">Multi-participant turn loop with persona hot-swap and eviction between turns</mode>
-    <mode name="parallel-waves" kernel="B">RESERVED FOR SPEC 4. At v0.0.2-alpha.1, HALT with "parallel-waves not yet implemented; Spec 4 required." See spec section 5.4 for the Kernel B dispatch call convention that Spec 4 must build on.</mode>
+    <mode name="parallel-waves" kernel="B">DAG-based parallel dispatch. Handled by the Wave Executor (_symphony/core/engine/wave-executor.xml). The workflow engine hands off to the wave executor for the entire step loop.</mode>
   </execution-modes>
 
   <interaction-modes>
@@ -109,7 +109,7 @@
       <branch if="execution_mode == 'sequential'">Execute the sequential step loop (step-9-sequential below)</branch>
       <branch if="execution_mode == 'ensemble'">Execute the ensemble turn loop (step-9-ensemble below)</branch>
       <branch if="execution_mode == 'parallel-waves'">
-        HALT with message "parallel-waves not yet implemented; Spec 4 is required. The Kernel B dispatch call convention is defined in docs/superpowers/specs/2026-04-08-symphony-core-engine-execution-design.md section 5.4. When Spec 4 lands, it will wrap this engine as Kernel B."
+        Dispatch to the Wave Executor: load _symphony/core/engine/wave-executor.xml and hand off workflow_path, interaction_mode, and checkpoint_path. The Wave Executor manages its own step loop, wave dispatch, and integration gates. Return to step 10 (post-complete gate) when the Wave Executor reports complete.
       </branch>
     </step>
 
