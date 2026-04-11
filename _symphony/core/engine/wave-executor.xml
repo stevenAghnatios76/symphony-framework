@@ -1,39 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Symphony Wave Executor — parallel dispatcher with integration gates
+  Symphony Wave Executor — parallel dispatcher with integration gates (Signature Feature #2)
   See architecture spec §8.2
-
-  Contract:
-    1. Invoked only for workflows with execution.mode: parallel-waves
-    2. Loads the workflow's step DAG from instructions.xml
-    3. Topologically sorts steps; groups independent steps into waves of <= 4
-    4. Dispatches each wave as parallel subagents (one per step)
-    5. Subagents in the same wave operate in independent contexts; no shared state
-    6. At each wave boundary runs an integration gate:
-       - Aggregates outputs
-       - Detects conflicts (e.g., two steps writing the same file)
-       - Runs self-critique on aggregated output
-       - HALTs on failure
-    7. On subagent failure: triggers diagnose-then-fix loop via the Conductor
-    8. Retries only the faulted step, not the whole wave
-    9. Escalates to the user after a second consecutive retry failure
-
-  Status: stub — runtime implementation lands in Spec 2 Core Engine plan (+ Spec 4)
+  See Spec 4: docs/superpowers/specs/2026-04-10-symphony-wave-executor-design.md
 -->
-<wave-executor version="0.0.1">
-  <status>stub</status>
-  <contract>
-    <responsibility>dag-topological-sort</responsibility>
-    <responsibility>wave-building (max 4 per wave)</responsibility>
-    <responsibility>parallel-subagent-dispatch</responsibility>
-    <responsibility>integration-gate-at-wave-boundary</responsibility>
-    <responsibility>failure-recovery-via-diagnose-then-fix</responsibility>
-  </contract>
-  <invariants>
-    <invariant>Subagents within a wave have independent context windows</invariant>
-    <invariant>Wave N+1 cannot start until wave N integration gate passes</invariant>
-    <invariant>Retry applies only to the faulted step, never the whole wave</invariant>
-    <invariant>Second consecutive retry failure escalates to the user</invariant>
-  </invariants>
-  <spec-reference>docs/superpowers/specs/2026-04-08-symphony-architecture-design.md#82-the-wave-executor</spec-reference>
+<wave-executor version="0.0.2-alpha.1">
+  <status>runtime</status>
+  <spec-reference>docs/superpowers/specs/2026-04-10-symphony-wave-executor-design.md</spec-reference>
+
+  <mandates>
+    <mandate>Subagents within a wave have independent context windows. No shared state during wave execution.</mandate>
+    <mandate>Wave N+1 cannot start until Wave N's integration gate passes.</mandate>
+    <mandate>Retry applies only to the faulted step, never the whole wave.</mandate>
+    <mandate>Max 4 parallel subagents per wave. Workflows may set a lower limit via max_wave_siblings in workflow.yaml.</mandate>
+    <mandate>The wave executor invokes the same protocols as the workflow engine: trust-levels, anti-rationalization, self-critique, artifact-enrichment-hook, checkpoint-resume.</mandate>
+    <mandate>YOLO interaction mode auto-passes integration gates but does NOT skip self-critique or conflict detection.</mandate>
+    <mandate>Second consecutive retry failure escalates to the user.</mandate>
+  </mandates>
+
+  <flow>
+    <step n="1" title="Receive workflow">
+      <action>Receive workflow_path, interaction_mode, and checkpoint_path from the Conductor or workflow engine.</action>
+      <action>Read workflow.yaml from workflow_path. Confirm execution.mode is "parallel-waves".</action>
+      <action>Read max_wave_siblings from workflow.yaml (default 4 if absent).</action>
+    </step>
+
+    <step n="2" title="Load step DAG">
+      <action>Read instructions.xml from workflow_path.</action>
+      <action>Parse all step elements. For each step, extract: id, inputs (comma-separated artifact names), outputs (comma-separated artifact names), actions.</action>
+      <action>Build a dependency graph: for each step, its inputs are matched against other steps' outputs. A step depends on every step whose output appears in its inputs list.</action>
+      <action>If a step has no inputs attribute or it is empty: the step has no dependencies (root node).</action>
+    </step>
+
+    <step n="3" title="Topological sort">
+      <action>Topologically sort all steps by their dependency edges.</action>
+      <action>If a cycle is detected (step A depends on B which depends on A): HALT with "Circular dependency detected between steps {ids}. Cannot build wave schedule."</action>
+      <action>Assign each step a rank (depth in the topo sort). Steps at rank 0 have no dependencies.</action>
+    </step>
+
+    <step n="4" title="Build waves">
+      <action>Group steps by their topological rank. All steps at rank 0 form the first wave group, rank 1 the second, etc.</action>
+      <action>For each rank group: if more than max_wave_siblings steps, split into sub-waves of max_wave_siblings each.</action>
+      <action>Intra-wave conflict detection: if two steps in the same wave declare the same output file or share a conflicts_with annotation, split them into sub-phases. Sub-phase A1 runs the independent steps in parallel. Sub-phase A2 runs the conflicting steps after A1 completes.</action>
+      <action>Result: an ordered list of waves. Each wave contains 1 to max_wave_siblings steps that can run concurrently.</action>
+      <action>Report the wave schedule: "Wave plan: Wave 1 [{step_ids}], Wave 2 [{step_ids}], ..."</action>
+    </step>
+
+    <step n="5" title="Pre-start gate">
+      <action>Invoke gate-enforcer with phase="pre-start" using the workflow's gate declarations.</action>
+      <action>On failure: HALT with status halted_gate_failure.</action>
+    </step>
+
+    <step n="6" title="Execute wave loop">
+      <for-each item="wave" in="wave schedule">
+        <action title="Dispatch subagents">
+          For each step in this wave, dispatch a parallel subagent:
+          - Fresh context window per subagent (no shared state with other subagents in this wave)
+          - Provide: step instructions from instructions.xml, input artifacts from prior waves (files listed in the step's inputs), owner persona from workflow.yaml
+          - Each subagent executes its step's actions and writes output to the declared output path
+          - Invoke trust-levels protocol before step execution
+          - Invoke anti-rationalization and self-critique protocols before persisting output
+          - Invoke artifact-enrichment-hook after persisting output
+        </action>
+
+        <action title="Wait for wave completion">
+          Wait for ALL subagents in this wave to complete (success or failure).
+          Collect results: for each step, its status (complete or faulted) and output artifacts.
+        </action>
+
+        <action title="Handle faulted steps">
+          If any step in this wave faulted:
+          - Invoke the diagnose-then-fix protocol for each faulted step
+          - Diagnose: root-cause analysis with confidence threshold (0.7 from global.yaml)
+          - If confidence below 0.7: escalate directly to user, HALT
+          - If confidence sufficient: hand diagnosis to original agent, retry only the faulted step
+          - After retry: if still fails, HALT with halted_retry_exhausted, escalate to user
+          - Max 2 total attempts per step (original + 1 diagnosed retry)
+          - Successful steps from the wave are NOT re-run
+        </action>
+
+        <action title="Integration gate">
+          After all steps in this wave are complete (including any retries):
+          1. Aggregate outputs: collect all output files produced by subagents in this wave
+          2. Conflict detection: check if two subagents wrote to the same file path. If so: HALT with "Integration conflict: steps {id1} and {id2} both wrote to {path}."
+          3. Consistency check: cross-reference outputs for contradictory decisions. Flag if two steps made incompatible choices.
+          4. Self-critique: invoke the self-critique protocol on the aggregated wave output. Confidence must meet threshold (default 0.85).
+          5. If all checks pass: merge outputs into the shared artifact set. Proceed to next wave.
+          6. If any check fails: HALT with status halted_integration_gate and details.
+        </action>
+
+        <action title="Write checkpoint">
+          Invoke checkpoint-resume protocol. Record: wave number, steps completed, files_touched with SHA256 hashes.
+        </action>
+      </for-each>
+    </step>
+
+    <step n="7" title="Post-complete gate">
+      <action>All waves executed and integration gates passed.</action>
+      <action>Invoke gate-enforcer with phase="post-complete".</action>
+      <action>On failure: HALT with status halted_gate_failure.</action>
+    </step>
+
+    <step n="8" title="Report complete">
+      <action>Report workflow complete with: total waves executed, total steps, files_touched, any retries that occurred.</action>
+      <action>Archive checkpoint to _symphony/_memory/checkpoints/completed/.</action>
+      <action>Return control to the Conductor for next-step suggestions.</action>
+    </step>
+  </flow>
 </wave-executor>
