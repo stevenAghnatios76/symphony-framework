@@ -1,0 +1,23 @@
+id: wave-hello
+owner: orchestrator
+model: sonnet
+
+execution:
+  mode: parallel-waves
+  max_wave_siblings: 4
+
+inputs:
+  required: []
+  optional: []
+
+outputs:
+  primary: tests/fixtures/wave-hello/synthesis-output.md
+
+gates:
+  pre_start: []
+  post_complete: []
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

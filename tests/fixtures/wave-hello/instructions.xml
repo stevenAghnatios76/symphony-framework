@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="wave-hello">
+  <steps>
+    <step n="1" id="alpha-scan" outputs="alpha-output.md">
+      <action>Produce a short alpha analysis paragraph.</action>
+      <template-output file="tests/fixtures/wave-hello/alpha-output.md">
+        Alpha scan complete.
+      </template-output>
+    </step>
+    <step n="2" id="beta-scan" outputs="beta-output.md">
+      <action>Produce a short beta analysis paragraph.</action>
+      <template-output file="tests/fixtures/wave-hello/beta-output.md">
+        Beta scan complete.
+      </template-output>
+    </step>
+    <step n="3" id="synthesis" inputs="alpha-output.md, beta-output.md" outputs="synthesis-output.md">
+      <action>Combine alpha and beta findings into a synthesis.</action>
+      <template-output file="tests/fixtures/wave-hello/synthesis-output.md">
+        Synthesis of alpha and beta findings.
+      </template-output>
+    </step>
+  </steps>
+</instructions>
