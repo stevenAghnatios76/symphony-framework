@@ -1,21 +1,54 @@
 // Symphony GitHub Copilot adapter — translator
-// See architecture spec §7.3.
-//
-// Contract: same as claude-code adapter, but emits .prompt.md files to
-// .github/prompts/ and the config file to .github/copilot-instructions.md.
-//
-// Status: stub — real implementation lands in Spec 7 Runtime Adapters plan.
+// See architecture spec §7.3
+// See Spec 7: docs/superpowers/specs/2026-04-10-symphony-adapters-design.md §4
+
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { enumerateWorkflows, renderTemplate } from '../../lib/adapter-utils.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const adapterDir = dirname(__filename);
 
 export async function translate(corePath, userProjectPath, options = {}) {
-  throw new Error(
-    'Symphony copilot translator: not yet implemented. ' +
-    'See docs/superpowers/specs/2026-04-08-symphony-architecture-design.md §7.3 ' +
-    'for the contract. Real implementation in Spec 7 Runtime Adapters plan.'
-  );
+  const workflows = enumerateWorkflows(corePath);
+  const templatePath = join(adapterDir, 'templates', 'command.md.tmpl');
+  const template = readFileSync(templatePath, 'utf8');
+  const outDir = join(userProjectPath, '.github', 'prompts');
+
+  // Ensure output directory exists
+  mkdirSync(outDir, { recursive: true });
+
+  // Generate a prompt file per workflow
+  let count = 0;
+  for (const wf of workflows) {
+    const rendered = renderTemplate(template, {
+      description: wf.description,
+      model: wf.model,
+      workflow_path: wf.workflowPath,
+    });
+    writeFileSync(join(outDir, `symphony-${wf.id}.prompt.md`), rendered);
+    count++;
+  }
+
+  // Emit entry command
+  const entryContent = [
+    '---',
+    'mode: agent',
+    'description: Symphony — orchestrate your code',
+    '---',
+    '',
+    'Load `_symphony/core/engine/conductor.xml` first.',
+    'Parse the user\'s goal from $ARGUMENTS and route to the appropriate workflow.',
+    '',
+  ].join('\n');
+  writeFileSync(join(outDir, 'symphony.prompt.md'), entryContent);
+
+  return { commands_generated: count, entry_command: 'symphony.prompt.md' };
 }
 
 export const metadata = {
   id: 'copilot',
-  stub: true,
-  specReference: 'docs/superpowers/specs/2026-04-08-symphony-architecture-design.md#73-translator-contract-pseudocode',
+  stub: false,
+  specReference: 'docs/superpowers/specs/2026-04-10-symphony-adapters-design.md#4-copilot-adapter',
 };
