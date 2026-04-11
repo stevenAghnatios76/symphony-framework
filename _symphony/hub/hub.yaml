@@ -1,0 +1,13 @@
+# Symphony Hub — local dashboard server.
+# See spec: Hub/Trello/Toggle §2
+#
+# Runtime configuration lives in _symphony/_config/global.yaml under the 'hub' key.
+# This file documents defaults and is not read at runtime.
+#
+# Defaults:
+#   port: 3100
+#   auto_refresh: true
+#   refresh_interval_ms: 2000
+#
+# Launch: /symphony-hub (via AI tool) or node _symphony/hub/server.js
+# Terminal summary: /symphony-status (no server needed)
