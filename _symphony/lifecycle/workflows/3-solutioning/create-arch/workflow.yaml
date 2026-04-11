@@ -1,0 +1,36 @@
+id: create-arch
+owner: architect
+model: opus
+description: Design system architecture from PRD including components, APIs, data model, and ADRs
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [prd]
+  optional: [ux-spec, tech-research]
+
+outputs:
+  primary: docs/planning-artifacts/architecture.md
+  traceable_to: [prd]
+
+gates:
+  pre_start:
+    - prd.md exists
+  post_complete:
+    - Output has System Overview section
+    - Output has Component Design section
+    - Output has API Contracts section
+    - Output has Data Model section
+    - Output has Technology Stack section
+    - Output has ADRs section
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="overture">
+  <steps>
+    <!-- Wave 1: Steps 1-4 (parallel, no dependencies) -->
+    <step n="1" id="arch-scan" outputs="architecture-map.md">
+      <action>Scan the codebase for architecture patterns, components, layers, and module boundaries.</action>
+      <action>Produce an architecture map documenting the current system structure.</action>
+    </step>
+    <step n="2" id="api-scan" outputs="api-catalog.md">
+      <action>Catalog all APIs, endpoints, contracts, and integration points in the codebase.</action>
+      <action>Document request/response shapes, authentication, and versioning.</action>
+    </step>
+    <step n="3" id="dep-scan" outputs="dependency-graph.md">
+      <action>Map all dependencies: packages, versions, licenses, and transitive dependencies.</action>
+      <action>Flag outdated, vulnerable, or problematic dependencies.</action>
+    </step>
+    <step n="4" id="ux-scan" outputs="ux-flow-map.md">
+      <action>Map existing UI flows, screens, navigation patterns, and user journeys.</action>
+      <action>Document component hierarchy and state management patterns.</action>
+    </step>
+    <!-- Wave 2: Step 5 (depends on arch-scan) -->
+    <step n="5" id="nfr-scan" inputs="architecture-map.md" outputs="nfr-baseline.md">
+      <action>Assess non-functional requirement baselines: performance, security, accessibility, reliability.</action>
+      <action>Use the architecture map to identify NFR-relevant components and measure current state.</action>
+    </step>
+    <!-- Wave 3: Step 6 (depends on all previous outputs) -->
+    <step n="6" id="synthesis" inputs="architecture-map.md, api-catalog.md, dependency-graph.md, ux-flow-map.md, nfr-baseline.md" outputs="overture-report.md">
+      <action>Synthesize all scan results into a gap-focused PRD.</action>
+      <action>Identify gaps between current state and desired state.</action>
+      <template-output file="docs/planning-artifacts/overture-report.md">
+        Apply the template from template.md, filling all sections with scan findings and gap analysis.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

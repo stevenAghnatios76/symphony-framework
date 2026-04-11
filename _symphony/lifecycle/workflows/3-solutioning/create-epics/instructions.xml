@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="create-epics">
+  <steps>
+    <step n="1" title="Load architecture and PRD">
+      <action>Read docs/planning-artifacts/architecture.md and docs/planning-artifacts/prd.md.</action>
+    </step>
+    <step n="2" title="Decompose into epics">
+      <action>Decompose the architecture into implementation epics, one per major component or feature area.</action>
+    </step>
+    <step n="3" title="Write acceptance criteria">
+      <action>Write acceptance criteria for each epic that are specific, measurable, and testable.</action>
+    </step>
+    <step n="4" title="Map traceability">
+      <action>Map each epic to its source architecture component and PRD requirement(s).</action>
+    </step>
+    <step n="5" title="Produce epics document">
+      <template-output file="docs/planning-artifacts/epics.md">
+        Apply the template from template.md, filling all sections with epic details.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

@@ -1,0 +1,32 @@
+id: readiness-check
+owner: validator
+model: opus
+description: Verify all planning artifacts are complete and ready for implementation
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [prd, architecture, epics, test-plan, traceability-matrix]
+  optional: []
+
+outputs:
+  primary: docs/planning-artifacts/readiness-report.md
+  traceable_to: [prd, architecture, epics]
+
+gates:
+  pre_start:
+    - All required inputs exist
+  post_complete:
+    - on_pass: all readiness criteria met, next create-story (Phase 4)
+    - on_fail: gaps found, report issues
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

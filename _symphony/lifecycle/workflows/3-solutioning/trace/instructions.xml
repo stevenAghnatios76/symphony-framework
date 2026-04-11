@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="trace">
+  <steps>
+    <step n="1" title="Load all planning artifacts">
+      <action>Read prd.md, architecture.md, epics.md from docs/planning-artifacts/.</action>
+      <action>If acceptance-tests.md or threat-model.md exist, load them as well.</action>
+    </step>
+    <step n="2" title="Build requirement-to-epic mapping">
+      <action>Map each PRD requirement (FR-xxx, NFR-xxx) to its implementing epic(s).</action>
+    </step>
+    <step n="3" title="Build epic-to-test mapping">
+      <action>Map each epic to its acceptance test scenario(s).</action>
+    </step>
+    <step n="4" title="Identify gaps">
+      <action>Identify untraceable requirements: requirements without epics, epics without tests, architecture components without coverage.</action>
+    </step>
+    <step n="5" title="Produce traceability matrix">
+      <template-output file="docs/planning-artifacts/traceability-matrix.md">
+        Apply the template from template.md, filling all sections with the traceability matrix.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

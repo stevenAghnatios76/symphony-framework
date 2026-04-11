@@ -1,0 +1,35 @@
+id: infra-design
+owner: devops-agent
+model: opus
+description: Design infrastructure including hosting, CI/CD, scaling, monitoring, and cost estimates
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [architecture]
+  optional: [threat-model]
+
+outputs:
+  primary: docs/planning-artifacts/infra-design.md
+  traceable_to: [architecture]
+
+gates:
+  pre_start:
+    - architecture.md exists
+  post_complete:
+    - Output has Hosting section
+    - Output has CI/CD section
+    - Output has Scaling section
+    - Output has Monitoring section
+    - Output has Cost Estimate section
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

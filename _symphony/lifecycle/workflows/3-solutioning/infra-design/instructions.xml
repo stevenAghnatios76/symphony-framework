@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="infra-design">
+  <steps>
+    <step n="1" title="Load architecture and threat model">
+      <action>Read docs/planning-artifacts/architecture.md and extract deployment requirements.</action>
+      <action>If threat-model exists, load it for security requirements context.</action>
+    </step>
+    <step n="2" title="Design hosting and deployment">
+      <action>Select hosting platform and design deployment topology: regions, availability zones, container orchestration.</action>
+    </step>
+    <step n="3" title="Design CI/CD pipeline">
+      <action>Design the CI/CD pipeline: build, test, stage, deploy stages with appropriate gates.</action>
+    </step>
+    <step n="4" title="Plan scaling and autoscaling">
+      <action>Design horizontal and vertical scaling strategies with autoscaling triggers and limits.</action>
+    </step>
+    <step n="5" title="Design monitoring and alerting">
+      <action>Design monitoring stack: metrics, logs, traces, dashboards, and alerting rules.</action>
+    </step>
+    <step n="6" title="Estimate costs">
+      <action>Estimate monthly infrastructure costs across environments (dev, staging, production).</action>
+    </step>
+    <step n="7" title="Produce infra design">
+      <template-output file="docs/planning-artifacts/infra-design.md">
+        Apply the template from template.md, filling all sections with infrastructure details.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

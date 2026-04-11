@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="readiness-check">
+  <steps>
+    <step n="1" title="Load all planning artifacts">
+      <action>Read prd.md, architecture.md, epics.md, test-plan.md, traceability-matrix.md from docs/planning-artifacts/.</action>
+    </step>
+    <step n="2" title="Verify artifact completeness">
+      <action>Check each artifact has all required sections as defined by its workflow checklist.</action>
+    </step>
+    <step n="3" title="Verify traceability chain">
+      <action>Confirm the traceability chain is unbroken: brief to PRD to architecture to epic to test.</action>
+    </step>
+    <step n="4" title="Check security mitigations">
+      <action>Verify all security mitigations from the threat model are documented and assigned.</action>
+    </step>
+    <step n="5" title="Check test coverage goals">
+      <action>Verify test coverage goals from the test plan are achievable given the epic decomposition.</action>
+    </step>
+    <step n="6" title="Report readiness">
+      <action>If all criteria met: report READY and recommend proceeding to Phase 4 (create-story).</action>
+      <action>If gaps found: report NOT READY with specific gaps and recommended actions.</action>
+      <template-output file="docs/planning-artifacts/readiness-report.md">
+        Apply the template from template.md, filling all sections with readiness assessment.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

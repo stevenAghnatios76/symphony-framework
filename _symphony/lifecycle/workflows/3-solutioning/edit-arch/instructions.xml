@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="edit-arch">
+  <steps>
+    <step n="1" title="Load architecture and change context">
+      <action>Read docs/planning-artifacts/architecture.md and the change context describing what needs to change.</action>
+    </step>
+    <step n="2" title="Identify affected components">
+      <action>Analyze the change request and identify all affected components, APIs, and data models.</action>
+    </step>
+    <step n="3" title="Apply changes">
+      <action>Update affected sections of the architecture document while maintaining consistency.</action>
+    </step>
+    <step n="4" title="Update ADRs">
+      <action>Create or update ADRs for any new architectural decisions resulting from the changes.</action>
+    </step>
+    <step n="5" title="Persist updated architecture">
+      <action>Write the updated architecture back to docs/planning-artifacts/architecture.md.</action>
+    </step>
+  </steps>
+</instructions>

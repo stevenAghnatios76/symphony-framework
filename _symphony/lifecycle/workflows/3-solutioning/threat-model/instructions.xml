@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="threat-model">
+  <steps>
+    <step n="1" title="Load architecture">
+      <action>Read docs/planning-artifacts/architecture.md and extract components, APIs, data flows, and trust boundaries.</action>
+    </step>
+    <step n="2" title="Identify attack surfaces">
+      <action>Map all attack surfaces: external interfaces, data entry points, authentication boundaries, third-party integrations.</action>
+    </step>
+    <step n="3" title="Apply STRIDE per component">
+      <action>For each component, analyze threats using STRIDE: Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege.</action>
+    </step>
+    <step n="4" title="Propose mitigations">
+      <action>For each identified threat, propose specific mitigations with implementation guidance.</action>
+    </step>
+    <step n="5" title="Document residual risks">
+      <action>Document residual risks that cannot be fully mitigated, with risk ratings and acceptance rationale.</action>
+    </step>
+    <step n="6" title="Produce threat model">
+      <template-output file="docs/planning-artifacts/threat-model.md">
+        Apply the template from template.md, filling all sections with threat analysis.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

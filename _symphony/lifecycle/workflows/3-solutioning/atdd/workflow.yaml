@@ -1,0 +1,32 @@
+id: atdd
+owner: test-architect
+model: opus
+description: Write acceptance test scenarios in Given/When/Then format for each epic
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [epics]
+  optional: [test-plan]
+
+outputs:
+  primary: docs/planning-artifacts/acceptance-tests.md
+  traceable_to: [epics]
+
+gates:
+  pre_start:
+    - epics.md exists
+  post_complete:
+    - Each epic has at least one acceptance test scenario
+    - All scenarios use Given/When/Then format
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

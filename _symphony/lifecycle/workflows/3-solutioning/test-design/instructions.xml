@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="test-design">
+  <steps>
+    <step n="1" title="Load architecture">
+      <action>Read docs/planning-artifacts/architecture.md and extract components, APIs, and data model.</action>
+      <action>If PRD exists, load it for requirements context.</action>
+    </step>
+    <step n="2" title="Define test strategy and pyramid">
+      <action>Define the overall test strategy: unit, integration, e2e, performance, security.</action>
+      <action>Design the test pyramid with ratios for each level.</action>
+    </step>
+    <step n="3" title="Set coverage goals">
+      <action>Set coverage goals per component: line coverage, branch coverage, critical path coverage.</action>
+    </step>
+    <step n="4" title="Select test framework">
+      <action>Select test frameworks and tools for each test level with rationale.</action>
+    </step>
+    <step n="5" title="Plan CI integration">
+      <action>Design how tests integrate into CI/CD: stages, parallelism, gates, reporting.</action>
+    </step>
+    <step n="6" title="Produce test plan">
+      <template-output file="docs/planning-artifacts/test-plan.md">
+        Apply the template from template.md, filling all sections with test design details.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

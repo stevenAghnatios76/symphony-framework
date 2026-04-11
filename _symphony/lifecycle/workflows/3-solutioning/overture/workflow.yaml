@@ -1,0 +1,35 @@
+id: overture
+owner: validator
+model: opus
+description: Parallel-wave codebase scan producing architecture map, API catalog, dependency graph, and gap-focused PRD
+
+execution:
+  mode: parallel-waves
+  wave_eligible: true
+  max_wave_siblings: 4
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [source-code]
+  optional: []
+
+outputs:
+  primary: docs/planning-artifacts/overture-report.md
+  traceable_to: []
+
+gates:
+  pre_start:
+    - Source code exists at project_path
+  post_complete:
+    - Output has Architecture Map section
+    - Output has API Catalog section
+    - Output has Dependency Graph section
+    - Output has NFR Baseline section
+    - Output has Gap PRD section
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

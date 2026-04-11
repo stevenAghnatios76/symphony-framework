@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="atdd">
+  <steps>
+    <step n="1" title="Load epics">
+      <action>Read docs/planning-artifacts/epics.md and extract all epics with their acceptance criteria.</action>
+      <action>If test-plan exists, load it for testing strategy context.</action>
+    </step>
+    <step n="2" title="Write acceptance test scenarios">
+      <action>For each epic, write acceptance test scenarios in Given/When/Then format.</action>
+      <action>Cover happy path, error cases, and edge cases.</action>
+    </step>
+    <step n="3" title="Map tests to epics">
+      <action>Create a mapping from each test scenario to its source epic and acceptance criterion.</action>
+    </step>
+    <step n="4" title="Produce acceptance tests document">
+      <template-output file="docs/planning-artifacts/acceptance-tests.md">
+        Apply the template from template.md, filling all sections with test scenarios.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

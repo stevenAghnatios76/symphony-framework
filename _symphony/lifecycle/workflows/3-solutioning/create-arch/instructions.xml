@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="create-arch">
+  <steps>
+    <step n="1" title="Load PRD and available artifacts">
+      <action>Read docs/planning-artifacts/prd.md and extract requirements.</action>
+      <action>If ux-spec or tech-research exist, load them for additional context.</action>
+    </step>
+    <step n="2" title="Design system overview">
+      <action>Create a high-level system overview: context diagram, system boundaries, external integrations.</action>
+    </step>
+    <step n="3" title="Define components and boundaries">
+      <action>Decompose the system into components with clear responsibilities and boundaries.</action>
+      <action>Define component interfaces and communication patterns.</action>
+    </step>
+    <step n="4" title="Design API contracts">
+      <action>Define API contracts for each component: endpoints, request/response schemas, error handling.</action>
+    </step>
+    <step n="5" title="Design data model">
+      <action>Design the data model: entities, relationships, constraints, and storage strategy.</action>
+    </step>
+    <step n="6" title="Select technology stack">
+      <action>Select technologies for each architectural concern with clear rationale.</action>
+      <action>Document trade-offs and alternatives considered.</action>
+    </step>
+    <step n="7" title="Document architecture decision records">
+      <action>Write ADRs for each significant architectural decision: context, decision, consequences.</action>
+    </step>
+    <step n="8" title="Produce architecture document">
+      <template-output file="docs/planning-artifacts/architecture.md">
+        Apply the template from template.md, filling all sections with architecture details.
+      </template-output>
+    </step>
+  </steps>
+</instructions>
