@@ -1,0 +1,32 @@
+id: validate-prd
+owner: validator
+model: opus
+description: Validate PRD for completeness, traceability, and testability
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [prd, product-brief]
+  optional: []
+
+outputs:
+  primary: validation-report-inline
+  traceable_to: [prd, product-brief]
+
+gates:
+  pre_start:
+    - prd.md exists
+  post_complete:
+    - on_pass: all checks pass, next create-ux
+    - on_fail: issues found, next edit-prd
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

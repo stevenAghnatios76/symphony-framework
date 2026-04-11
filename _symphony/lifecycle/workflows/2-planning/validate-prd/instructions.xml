@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="validate-prd">
+  <steps>
+    <step n="1" title="Load artifacts">
+      <action>Read docs/planning-artifacts/prd.md and docs/planning-artifacts/product-brief.md.</action>
+    </step>
+    <step n="2" title="Check completeness">
+      <action>Verify all required PRD sections are present: Requirements (FR-xxx), NFRs (NFR-xxx), Acceptance Criteria, In Scope, Out of Scope.</action>
+    </step>
+    <step n="3" title="Check traceability">
+      <action>Verify every functional requirement traces back to a feature or goal in the product brief.</action>
+    </step>
+    <step n="4" title="Check testability">
+      <action>Verify every acceptance criterion is specific, measurable, and testable.</action>
+    </step>
+    <step n="5" title="Report results">
+      <action>If all checks pass: report PASS with summary. Route to create-ux.</action>
+      <action>If issues found: report FAIL with specific issues listed. Route to edit-prd.</action>
+    </step>
+  </steps>
+</instructions>

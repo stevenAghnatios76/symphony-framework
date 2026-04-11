@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="create-ux">
+  <steps>
+    <step n="1" title="Load PRD">
+      <action>Read docs/planning-artifacts/prd.md and extract functional requirements and acceptance criteria.</action>
+      <action>If product-brief exists, load it for additional user context.</action>
+    </step>
+    <step n="2" title="Map user flows">
+      <action>Design user flows for each key feature, mapping the user journey from entry to completion.</action>
+    </step>
+    <step n="3" title="Design wireframes">
+      <action>Create text-based wireframe descriptions for each screen in the user flows.</action>
+    </step>
+    <step n="4" title="Define interaction patterns">
+      <action>Specify interaction patterns: navigation, form handling, feedback, error states, loading states.</action>
+    </step>
+    <step n="5" title="Document responsive and accessibility notes">
+      <action>Document responsive behavior across breakpoints and initial accessibility considerations.</action>
+    </step>
+    <step n="6" title="Produce UX spec">
+      <template-output file="docs/planning-artifacts/ux-spec.md">
+        Apply the template from template.md, filling all sections with UX design details.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

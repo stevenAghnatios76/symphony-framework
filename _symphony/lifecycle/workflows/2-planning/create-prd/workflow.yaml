@@ -1,0 +1,35 @@
+id: create-prd
+owner: product-manager
+model: opus
+description: Transform product brief into a detailed product requirements document
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [product-brief]
+  optional: []
+
+outputs:
+  primary: docs/planning-artifacts/prd.md
+  traceable_to: [product-brief]
+
+gates:
+  pre_start:
+    - product-brief exists and is approved
+  post_complete:
+    - PRD has Requirements section with unique IDs (FR-xxx)
+    - PRD has NFRs section with unique IDs (NFR-xxx)
+    - PRD has Acceptance Criteria section
+    - PRD has In Scope section
+    - PRD has Out of Scope section
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

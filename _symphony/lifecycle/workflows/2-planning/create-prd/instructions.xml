@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="create-prd">
+  <steps>
+    <step n="1" title="Load product brief">
+      <action>Read docs/planning-artifacts/product-brief.md and extract vision, goals, features, and constraints.</action>
+    </step>
+    <step n="2" title="Discover functional requirements">
+      <action>Collaborate with the user to discover functional requirements from each feature in the brief.</action>
+      <action>Assign unique IDs (FR-001, FR-002, ...) to each requirement.</action>
+    </step>
+    <step n="3" title="Define non-functional requirements">
+      <action>Define NFRs for performance, security, scalability, reliability, and usability.</action>
+      <action>Assign unique IDs (NFR-001, NFR-002, ...) to each NFR.</action>
+    </step>
+    <step n="4" title="Write acceptance criteria">
+      <action>Write testable acceptance criteria for each functional requirement.</action>
+    </step>
+    <step n="5" title="Define scope boundaries">
+      <action>Clearly define what is In Scope and Out of Scope for the release.</action>
+    </step>
+    <step n="6" title="Produce PRD">
+      <template-output file="docs/planning-artifacts/prd.md">
+        Apply the template from template.md, filling all sections with requirements.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

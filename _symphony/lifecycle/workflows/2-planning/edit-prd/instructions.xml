@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="edit-prd">
+  <steps>
+    <step n="1" title="Load PRD and feedback">
+      <action>Read docs/planning-artifacts/prd.md and the validation feedback from validate-prd.</action>
+    </step>
+    <step n="2" title="Address each issue">
+      <action>For each validation issue, determine the appropriate fix: add missing content, clarify ambiguous requirements, strengthen acceptance criteria.</action>
+    </step>
+    <step n="3" title="Update PRD sections">
+      <action>Apply all fixes to the PRD, maintaining requirement IDs and traceability.</action>
+    </step>
+    <step n="4" title="Persist updated PRD">
+      <action>Write the updated PRD back to docs/planning-artifacts/prd.md.</action>
+    </step>
+  </steps>
+</instructions>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="review-a11y">
+  <steps>
+    <step n="1" title="Load UX spec">
+      <action>Read docs/planning-artifacts/ux-spec.md and extract all user flows, wireframes, and interaction patterns.</action>
+    </step>
+    <step n="2" title="Evaluate WCAG compliance">
+      <action>Evaluate each screen and interaction against WCAG 2.1 AA success criteria.</action>
+      <action>Check: perceivable, operable, understandable, robust.</action>
+    </step>
+    <step n="3" title="Identify accessibility issues">
+      <action>Document each issue with severity (critical, major, minor), affected component, and WCAG criterion violated.</action>
+    </step>
+    <step n="4" title="Recommend fixes">
+      <action>For each issue, provide a specific, actionable recommendation to achieve compliance.</action>
+    </step>
+    <step n="5" title="Produce review report">
+      <template-output file="docs/planning-artifacts/a11y-review.md">
+        Apply the template from template.md, filling all sections with review findings.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

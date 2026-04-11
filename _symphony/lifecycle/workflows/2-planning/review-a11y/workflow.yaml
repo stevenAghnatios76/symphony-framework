@@ -1,0 +1,33 @@
+id: review-a11y
+owner: test-architect
+model: opus
+description: Review UX specification for WCAG accessibility compliance
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [ux-spec]
+  optional: []
+
+outputs:
+  primary: docs/planning-artifacts/a11y-review.md
+  traceable_to: [ux-spec]
+
+gates:
+  pre_start:
+    - ux-spec.md exists
+  post_complete:
+    - Output has WCAG Compliance section
+    - Output has Issues Found section
+    - Output has Recommendations section
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true
