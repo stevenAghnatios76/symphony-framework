@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="domain-research">
+  <steps>
+    <step n="1" title="Define domain scope">
+      <action>Collaborate with the user to define the domain scope and boundaries.</action>
+      <action>If product-brief or market-research exist, load them for context.</action>
+    </step>
+    <step n="2" title="Research domain concepts and terminology">
+      <action>Identify core domain concepts, entities, and relationships.</action>
+      <action>Build a glossary of domain-specific terminology.</action>
+    </step>
+    <step n="3" title="Identify standards and regulations">
+      <action>Research applicable industry standards (ISO, IEEE, W3C, etc.).</action>
+      <action>Identify regulatory requirements (GDPR, HIPAA, SOC2, etc.) relevant to the domain.</action>
+    </step>
+    <step n="4" title="Document domain model">
+      <action>Create a conceptual domain model showing entities, relationships, and invariants.</action>
+    </step>
+    <step n="5" title="Produce report">
+      <template-output file="docs/planning-artifacts/domain-research.md">
+        Apply the template from template.md, filling all sections with research findings.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

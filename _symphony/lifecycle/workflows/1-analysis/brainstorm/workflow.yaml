@@ -1,0 +1,30 @@
+id: brainstorm
+owner: product-manager
+model: opus
+description: Multi-agent brainstorming roundtable to explore the idea space
+
+execution:
+  mode: ensemble
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: [product-manager, architect, research-analyst]
+  ensemble_turn_policy: round-robin
+  max_turns: 12
+
+inputs:
+  required: []
+  optional: []
+
+outputs:
+  primary: docs/planning-artifacts/brainstorm-transcript.md
+  traceable_to: []
+
+gates:
+  pre_start: []
+  post_complete:
+    - Transcript has at least 3 participant contributions
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

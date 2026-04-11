@@ -1,0 +1,33 @@
+id: market-research
+owner: research-analyst
+model: opus
+description: Analyze market landscape, competitors, opportunities, and risks
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: []
+  optional: [product-brief]
+
+outputs:
+  primary: docs/planning-artifacts/market-research.md
+  traceable_to: []
+
+gates:
+  pre_start: []
+  post_complete:
+    - Output has Market Overview section
+    - Output has Competitors section
+    - Output has Opportunities section
+    - Output has Risks section
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

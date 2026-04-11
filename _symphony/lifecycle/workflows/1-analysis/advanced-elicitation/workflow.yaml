@@ -1,0 +1,34 @@
+id: advanced-elicitation
+owner: research-analyst
+model: opus
+description: Structured requirements elicitation to surface hidden needs, assumptions, and constraints
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [product-brief]
+  optional: [market-research, domain-research, tech-research]
+
+outputs:
+  primary: docs/planning-artifacts/elicitation-report.md
+  traceable_to: [product-brief]
+
+gates:
+  pre_start:
+    - product-brief exists
+  post_complete:
+    - Output has Stakeholder Needs section
+    - Output has Assumptions section
+    - Output has Constraints section
+    - Output has Dependencies section
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

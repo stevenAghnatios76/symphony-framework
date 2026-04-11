@@ -1,0 +1,33 @@
+id: domain-research
+owner: research-analyst
+model: opus
+description: Research domain concepts, terminology, standards, and regulations
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: []
+  optional: [product-brief, market-research]
+
+outputs:
+  primary: docs/planning-artifacts/domain-research.md
+  traceable_to: []
+
+gates:
+  pre_start: []
+  post_complete:
+    - Output has Domain Model section
+    - Output has Terminology section
+    - Output has Standards section
+    - Output has Regulations section
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

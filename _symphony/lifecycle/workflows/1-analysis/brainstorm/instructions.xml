@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="brainstorm">
+  <setup>
+    <action>If any research artifacts exist in docs/planning-artifacts/ (market-research.md, domain-research.md, tech-research.md), load them as context for the discussion.</action>
+  </setup>
+
+  <topic>
+    Explore the user's idea from multiple perspectives. The Product Manager drives the conversation toward actionable requirements. The Architect evaluates technical feasibility and flags risks. The Research Analyst identifies unknowns and suggests areas for investigation. Goal: converge on a shared understanding of what to build, for whom, and why.
+  </topic>
+
+  <synthesis>
+    <action>Extract from the transcript: (1) Key decisions made, (2) Open questions remaining, (3) Recommended next steps (typically market-research or product-brief).</action>
+    <template-output file="docs/planning-artifacts/brainstorm-transcript.md">
+      Apply the template from template.md. Include the full transcript followed by the synthesis section.
+    </template-output>
+  </synthesis>
+</instructions>

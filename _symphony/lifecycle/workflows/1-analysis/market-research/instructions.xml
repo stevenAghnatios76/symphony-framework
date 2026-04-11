@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="market-research">
+  <steps>
+    <step n="1" title="Define research scope">
+      <action>Collaborate with the user to define the market research scope: target market, geography, and time horizon.</action>
+      <action>If product-brief exists, load it for context.</action>
+    </step>
+    <step n="2" title="Analyze market landscape">
+      <action>Research the overall market: size, growth trends, key players, and market dynamics.</action>
+    </step>
+    <step n="3" title="Identify competitors">
+      <action>Identify direct and indirect competitors. Document their strengths, weaknesses, market position, and differentiators.</action>
+    </step>
+    <step n="4" title="Map opportunities and risks">
+      <action>Identify market opportunities the product can exploit.</action>
+      <action>Document risks: regulatory, competitive, technological, and market risks.</action>
+    </step>
+    <step n="5" title="Produce report">
+      <template-output file="docs/planning-artifacts/market-research.md">
+        Apply the template from template.md, filling all sections with research findings.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

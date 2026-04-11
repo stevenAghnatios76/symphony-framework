@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="tech-research">
+  <steps>
+    <step n="1" title="Define evaluation criteria">
+      <action>Extract evaluation criteria from requirements and constraints.</action>
+      <action>If product-brief or domain-research exist, load them for context.</action>
+    </step>
+    <step n="2" title="Research technology options">
+      <action>Identify candidate technologies, frameworks, and platforms for each architectural concern.</action>
+    </step>
+    <step n="3" title="Evaluate against criteria">
+      <action>Score each technology option against the defined criteria.</action>
+      <action>Document trade-offs for each option.</action>
+    </step>
+    <step n="4" title="Recommend with trade-offs">
+      <action>Provide a clear recommendation with rationale and trade-off analysis.</action>
+    </step>
+    <step n="5" title="Produce report">
+      <template-output file="docs/planning-artifacts/tech-research.md">
+        Apply the template from template.md, filling all sections with research findings.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

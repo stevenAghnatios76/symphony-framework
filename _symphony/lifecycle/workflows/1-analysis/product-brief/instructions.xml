@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="product-brief">
+  <steps>
+    <step n="1" title="Gather context">
+      <action>Load any available research artifacts: brainstorm transcript, market research, domain research, tech research, elicitation report.</action>
+      <action>If no artifacts exist, gather context directly from the user.</action>
+    </step>
+    <step n="2" title="Define vision and goals">
+      <action>Articulate the product vision: what does the product do and why does it matter?</action>
+      <action>Define measurable goals aligned with the vision.</action>
+    </step>
+    <step n="3" title="Identify target users">
+      <action>Define target user personas with demographics, needs, pain points, and usage patterns.</action>
+    </step>
+    <step n="4" title="List key features">
+      <action>Enumerate key features with priority levels (must-have, should-have, nice-to-have).</action>
+      <action>Map each feature to a user need or goal.</action>
+    </step>
+    <step n="5" title="Define success metrics">
+      <action>Define quantifiable success metrics and KPIs for launch and post-launch.</action>
+    </step>
+    <step n="6" title="Document constraints">
+      <action>Document technical, business, regulatory, and timeline constraints.</action>
+    </step>
+    <step n="7" title="Produce brief">
+      <template-output file="docs/planning-artifacts/product-brief.md">
+        Apply the template from template.md, filling all sections comprehensively.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

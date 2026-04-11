@@ -1,0 +1,36 @@
+id: product-brief
+owner: product-manager
+model: opus
+description: Synthesize research and user input into a comprehensive product brief
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: []
+  optional: [brainstorm-transcript, market-research, domain-research, tech-research, elicitation-report]
+
+outputs:
+  primary: docs/planning-artifacts/product-brief.md
+  traceable_to: []
+
+gates:
+  pre_start: []
+  post_complete:
+    - Output has Vision section
+    - Output has Goals section
+    - Output has Target Users section
+    - Output has Key Features section
+    - Output has Success Metrics section
+    - Output has Constraints section
+    - Self-critique confidence >= 0.85
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="advanced-elicitation">
+  <steps>
+    <step n="1" title="Load context">
+      <action>Load product brief from docs/planning-artifacts/product-brief.md.</action>
+      <action>If market-research, domain-research, or tech-research exist, load them as additional context.</action>
+    </step>
+    <step n="2" title="Identify gaps and ambiguities">
+      <action>Analyze the product brief for gaps, ambiguities, and unstated assumptions.</action>
+      <action>Identify areas where requirements are vague or contradictory.</action>
+    </step>
+    <step n="3" title="Structured questioning">
+      <action>Conduct structured elicitation with the user using techniques: scenario-based questioning, boundary analysis, assumption challenging.</action>
+      <ask>Walk through each identified gap with targeted questions.</ask>
+    </step>
+    <step n="4" title="Document findings">
+      <action>Organize findings into stakeholder needs, assumptions, constraints, and dependencies.</action>
+    </step>
+    <step n="5" title="Produce report">
+      <template-output file="docs/planning-artifacts/elicitation-report.md">
+        Apply the template from template.md, filling all sections with elicitation findings.
+      </template-output>
+    </step>
+  </steps>
+</instructions>
