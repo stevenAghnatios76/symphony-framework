@@ -31,6 +31,14 @@
   </advisory-patterns>
 
   <flow>
+    <step n="0" title="Check enabled state">
+      <action>Read symphony.enabled from _symphony/_config/global.yaml.</action>
+      <action>If symphony.enabled is false:</action>
+      <action>  PRINT "Symphony is currently disabled. Run /symphony-toggle to re-enable."</action>
+      <action>  EXIT immediately. Do not proceed to any further step.</action>
+      <action>If symphony.enabled is true or absent (default true): continue to step 1.</action>
+    </step>
+
     <step n="1" title="Receive user goal">
       <action>Receive the user's natural-language goal from the /symphony command invocation.</action>
       <action>If the user named a specific workflow (e.g., "/symphony-dev-story"), skip to step 6 with that workflow. Confidence = 1.0 (user-explicit).</action>

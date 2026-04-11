@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Trello Integration Instructions — tells the Conductor and workflow engine
+  when and how to call Trello MCP tools.
+  See spec: Hub/Trello/Toggle §3.8, §3.9
+-->
+<trello-instructions version="0.0.1">
+  <mandates>
+    <mandate>All Trello operations go through MCP tools. No direct API calls.</mandate>
+    <mandate>Check integrations.trello.enabled in global.yaml before any Trello operation. Skip silently if disabled.</mandate>
+    <mandate>Hook failures are non-blocking. Log a warning and continue the workflow.</mandate>
+    <mandate>Every card must contain a symphony-id comment in its description for bidirectional mapping.</mandate>
+  </mandates>
+
+  <push-sync description="Symphony → Trello. Triggered by artifact-enrichment-hook after status-sync.">
+    <step n="1" title="Check prerequisites">
+      <action>Read integrations.trello.enabled from global.yaml. If false: return (no-op).</action>
+      <action>Read integrations.trello.board_id. If empty: log warning "Trello board_id not configured. Run /symphony-trello-setup." Return.</action>
+    </step>
+
+    <step n="2" title="Determine event type">
+      <action>Read the changed artifact. Determine if this is: new story, status change, content update, or archive.</action>
+    </step>
+
+    <step n="3" title="Map and dispatch">
+      <action>Read mapper.yaml for field mapping.</action>
+      <action>Read integrations.trello.columns from global.yaml for column name mapping.</action>
+
+      <branch if="new story">
+        <action>Read the story file. Extract: id, title, status, acceptance_criteria, traces_to.</action>
+        <action>Render card description from templates/card-description.md.tmpl.</action>
+        <action>Call MCP tool: createCard with name=title, desc=rendered_description, idList=column_for_status.</action>
+        <action>If acceptance_criteria exist: call MCP tool: createChecklistOnCard with name="Acceptance Criteria" and items from criteria.</action>
+        <action>If traces_to exists: call MCP tool: addLabelToCard with label matching the epic/requirement ID.</action>
+      </branch>
+
+      <branch if="status change">
+        <action>Find card on board: call MCP tool: getBoardCards. Match by symphony-id in description.</action>
+        <action>Look up target column from mapper.yaml status_to_column mapping.</action>
+        <action>Call MCP tool: moveCard with card id and target list id.</action>
+      </branch>
+
+      <branch if="content update">
+        <action>Find card on board by symphony-id.</action>
+        <action>Re-render description from template. Call MCP tool: updateCard.</action>
+      </branch>
+
+      <branch if="story archived">
+        <action>Find card on board by symphony-id.</action>
+        <action>Call MCP tool: archiveCard.</action>
+      </branch>
+    </step>
+
+    <step n="4" title="Handle errors">
+      <action>If any MCP call fails: log warning with error details. Do NOT halt the workflow.</action>
+      <action>Log to _symphony/_memory/conductor-sidecar/ for Hub dashboard display.</action>
+    </step>
+  </push-sync>
+
+  <pull-sync description="Trello → Symphony. Triggered by /symphony-trello-sync command.">
+    <step n="1" title="Read board state">
+      <action>Read integrations.trello.board_id from global.yaml.</action>
+      <action>Call MCP tool: getBoardCards for the board. Get all cards with their list positions.</action>
+      <action>Call MCP tool: getListCards for each configured column to get list IDs.</action>
+    </step>
+
+    <step n="2" title="Match cards to stories">
+      <action>For each card: extract symphony-id from description (pattern: &lt;!-- symphony-id: {id} --&gt;).</action>
+      <action>Cards without symphony-id: skip (not managed by Symphony).</action>
+      <action>For each matched card: look up story file at docs/implementation-artifacts/stories/{story_id}.md.</action>
+    </step>
+
+    <step n="3" title="Compare and sync">
+      <action>For each matched card-story pair:</action>
+      <action>  Map card's current list to a Symphony status via mapper.yaml (reverse lookup).</action>
+      <action>  Compare mapped status to story file's current status.</action>
+      <action>  If they match: no action needed.</action>
+      <action>  If they differ: update story file's status to match Trello (Trello wins).</action>
+      <action>  Run status-sync protocol to propagate the change.</action>
+      <action>  Log the sync action.</action>
+    </step>
+
+    <step n="4" title="Report results">
+      <action>Print summary: X stories synced, Y conflicts resolved (Trello won), Z cards skipped (no symphony-id).</action>
+    </step>
+  </pull-sync>
+
+  <setup description="Guided setup via /symphony-trello-setup.">
+    <step n="1" title="Check MCP server">
+      <action>Check if .mcp.json exists at project root. If not: create it from template.</action>
+      <action>Check if TRELLO_API_KEY and TRELLO_TOKEN environment variables are set.</action>
+      <action>If not set: instruct user to get API key from https://trello.com/app-key and generate a token.</action>
+    </step>
+
+    <step n="2" title="Configure board">
+      <action>Call MCP tool: listBoards (or getUserBoards) to show available boards.</action>
+      <action>Ask user to pick a board. Write board_id to global.yaml → integrations.trello.board_id.</action>
+    </step>
+
+    <step n="3" title="Map columns">
+      <action>Call MCP tool: getLists for the selected board.</action>
+      <action>Show the lists. Ask user to map: which list is Backlog? In Progress? In Review? Done?</action>
+      <action>Write column names to global.yaml → integrations.trello.columns.</action>
+    </step>
+
+    <step n="4" title="Enable integration">
+      <action>Set integrations.trello.enabled: true in global.yaml.</action>
+      <action>Print: "Trello integration configured. Board: {name}. Run /symphony-trello-sync for initial sync."</action>
+    </step>
+  </setup>
+</trello-instructions>

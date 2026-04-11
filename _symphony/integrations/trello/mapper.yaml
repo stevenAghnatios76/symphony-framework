@@ -1,0 +1,45 @@
+# Trello mapper — maps Symphony concepts to Trello concepts.
+# See spec: Hub/Trello/Toggle §3.7
+
+# Story status → Trello column mapping.
+# Column names reference global.yaml → integrations.trello.columns.
+# The actual Trello list names are user-configurable there.
+status_to_column:
+  draft: backlog
+  ready-for-dev: backlog
+  in-progress: in_progress
+  in-review: in_review
+  done: done
+
+# Story fields → Trello card fields.
+story_to_card:
+  title: "card.name"
+  status: "card.list (via status_to_column)"
+  acceptance_criteria: "card.checklist named 'Acceptance Criteria'"
+  traces_to: "card.label"
+  sprint: "card.label"
+  description: "card.desc (rendered from card-description.md.tmpl)"
+
+# Identification: how to match cards to stories bidirectionally.
+# The symphony-id is embedded in the card description header.
+identity:
+  card_field: "description"
+  pattern: "<!-- symphony-id: {story_id} -->"
+  story_field: "frontmatter.id"
+
+# Review gates → Trello checklist.
+review_gates:
+  checklist_name: "Review Gates"
+  items:
+    - code-review
+    - qa-tests
+    - security-review
+    - test-automation
+    - test-review
+    - performance-review
+
+# Conflict resolution policy.
+conflicts:
+  strategy: "trello-wins"
+  reason: "User's manual action in Trello takes priority"
+  log_to: "hub-dashboard"

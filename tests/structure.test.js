@@ -129,6 +129,24 @@ describe('Symphony repo structure (architecture spec §4.1)', () => {
     });
   });
 
+  describe('_symphony/hub', () => {
+    it('has hub directory', () => {
+      expect(exists('_symphony/hub')).toBe(true);
+    });
+    it('has hub/public directory', () => {
+      expect(exists('_symphony/hub/public')).toBe(true);
+    });
+  });
+
+  describe('_symphony/integrations/trello', () => {
+    it('has trello integration directory', () => {
+      expect(exists('_symphony/integrations/trello')).toBe(true);
+    });
+    it('has trello templates directory', () => {
+      expect(exists('_symphony/integrations/trello/templates')).toBe(true);
+    });
+  });
+
   describe('adapters/claude-code', () => {
     it('has adapter.yaml', () => {
       expect(exists('adapters/claude-code/adapter.yaml')).toBe(true);

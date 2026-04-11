@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Symphony Hub</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Symphony Hub</h1>
+    <div id="framework-badge">
+      <span id="status-dot"></span>
+      <span id="status-text">Loading...</span>
+      <span id="version"></span>
+    </div>
+  </header>
+
+  <nav>
+    <button class="nav-btn active" data-panel="lifecycle">Lifecycle</button>
+    <button class="nav-btn" data-panel="sprint">Sprint</button>
+    <button class="nav-btn" data-panel="context">Context Budget</button>
+    <button class="nav-btn" data-panel="commands">Commands</button>
+    <button class="nav-btn" data-panel="memory">Memory</button>
+    <button class="nav-btn" data-panel="status">Framework</button>
+  </nav>
+
+  <main>
+    <section id="panel-lifecycle" class="panel active"></section>
+    <section id="panel-sprint" class="panel"></section>
+    <section id="panel-context" class="panel"></section>
+    <section id="panel-commands" class="panel"></section>
+    <section id="panel-memory" class="panel"></section>
+    <section id="panel-status" class="panel"></section>
+  </main>
+
+  <footer>
+    <span id="last-updated">Last updated: —</span>
+    <span id="trello-sync-status"></span>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>
