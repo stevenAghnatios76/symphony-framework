@@ -220,14 +220,14 @@
     <div class="fw-name">Symphony</div>
     <div class="fw-tagline">"Orchestrate your code"</div>
     <div class="fw-stats">
-      Engine: <strong>4/5 runtime</strong> (wave-executor in progress)<br>
+      Engine: <strong>5/5 runtime</strong><br>
       Protocols: <strong>9/9 runtime</strong><br>
+      Adapters: <strong>2/2 implemented</strong><br>
       Lifecycle Seq: <strong>40+ transitions</strong><br>
       Agents: <strong>0 built / ~15 planned</strong><br>
       Workflows: <strong>0 built / ~45 planned</strong><br>
-      Exec Modes: <strong>3</strong> (seq / waves / ensemble)<br>
-      Tools: <strong>2</strong> (Claude Code, Copilot)<br>
-      Status: <strong>v0.0.2-alpha</strong> — ~45% built
+      Tests: <strong>233 passing</strong><br>
+      Status: <strong>v0.0.2-alpha</strong> — ~55% built
     </div>
   </div>
   <div class="fw-card gaia">
@@ -338,7 +338,7 @@
     </tr>
     <tr>
       <td>Parallel Execution</td>
-      <td class="cell-leads">Wave Executor: DAG &rarr; &le;4 parallel + integration gates + conflict detection</td>
+      <td class="cell-leads">Wave Executor: DAG &rarr; &le;4 parallel + integration gates + conflict detection <span class="pill leads">BUILT</span></td>
       <td class="cell-missing">No native parallelism</td>
       <td class="cell-partial">Fresh context per agent (no coordination)</td>
       <td class="cell-partial">runSubagent up to 4 concurrent (no gates)</td>
@@ -346,7 +346,7 @@
     </tr>
     <tr>
       <td>Execution Modes</td>
-      <td class="cell-leads">3: sequential, parallel-waves, ensemble</td>
+      <td class="cell-leads">3: sequential, parallel-waves, ensemble <span class="pill leads">BUILT</span></td>
       <td class="dim">1: sequential only</td>
       <td class="dim">1: sequential + subagent spawn</td>
       <td class="dim">1: sequential + subagent spawn</td>
@@ -354,7 +354,7 @@
     </tr>
     <tr>
       <td>Interaction Modes</td>
-      <td class="cell-leads">3: normal, YOLO, planning</td>
+      <td class="cell-leads">3: normal, YOLO, planning <span class="pill leads">BUILT</span></td>
       <td class="dim">1: normal</td>
       <td class="dim">1: normal</td>
       <td class="cell-partial">discuss + skip discussion</td>
@@ -394,7 +394,7 @@
     </tr>
     <tr>
       <td>Multi-Tool Support</td>
-      <td class="cell-strong">2 adapters (Claude Code, Copilot) + clean extension model</td>
+      <td class="cell-strong">2 adapters (Claude Code, Copilot) + clean extension model <span class="pill leads">BUILT</span></td>
       <td class="cell-missing">Claude Code only</td>
       <td class="cell-leads">10+ tools: Claude, Gemini, Codex, Copilot, Cursor, Kilo, Trae, Cline, Augment</td>
       <td class="cell-missing">Gemini CLI only</td>
@@ -410,7 +410,7 @@
     </tr>
     <tr>
       <td>Brownfield Onboarding</td>
-      <td class="cell-leads">Overture: parallel-wave scan &rarr; arch map, API catalog, dep graph, NFR baseline, gap PRD</td>
+      <td class="cell-leads">Overture: parallel-wave scan &rarr; arch map, API catalog, dep graph, NFR baseline, gap PRD <span class="pill planned">ENGINE READY</span></td>
       <td class="cell-strong">/gaia-brownfield: sequential scan &rarr; onboarding docs</td>
       <td class="cell-partial">/gsd-new-project --auto: basic extraction</td>
       <td class="cell-missing">No onboarding support</td>
@@ -768,7 +768,7 @@
 
 <!-- ═══════ FOOTER ═══════ -->
 <div class="footer">
-  SYMPHONY Framework Comparison Dashboard &mdash; Last updated: 2026-04-10 &mdash; Compared against: Gaia v1.7.1, GSD (latest), Gem Team (latest)
+  SYMPHONY Framework Comparison Dashboard &mdash; Last updated: 2026-04-12 &mdash; Compared against: Gaia v1.7.1, GSD (latest), Gem Team (latest)
 </div>
 
 </body>
