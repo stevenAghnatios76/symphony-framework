@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="sprint-status">
+  <steps>
+    <step n="1" title="Load sprint-status">
+      <action>Read the current sprint-status.md from docs/implementation-artifacts/.</action>
+    </step>
+    <step n="2" title="Count stories by status">
+      <action>Count stories in each status: to-do, in-progress, in-review, done. Update the status table.</action>
+    </step>
+    <step n="3" title="Identify blockers">
+      <action>Identify any blocked stories and document the blocking issues.</action>
+    </step>
+    <step n="4" title="Update burndown">
+      <action>Update the burndown data with current progress metrics.</action>
+    </step>
+    <step n="5" title="Report status">
+      <action>Update docs/implementation-artifacts/sprint-status.md with the latest status information.</action>
+    </step>
+  </steps>
+</instructions>

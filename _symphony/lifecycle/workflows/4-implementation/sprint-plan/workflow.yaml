@@ -1,0 +1,32 @@
+id: sprint-plan
+owner: scrum-master
+model: opus
+description: Plan a sprint by selecting validated stories, estimating, and setting goals
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [validated-stories]
+  optional: []
+
+outputs:
+  primary: docs/implementation-artifacts/sprint-status.md
+  traceable_to: [validated-stories]
+
+gates:
+  pre_start:
+    - Validated stories exist
+  post_complete:
+    - Sprint status document produced
+    - Sprint goals defined
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="correct-course">
+  <steps>
+    <step n="1" title="Load sprint and CR">
+      <action>Read the current sprint-status.md and the approved change request document.</action>
+    </step>
+    <step n="2" title="Reprioritize">
+      <action>Reprioritize the sprint backlog to accommodate the change request. Identify stories to defer if needed.</action>
+    </step>
+    <step n="3" title="Adjust scope">
+      <action>Adjust the sprint scope: add new stories from the CR and remove or defer lower-priority stories to maintain capacity.</action>
+    </step>
+    <step n="4" title="Update sprint-status">
+      <action>Update docs/implementation-artifacts/sprint-status.md with the revised scope, priorities, and rationale.</action>
+    </step>
+  </steps>
+</instructions>

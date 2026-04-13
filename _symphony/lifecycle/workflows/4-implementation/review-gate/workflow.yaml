@@ -1,0 +1,33 @@
+id: review-gate
+owner: validator
+model: opus
+description: Evaluate the aggregated review summary and decide pass/fail gate
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [review-summary]
+  optional: []
+
+outputs:
+  primary: gate decision (inline)
+  traceable_to: [review-summary]
+
+gates:
+  pre_start:
+    - Review summary exists
+  post_complete:
+    - Gate decision produced
+  on_pass: sprint-status
+  on_fail: dev-story
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

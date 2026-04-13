@@ -1,0 +1,31 @@
+id: sprint-status
+owner: scrum-master
+model: opus
+description: Update sprint status with story progress, blockers, and burndown
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [sprint-status.md, story-files]
+  optional: []
+
+outputs:
+  primary: docs/implementation-artifacts/sprint-status.md
+  traceable_to: [sprint-status.md]
+
+gates:
+  pre_start:
+    - Sprint status document exists
+  post_complete:
+    - Sprint status updated
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

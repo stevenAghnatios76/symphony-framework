@@ -1,0 +1,31 @@
+id: code-review
+owner: reviewer
+model: opus
+description: Review story implementation for correctness, patterns, and edge cases
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [story-implementation]
+  optional: []
+
+outputs:
+  primary: docs/implementation-artifacts/reviews/{story-id}-code-review.md
+  traceable_to: [story-implementation]
+
+gates:
+  pre_start:
+    - Story implementation exists
+  post_complete:
+    - Code review report produced
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

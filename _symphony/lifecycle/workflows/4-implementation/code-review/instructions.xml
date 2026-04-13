@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="code-review">
+  <steps>
+    <step n="1" title="Load changed files">
+      <action>Identify and read all files changed in the story implementation.</action>
+    </step>
+    <step n="2" title="Review correctness">
+      <action>Verify the code correctly implements the story requirements and handles all specified scenarios.</action>
+    </step>
+    <step n="3" title="Review patterns">
+      <action>Check adherence to architecture patterns, coding standards, and project conventions.</action>
+    </step>
+    <step n="4" title="Review edge cases">
+      <action>Identify unhandled edge cases, error conditions, and boundary scenarios.</action>
+    </step>
+    <step n="5" title="Produce review report">
+      <template-output file="docs/implementation-artifacts/reviews/{story-id}-code-review.md">
+        Apply the template from template.md, filling all sections with review findings.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

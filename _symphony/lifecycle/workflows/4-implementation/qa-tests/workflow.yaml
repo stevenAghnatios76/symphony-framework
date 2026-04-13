@@ -1,0 +1,32 @@
+id: qa-tests
+owner: test-architect
+model: opus
+description: Assess test coverage, generate additional tests, and produce QA report
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [story-implementation]
+  optional: []
+
+outputs:
+  primary: docs/implementation-artifacts/reviews/{story-id}-qa-tests.md
+  traceable_to: [story-implementation]
+
+gates:
+  pre_start:
+    - Story implementation exists
+  post_complete:
+    - QA report produced
+    - Test coverage assessed
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

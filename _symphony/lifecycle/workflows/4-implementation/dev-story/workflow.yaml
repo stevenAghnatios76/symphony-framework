@@ -1,0 +1,33 @@
+id: dev-story
+owner: developer
+model: opus
+description: Implement a user story following TDD — write tests, implement code, self-review, and commit
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [story-file, architecture]
+  optional: []
+
+outputs:
+  primary: implementation code + tests
+  traceable_to: [story-file]
+
+gates:
+  pre_start:
+    - Story file exists and is in current sprint
+    - Architecture documents available
+  post_complete:
+    - All tests pass
+    - Code committed
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

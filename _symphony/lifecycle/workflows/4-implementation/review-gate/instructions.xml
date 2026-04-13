@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="review-gate">
+  <steps>
+    <step n="1" title="Load review summary">
+      <action>Read the aggregated review summary from run-all-reviews.</action>
+    </step>
+    <step n="2" title="Check all 6 gates passed">
+      <action>Verify that all 6 review gates (code review, QA tests, security, test automation, test quality, performance) passed.</action>
+    </step>
+    <step n="3" title="Apply adaptive substitutions">
+      <action>For infrastructure stories, apply adaptive substitutions per the architecture spec — some gates may be waived or adjusted.</action>
+    </step>
+    <step n="4" title="Report PASS/FAIL">
+      <action>Produce a gate decision. If all required gates pass, route to sprint-status. If any fail, route back to dev-story with feedback.</action>
+    </step>
+  </steps>
+</instructions>

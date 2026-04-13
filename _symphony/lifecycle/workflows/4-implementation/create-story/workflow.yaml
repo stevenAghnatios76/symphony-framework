@@ -1,0 +1,32 @@
+id: create-story
+owner: product-manager
+model: opus
+description: Decompose epics into implementable user stories with acceptance criteria
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [epics]
+  optional: []
+
+outputs:
+  primary: docs/implementation-artifacts/stories/{story-id}.md
+  traceable_to: [epics]
+
+gates:
+  pre_start:
+    - Epics exist in docs/planning-artifacts/
+  post_complete:
+    - Story has acceptance criteria
+    - Story has traces_to reference to parent epic
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

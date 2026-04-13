@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="create-story">
+  <steps>
+    <step n="1" title="Load epics">
+      <action>Read the epic documents from docs/planning-artifacts/ and identify epics ready for decomposition.</action>
+    </step>
+    <step n="2" title="Select epic to decompose">
+      <action>Choose the next epic to break down into stories based on priority and dependencies.</action>
+    </step>
+    <step n="3" title="Write story with acceptance criteria">
+      <action>Write a user story with clear acceptance criteria, following the "As a... I want... So that..." format.</action>
+      <action>Ensure each acceptance criterion is testable and specific.</action>
+    </step>
+    <step n="4" title="Set traces_to">
+      <action>Link the story back to its parent epic using traces_to metadata.</action>
+    </step>
+    <step n="5" title="Produce story file">
+      <template-output file="docs/implementation-artifacts/stories/{story-id}.md">
+        Apply the template from template.md, filling all sections with story details.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

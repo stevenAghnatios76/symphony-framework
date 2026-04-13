@@ -1,0 +1,32 @@
+id: retro
+owner: scrum-master
+model: opus
+description: Multi-agent retrospective to reflect on sprint and identify improvements
+
+execution:
+  mode: ensemble
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: [scrum-master, developer, reviewer, test-architect]
+  ensemble_turn_policy: round-robin
+  max_turns: 12
+
+inputs:
+  required: [sprint-status]
+  optional: []
+
+outputs:
+  primary: docs/implementation-artifacts/retro-{sprint-id}.md
+  traceable_to: [sprint-status]
+
+gates:
+  pre_start:
+    - Sprint is complete
+  post_complete:
+    - Retro has action items
+    - At least 3 participant contributions
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

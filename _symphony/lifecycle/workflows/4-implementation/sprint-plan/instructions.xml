@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="sprint-plan">
+  <steps>
+    <step n="1" title="Load ready stories">
+      <action>Read all validated stories from docs/implementation-artifacts/stories/ that are ready for sprint planning.</action>
+    </step>
+    <step n="2" title="Estimate and prioritize">
+      <action>Estimate effort for each story and prioritize based on dependencies and business value.</action>
+    </step>
+    <step n="3" title="Select sprint scope">
+      <action>Select stories for the sprint based on team capacity and priority order.</action>
+    </step>
+    <step n="4" title="Set sprint goals">
+      <action>Define clear sprint goals that align with the selected stories and epic objectives.</action>
+    </step>
+    <step n="5" title="Produce sprint-status">
+      <template-output file="docs/implementation-artifacts/sprint-status.md">
+        Apply the template from template.md, filling all sections with sprint plan details.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

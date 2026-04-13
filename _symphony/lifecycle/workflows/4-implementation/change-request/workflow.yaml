@@ -1,0 +1,32 @@
+id: change-request
+owner: product-manager
+model: opus
+description: Document a change request with impact analysis and scope assessment
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [change-description]
+  optional: []
+
+outputs:
+  primary: docs/implementation-artifacts/change-requests/{cr-id}.md
+  traceable_to: [change-description]
+
+gates:
+  pre_start:
+    - Change description provided
+  post_complete:
+    - Change request document produced
+    - Impact analysis completed
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

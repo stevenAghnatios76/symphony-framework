@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="qa-tests">
+  <steps>
+    <step n="1" title="Load story and tests">
+      <action>Read the story file and all existing tests for the implementation.</action>
+    </step>
+    <step n="2" title="Assess coverage">
+      <action>Evaluate test coverage against acceptance criteria. Identify gaps in unit, integration, and edge case tests.</action>
+    </step>
+    <step n="3" title="Generate additional tests if needed">
+      <action>Write additional tests to cover identified gaps. Focus on boundary conditions and error paths.</action>
+    </step>
+    <step n="4" title="Run test suite">
+      <action>Run the full test suite to verify all tests pass including any newly added tests.</action>
+    </step>
+    <step n="5" title="Produce QA report">
+      <template-output file="docs/implementation-artifacts/reviews/{story-id}-qa-tests.md">
+        Apply the template from template.md, filling all sections with QA findings.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

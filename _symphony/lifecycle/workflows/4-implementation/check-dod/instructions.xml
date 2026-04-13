@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="check-dod">
+  <steps>
+    <step n="1" title="Load story acceptance criteria">
+      <action>Read the story file and extract all acceptance criteria.</action>
+    </step>
+    <step n="2" title="Verify each criterion">
+      <action>Check each acceptance criterion against the implementation. Mark each as met or unmet.</action>
+    </step>
+    <step n="3" title="Check tests exist and pass">
+      <action>Verify that tests exist for each acceptance criterion and that all tests pass.</action>
+    </step>
+    <step n="4" title="Check code committed">
+      <action>Verify the implementation code is committed with appropriate commit messages.</action>
+    </step>
+    <step n="5" title="Report PASS/FAIL">
+      <action>Produce a DoD report. If all criteria are met, route to run-all-reviews. If any fail, route back to dev-story with feedback.</action>
+    </step>
+  </steps>
+</instructions>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="retro">
+  <setup>
+    <action>Load the sprint-status.md and review summary to provide context for the retrospective discussion.</action>
+  </setup>
+
+  <topic>
+    Reflect on the completed sprint from multiple perspectives. The Scrum Master facilitates the discussion. The Developer shares implementation experiences and technical challenges. The Reviewer reflects on code quality trends and review effectiveness. The Test Architect evaluates testing practices and coverage improvements. Cover: (1) What went well, (2) What did not go well, (3) What can we improve next sprint.
+  </topic>
+
+  <synthesis>
+    <action>Extract from the discussion: (1) Key wins to celebrate, (2) Pain points to address, (3) Action items for next sprint with owners.</action>
+    <template-output file="docs/implementation-artifacts/retro-{sprint-id}.md">
+      Apply the template from template.md. Include the full transcript followed by the synthesis section.
+    </template-output>
+  </synthesis>
+</instructions>

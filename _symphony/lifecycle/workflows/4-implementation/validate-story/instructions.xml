@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="validate-story">
+  <steps>
+    <step n="1" title="Load story and parent epic">
+      <action>Read the story file and its parent epic document.</action>
+    </step>
+    <step n="2" title="Check completeness">
+      <action>Verify the story has all required sections: persona, goal, benefit, acceptance criteria.</action>
+    </step>
+    <step n="3" title="Check traces_to">
+      <action>Verify traces_to references a valid parent epic and the story aligns with epic goals.</action>
+    </step>
+    <step n="4" title="Check acceptance criteria testability">
+      <action>Verify each acceptance criterion is specific, measurable, and testable.</action>
+    </step>
+    <step n="5" title="Report PASS/FAIL">
+      <action>Produce a validation report. If all checks pass, route to sprint-plan. If any fail, route back to create-story with feedback.</action>
+    </step>
+  </steps>
+</instructions>

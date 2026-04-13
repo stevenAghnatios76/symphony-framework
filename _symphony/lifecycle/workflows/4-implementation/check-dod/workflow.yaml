@@ -1,0 +1,34 @@
+id: check-dod
+owner: validator
+model: opus
+description: Verify a story implementation meets the Definition of Done criteria
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [story-file, implementation]
+  optional: []
+
+outputs:
+  primary: DoD report (inline)
+  traceable_to: [story-file]
+
+gates:
+  pre_start:
+    - Story file exists
+    - Implementation committed
+  post_complete:
+    - DoD report produced
+  on_pass: run-all-reviews
+  on_fail: dev-story
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

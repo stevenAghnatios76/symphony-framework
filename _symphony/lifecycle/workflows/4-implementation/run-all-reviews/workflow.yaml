@@ -1,0 +1,33 @@
+id: run-all-reviews
+owner: validator
+model: opus
+description: Run all review gates in parallel and aggregate results into a review summary
+
+execution:
+  mode: parallel-waves
+  wave_eligible: true
+  max_wave_siblings: 6
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [story-implementation]
+  optional: []
+
+outputs:
+  primary: docs/implementation-artifacts/reviews/{story-id}-review-summary.md
+  traceable_to: [story-implementation]
+
+gates:
+  pre_start:
+    - Story implementation exists
+    - DoD check passed
+  post_complete:
+    - Review summary produced
+    - All 6 review gates evaluated
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

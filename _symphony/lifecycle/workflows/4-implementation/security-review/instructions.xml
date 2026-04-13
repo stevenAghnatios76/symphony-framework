@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="security-review">
+  <steps>
+    <step n="1" title="Load changed files">
+      <action>Identify and read all files changed in the story implementation.</action>
+    </step>
+    <step n="2" title="OWASP top 10 check">
+      <action>Check the implementation against the OWASP Top 10 vulnerabilities: injection, broken auth, sensitive data exposure, XXE, broken access control, misconfiguration, XSS, deserialization, known vulnerabilities, insufficient logging.</action>
+    </step>
+    <step n="3" title="Dependency scan">
+      <action>Scan dependencies for known vulnerabilities using CVE databases.</action>
+    </step>
+    <step n="4" title="Secrets check">
+      <action>Verify no secrets, API keys, tokens, or credentials are hardcoded in the implementation.</action>
+    </step>
+    <step n="5" title="Produce security report">
+      <template-output file="docs/implementation-artifacts/reviews/{story-id}-security-review.md">
+        Apply the template from template.md, filling all sections with security findings.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

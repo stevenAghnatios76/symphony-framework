@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="run-all-reviews">
+  <steps>
+    <!-- Wave 1: Steps 1-6 (all parallel, no dependencies) -->
+    <step n="1" id="code-rev" outputs="code-review-result">
+      <action>Run code review: check correctness, patterns adherence, and edge cases.</action>
+    </step>
+    <step n="2" id="qa-test" outputs="qa-test-result">
+      <action>Run QA tests: assess coverage, generate additional tests, verify all pass.</action>
+    </step>
+    <step n="3" id="sec-rev" outputs="security-result">
+      <action>Run security review: OWASP top 10, dependency scan, secrets check.</action>
+    </step>
+    <step n="4" id="test-auto" outputs="test-auto-result">
+      <action>Check test automation coverage: verify CI integration, automated test execution, and coverage thresholds.</action>
+    </step>
+    <step n="5" id="test-rev" outputs="test-review-result">
+      <action>Review test quality: check test naming, assertions, isolation, and maintainability.</action>
+    </step>
+    <step n="6" id="perf-rev" outputs="perf-result">
+      <action>Performance review: check for N+1 queries, memory leaks, bundle size impact, and response time regressions.</action>
+    </step>
+    <!-- Wave 2: Step 7 (depends on all 6 parallel results) -->
+    <step n="7" id="summary" inputs="code-review-result, qa-test-result, security-result, test-auto-result, test-review-result, perf-result" outputs="review-summary">
+      <action>Aggregate all 6 review gate results into a unified review summary.</action>
+      <template-output file="docs/implementation-artifacts/reviews/{story-id}-review-summary.md">
+        Apply the template from template.md, filling all sections with aggregated review results.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

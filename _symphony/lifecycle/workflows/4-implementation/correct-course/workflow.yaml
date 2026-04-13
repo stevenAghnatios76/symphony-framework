@@ -1,0 +1,32 @@
+id: correct-course
+owner: scrum-master
+model: opus
+description: Adjust sprint scope and priorities in response to a change request
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [sprint-status, change-request]
+  optional: []
+
+outputs:
+  primary: docs/implementation-artifacts/sprint-status.md
+  traceable_to: [sprint-status, change-request]
+
+gates:
+  pre_start:
+    - Sprint status exists
+    - Change request approved
+  post_complete:
+    - Sprint status updated with adjusted scope
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

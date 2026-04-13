@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="change-request">
+  <steps>
+    <step n="1" title="Document change">
+      <action>Document the requested change clearly: what is changing, why, and who requested it.</action>
+    </step>
+    <step n="2" title="Impact analysis">
+      <action>Analyze the impact of the change on existing stories, architecture, and sprint scope.</action>
+    </step>
+    <step n="3" title="Scope assessment">
+      <action>Assess the effort required and determine if the change fits within the current sprint or requires replanning.</action>
+    </step>
+    <step n="4" title="Recommendation">
+      <action>Provide a recommendation: approve, defer, or reject the change with rationale.</action>
+    </step>
+    <step n="5" title="Produce CR doc">
+      <template-output file="docs/implementation-artifacts/change-requests/{cr-id}.md">
+        Apply the template from template.md, filling all sections with change request details.
+      </template-output>
+    </step>
+  </steps>
+</instructions>
