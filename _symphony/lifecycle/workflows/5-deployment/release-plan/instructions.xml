@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="release-plan">
+  <steps>
+    <step n="1" title="Assess release scope">
+      <action>Review the sprint-status to determine which stories and features are included in this release.</action>
+    </step>
+    <step n="2" title="Version strategy">
+      <action>Determine the version number based on semver and the scope of changes (major, minor, patch).</action>
+    </step>
+    <step n="3" title="Changelog">
+      <action>Compile a changelog from all completed stories, including features, fixes, and breaking changes.</action>
+    </step>
+    <step n="4" title="Migration notes">
+      <action>Document any migration steps required: database migrations, config changes, API changes, deprecations.</action>
+    </step>
+    <step n="5" title="Produce release plan">
+      <template-output file="docs/implementation-artifacts/release-plan.md">
+        Apply the template from template.md, filling all sections with release plan details.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

@@ -1,0 +1,32 @@
+id: release-plan
+owner: devops-agent
+model: opus
+description: Plan a release including version strategy, changelog, and migration notes
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [sprint-status]
+  optional: []
+
+outputs:
+  primary: docs/implementation-artifacts/release-plan.md
+  traceable_to: [sprint-status]
+
+gates:
+  pre_start:
+    - All sprint stories are done
+  post_complete:
+    - Release plan document produced
+    - Version strategy defined
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

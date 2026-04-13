@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="deploy-checklist">
+  <steps>
+    <step n="1" title="Environment readiness">
+      <action>Verify target environment is ready: infrastructure provisioned, scaling configured, DNS updated.</action>
+    </step>
+    <step n="2" title="Secrets verification">
+      <action>Verify all required secrets and environment variables are configured in the target environment.</action>
+    </step>
+    <step n="3" title="Database migrations">
+      <action>Verify database migration scripts are tested, reversible, and ready to execute.</action>
+    </step>
+    <step n="4" title="Smoke test plan">
+      <action>Define the smoke tests to run immediately after deployment to verify core functionality.</action>
+    </step>
+    <step n="5" title="Produce checklist">
+      <template-output file="docs/implementation-artifacts/deploy-checklist.md">
+        Apply the template from template.md, filling all sections with deployment checklist details.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

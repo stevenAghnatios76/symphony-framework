@@ -1,0 +1,33 @@
+id: deploy-checklist
+owner: devops-agent
+model: opus
+description: Pre-deployment checklist covering environment, secrets, migrations, and smoke tests
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [release-plan, rollback-plan]
+  optional: []
+
+outputs:
+  primary: docs/implementation-artifacts/deploy-checklist.md
+  traceable_to: [release-plan, rollback-plan]
+
+gates:
+  pre_start:
+    - Release plan exists
+    - Rollback plan exists
+  post_complete:
+    - Deploy checklist document produced
+    - All checklist items addressed
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

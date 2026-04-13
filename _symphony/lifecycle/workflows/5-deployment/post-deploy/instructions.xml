@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="post-deploy">
+  <steps>
+    <step n="1" title="Health checks">
+      <action>Run health check endpoints and verify all services are responding correctly.</action>
+    </step>
+    <step n="2" title="Monitoring verification">
+      <action>Verify monitoring dashboards show normal metrics: error rates, latency, throughput.</action>
+    </step>
+    <step n="3" title="Alert configuration">
+      <action>Verify alerting rules are active and correctly configured for the new release.</action>
+    </step>
+    <step n="4" title="Smoke tests">
+      <action>Execute the smoke test plan from the deploy checklist and verify all critical paths work.</action>
+    </step>
+    <step n="5" title="Produce post-deploy report">
+      <template-output file="docs/implementation-artifacts/post-deploy-report.md">
+        Apply the template from template.md, filling all sections with post-deployment results.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

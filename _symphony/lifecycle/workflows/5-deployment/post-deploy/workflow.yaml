@@ -1,0 +1,34 @@
+id: post-deploy
+owner: devops-agent
+model: opus
+description: Post-deployment verification — health checks, monitoring, alerts, and smoke tests
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [deploy-checklist]
+  optional: []
+
+outputs:
+  primary: docs/implementation-artifacts/post-deploy-report.md
+  traceable_to: [deploy-checklist]
+
+gates:
+  pre_start:
+    - Deployment completed
+    - Deploy checklist exists
+  post_complete:
+    - Post-deploy report produced
+    - All health checks pass
+  terminal: true
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

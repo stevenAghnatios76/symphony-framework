@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="rollback-plan">
+  <steps>
+    <step n="1" title="Identify rollback triggers">
+      <action>Define the conditions that would trigger a rollback: error rate thresholds, health check failures, critical bugs.</action>
+    </step>
+    <step n="2" title="Define rollback steps">
+      <action>Document the step-by-step rollback procedure: revert deployment, restore database, clear caches.</action>
+    </step>
+    <step n="3" title="Verification commands">
+      <action>Define the commands and checks to verify a successful rollback: health endpoints, smoke tests, data integrity.</action>
+    </step>
+    <step n="4" title="Produce rollback plan">
+      <template-output file="docs/implementation-artifacts/rollback-plan.md">
+        Apply the template from template.md, filling all sections with rollback plan details.
+      </template-output>
+    </step>
+  </steps>
+</instructions>
