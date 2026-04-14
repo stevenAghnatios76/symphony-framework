@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="create-stakeholder">
+  <steps>
+    <step n="1" title="Gather stakeholder info">
+      <action>Ask the user for the stakeholder's name, role, and domain.</action>
+      <action>Probe for what perspective this stakeholder brings to discussions.</action>
+    </step>
+    <step n="2" title="Define role and perspective">
+      <action>Define the stakeholder's role, perspective, and areas of expertise.</action>
+      <action>Identify known biases or blind spots this persona should exhibit.</action>
+    </step>
+    <step n="3" title="Write persona file">
+      <action>Write the stakeholder persona using the template.</action>
+      <action>Define communication style — formal/informal, verbose/concise, risk-averse/risk-seeking.</action>
+    </step>
+    <step n="4" title="Register for party mode">
+      <action>Save the persona file to _symphony/lifecycle/agents/stakeholders/{name}.md.</action>
+      <action>Confirm the stakeholder is now available for party mode and ensemble discussions.</action>
+      <template-output file="_symphony/lifecycle/agents/stakeholders/{name}.md">
+        Apply the template from template.md with the stakeholder details.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

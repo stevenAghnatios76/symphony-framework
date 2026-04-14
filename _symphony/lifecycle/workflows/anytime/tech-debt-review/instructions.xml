@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="tech-debt-review">
+  <steps>
+    <step n="1" title="Scan codebase">
+      <action>Scan the codebase for patterns that indicate technical debt: TODOs, FIXMEs, deprecated APIs, copy-paste duplication, missing tests.</action>
+    </step>
+    <step n="2" title="Identify debt items">
+      <action>Catalogue each debt item with a description, location, and type (design debt, code debt, test debt, documentation debt).</action>
+    </step>
+    <step n="3" title="Classify severity">
+      <action>Assign severity to each item: critical (blocks progress), high (causes recurring pain), medium (slows development), low (cosmetic or minor).</action>
+    </step>
+    <step n="4" title="Recommend paydown order">
+      <action>Recommend a paydown order based on severity, impact, and effort. Prioritize items that unblock other work.</action>
+    </step>
+    <step n="5" title="Produce report">
+      <template-output file="docs/implementation-artifacts/tech-debt-review.md">
+        Apply the template from template.md. Fill all sections with findings and recommendations.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

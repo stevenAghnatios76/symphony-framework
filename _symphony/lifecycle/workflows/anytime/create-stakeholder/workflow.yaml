@@ -1,0 +1,31 @@
+id: create-stakeholder
+owner: product-manager
+model: opus
+description: Create a custom stakeholder persona for use in party mode and ensemble discussions
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: []
+  optional: []
+
+outputs:
+  primary: _symphony/lifecycle/agents/stakeholders/{name}.md
+  traceable_to: []
+
+gates:
+  pre_start: []
+  post_complete:
+    - Stakeholder file has Name, Role, Perspective, Expertise, Biases, Communication Style
+    - File saved to _symphony/lifecycle/agents/stakeholders/
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="performance-review">
+  <steps>
+    <step n="1" title="Profile current state">
+      <action>Analyze the codebase and any available architecture documents for performance-relevant patterns.</action>
+      <action>Identify current performance characteristics: response times, resource usage, throughput.</action>
+    </step>
+    <step n="2" title="Identify bottlenecks">
+      <action>Look for common performance anti-patterns: N+1 queries, synchronous blocking, missing caching, large payloads.</action>
+      <action>Categorize bottlenecks by component and severity.</action>
+    </step>
+    <step n="3" title="Recommend optimizations">
+      <action>For each bottleneck, recommend a specific optimization with expected impact.</action>
+      <action>Consider trade-offs: complexity vs. performance gain.</action>
+    </step>
+    <step n="4" title="Produce report">
+      <template-output file="docs/implementation-artifacts/performance-review.md">
+        Apply the template from template.md. Fill all sections with findings and recommendations.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

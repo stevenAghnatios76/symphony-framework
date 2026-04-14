@@ -1,0 +1,31 @@
+id: memory-hygiene
+owner: validator
+model: opus
+description: Scan memory store for stale, conflicting, or oversized entries and apply cleanup actions
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: []
+  optional: []
+
+outputs:
+  primary: inline hygiene report
+  traceable_to: []
+
+gates:
+  pre_start: []
+  post_complete:
+    - Hygiene report presented to user
+    - User-selected actions applied
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

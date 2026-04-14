@@ -1,0 +1,33 @@
+id: performance-review
+owner: performance-agent
+model: opus
+description: Profile the system, identify bottlenecks, and recommend performance optimizations
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: []
+  optional: [architecture, implementation]
+
+outputs:
+  primary: docs/implementation-artifacts/performance-review.md
+  traceable_to: []
+
+gates:
+  pre_start: []
+  post_complete:
+    - Report has Current Metrics
+    - Report has Bottlenecks identified
+    - Report has Recommendations
+    - Report has Priority rankings
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

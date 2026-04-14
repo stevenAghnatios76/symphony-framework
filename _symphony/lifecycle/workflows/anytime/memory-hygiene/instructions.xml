@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="memory-hygiene">
+  <steps>
+    <step n="1" title="Invoke memory-hygiene protocol">
+      <action>Scan _symphony/_memory/ for all stored entries.</action>
+      <action>Identify stale entries (not referenced in 30+ days), conflicting entries, oversized entries, and duplicates.</action>
+    </step>
+    <step n="2" title="Present findings">
+      <action>Present a summary of findings to the user: total entries, stale count, conflict count, size warnings.</action>
+      <action>For each issue, recommend an action: archive, merge, trim, or delete.</action>
+    </step>
+    <step n="3" title="Apply user-selected actions">
+      <action>Ask the user which actions to apply.</action>
+      <action>Execute selected cleanup actions on _symphony/_memory/ entries.</action>
+      <action>Report final state: entries remaining, space reclaimed.</action>
+    </step>
+  </steps>
+</instructions>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="quick-dev">
+  <steps>
+    <step n="1" title="Load quick-spec">
+      <action>Read docs/planning-artifacts/quick-spec.md and extract goal, scope, and acceptance criteria.</action>
+    </step>
+    <step n="2" title="Plan approach">
+      <action>Identify which files to create or modify. Outline the implementation plan in 3-5 bullet points.</action>
+      <action>Flag any risks or unknowns before starting.</action>
+    </step>
+    <step n="3" title="Write tests">
+      <action>Write tests that cover the acceptance criteria from the quick-spec.</action>
+      <action>Run tests to confirm they fail (red phase).</action>
+    </step>
+    <step n="4" title="Implement">
+      <action>Write the minimal code to make all tests pass.</action>
+      <action>Follow existing code style and patterns in the project.</action>
+    </step>
+    <step n="5" title="Commit">
+      <action>Run the full test suite to confirm nothing is broken.</action>
+      <action>Commit with a clear message referencing the quick-spec.</action>
+      <template-output file="docs/implementation-artifacts/quick-dev-summary.md">
+        Apply the template from template.md with a summary of changes.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

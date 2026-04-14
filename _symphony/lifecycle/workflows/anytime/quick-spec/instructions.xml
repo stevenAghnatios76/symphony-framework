@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="quick-spec">
+  <steps>
+    <step n="1" title="Gather scope from user">
+      <action>Ask the user what they want to build. Clarify the goal, target audience, and any constraints.</action>
+      <action>Keep the conversation lightweight — this is a quick spec, not a full PRD.</action>
+    </step>
+    <step n="2" title="Write lightweight spec">
+      <action>Draft a concise spec covering Goal, Scope, Acceptance Criteria, and Estimated Effort.</action>
+      <action>Keep each section to a few bullet points. Aim for 1-2 pages max.</action>
+    </step>
+    <step n="3" title="Produce quick-spec">
+      <template-output file="docs/planning-artifacts/quick-spec.md">
+        Apply the template from template.md. Fill in all sections based on the user conversation.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

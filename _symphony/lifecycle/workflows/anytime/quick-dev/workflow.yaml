@@ -1,0 +1,33 @@
+id: quick-dev
+owner: developer
+model: opus
+description: Fast implementation cycle — load quick-spec, plan, write tests, implement, commit
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [quick-spec]
+  optional: []
+
+outputs:
+  primary: implementation code
+  traceable_to: [quick-spec]
+
+gates:
+  pre_start:
+    - quick-spec exists at docs/planning-artifacts/quick-spec.md
+  post_complete:
+    - All acceptance criteria from quick-spec are addressed
+    - Tests pass
+    - Changes committed
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

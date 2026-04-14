@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="party">
+  <setup>
+    <action>Present the available participants: product-manager, architect, developer, reviewer, plus any custom stakeholders from _symphony/lifecycle/agents/stakeholders/.</action>
+    <action>Ask the user to define the topic for discussion.</action>
+  </setup>
+
+  <topic>
+    Multi-agent roundtable discussion. The user picks who speaks next on each turn. Each participant responds in character with their unique perspective. Product Manager focuses on user value and business goals. Architect evaluates technical design and trade-offs. Developer considers implementation complexity and maintainability. Reviewer challenges assumptions and looks for gaps. Goal: explore the topic thoroughly from all angles and converge on actionable decisions.
+  </topic>
+
+  <synthesis>
+    <action>Extract from the transcript: (1) Key decisions made, (2) Action items with owners, (3) Open questions remaining.</action>
+    <template-output file="docs/planning-artifacts/party-transcript.md">
+      Apply the template from template.md. Include the full transcript followed by the synthesis section.
+    </template-output>
+  </synthesis>
+</instructions>
