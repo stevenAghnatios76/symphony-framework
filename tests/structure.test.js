@@ -120,6 +120,37 @@ describe('Symphony repo structure (architecture spec §4.1)', () => {
     }
   });
 
+  describe('_symphony/creative — agents and workflows (Spec 6a)', () => {
+    const creativeAgents = [
+      'brainstorming-coach',
+      'design-thinking-coach',
+      'innovation-strategist',
+      'problem-solver',
+      'storyteller',
+      'presentation-designer',
+    ];
+    for (const a of creativeAgents) {
+      it(`has creative agent ${a}`, () => {
+        expect(exists(`_symphony/creative/agents/${a}.md`)).toBe(true);
+      });
+    }
+
+    const creativeWorkflows = [
+      'design-thinking',
+      'innovation-strategy',
+      'problem-solving',
+      'creative-sprint',
+      'storytelling',
+      'slide-deck',
+      'pitch-deck',
+    ];
+    for (const w of creativeWorkflows) {
+      it(`has creative workflow ${w}`, () => {
+        expect(exists(`_symphony/creative/workflows/${w}/workflow.yaml`)).toBe(true);
+      });
+    }
+  });
+
   describe('_symphony/_memory', () => {
     it('has checkpoints directory', () => {
       expect(exists('_symphony/_memory/checkpoints')).toBe(true);
