@@ -1,0 +1,33 @@
+id: slide-deck
+owner: presentation-designer
+model: opus
+description: Design a presentation with narrative arc, visual hierarchy, and slide-by-slide specifications
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [topic]
+  optional: [audience, content-brief, brand-guidelines]
+
+outputs:
+  primary: docs/creative-artifacts/slide-deck-<topic>.md
+  traceable_to: []
+
+gates:
+  pre_start:
+    - Topic is stated clearly
+  post_complete:
+    - Narrative arc established before slide design
+    - Every slide has an assigned job (inform, persuade, transition)
+    - One idea per slide rule followed
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

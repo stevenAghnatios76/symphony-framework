@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="slide-deck">
+  <steps>
+    <step n="1" title="Define audience and purpose">
+      <action>Identify who will see this deck and what decision or action it should drive. Load content-brief or brand-guidelines if available.</action>
+    </step>
+    <step n="2" title="Establish the narrative arc">
+      <action>Design the story flow before any slides. What is the opening hook? What is the core message? What is the call to action? Story first, slides second.</action>
+    </step>
+    <step n="3" title="Design message hierarchy">
+      <action>For each section of the arc, define the key message. Apply the pyramid principle — lead with the conclusion, support with evidence.</action>
+    </step>
+    <step n="4" title="Specify slides">
+      <action>Design each slide: title, key message, content notes, visual direction, and job (inform, persuade, or transition). One idea per slide — no exceptions.</action>
+    </step>
+    <step n="5" title="Review and cut">
+      <action>Review every slide. If it does not advance the narrative, move it to the appendix or cut it. White space is breathing room for ideas.</action>
+    </step>
+    <step n="6" title="Produce the slide deck artifact">
+      <template-output file="docs/creative-artifacts/slide-deck-{topic}.md">
+        Apply the template from template.md. Fill all sections with slide specifications.
+      </template-output>
+    </step>
+  </steps>
+</instructions>
