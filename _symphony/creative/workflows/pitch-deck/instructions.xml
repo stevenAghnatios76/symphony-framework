@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="pitch-deck">
+  <steps>
+    <step n="1" title="Load context and story artifact">
+      <action>If a story artifact exists (from the storytelling workflow), load it for narrative threading. Load market-data and traction-data if available.</action>
+    </step>
+    <step n="2" title="Define the pitch narrative">
+      <action>Structure the pitch arc: problem (pain), solution (relief), market (opportunity), traction (proof), team (credibility), ask (next step). The story artifact informs the emotional thread if present.</action>
+    </step>
+    <step n="3" title="Design problem and solution slides">
+      <action>The problem slide must make the audience feel the pain. The solution slide must deliver relief. One idea per slide.</action>
+    </step>
+    <step n="4" title="Design market and traction slides">
+      <action>Market slide: TAM/SAM/SOM or equivalent sizing. Traction slide: metrics, milestones, proof points. Data visualization principles apply.</action>
+    </step>
+    <step n="5" title="Design team and ask slides">
+      <action>Team slide: why this team wins. Ask slide: specific, concrete request with clear next step.</action>
+    </step>
+    <step n="6" title="Review and finalize">
+      <action>Review every slide for job assignment. Cut anything that does not advance the pitch. Move supporting detail to appendix.</action>
+    </step>
+    <step n="7" title="Produce the pitch deck artifact">
+      <template-output file="docs/creative-artifacts/pitch-deck-{topic}.md">
+        Apply the template from template.md. Fill all sections with pitch deck specifications.
+      </template-output>
+    </step>
+  </steps>
+</instructions>
