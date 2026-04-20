@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="creative-sprint">
+  <setup>
+    <action>If topic, problem-statement, or existing-material artifacts exist, load them as context. If none supplied, ask the user: "What is the creative challenge?"</action>
+  </setup>
+
+  <topic>
+    A full-team creative sprint where all 6 creative agents collaborate on a creative challenge. The Brainstorming Coach facilitates and keeps energy high. The Design Thinking Coach contributes human-centered perspective. The Innovation Strategist maps ideas to business model impact. The Problem Solver applies structured decomposition when the group gets stuck. The Storyteller frames outputs as narratives. The Presentation Designer structures the final deliverable for clarity.
+
+    The user picks which agent speaks next (user-picks turn policy). Goal: produce a tangible creative output — an artifact, action plan, or prototype specification.
+  </topic>
+
+  <synthesis>
+    <action>Compile the creative sprint artifact. Include key contributions from each participating agent. Synthesis must include actionable next steps and identify which follow-up workflow (if any) should run next.</action>
+    <template-output file="docs/creative-artifacts/creative-sprint-{topic}.md">
+      Apply the template from template.md. Fill all sections with session outputs.
+    </template-output>
+  </synthesis>
+</instructions>

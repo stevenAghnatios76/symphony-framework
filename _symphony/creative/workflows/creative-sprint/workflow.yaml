@@ -1,0 +1,32 @@
+id: creative-sprint
+owner: brainstorming-coach
+model: opus
+description: Full creative team sprint — all 6 creative agents collaborate on a creative challenge
+
+execution:
+  mode: ensemble
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: [brainstorming-coach, design-thinking-coach, innovation-strategist, problem-solver, storyteller, presentation-designer]
+  ensemble_turn_policy: user-picks
+  max_turns: 20
+
+inputs:
+  required: []
+  optional: [topic, problem-statement, existing-material]
+
+outputs:
+  primary: docs/creative-artifacts/creative-sprint-<topic>.md
+  traceable_to: []
+
+gates:
+  pre_start: []
+  post_complete:
+    - At least 4 of 6 agents contributed substantively
+    - Synthesis includes actionable next steps
+    - Creative output is tangible (artifact, plan, or prototype spec)
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true
