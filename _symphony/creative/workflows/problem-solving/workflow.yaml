@@ -1,0 +1,32 @@
+id: problem-solving
+owner: problem-solver
+model: opus
+description: Structured problem decomposition — root cause analysis, TRIZ, systems thinking
+
+execution:
+  mode: ensemble
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: [problem-solver, brainstorming-coach, design-thinking-coach, architect]
+  ensemble_turn_policy: round-robin
+  max_turns: 16
+
+inputs:
+  required: []
+  optional: [problem-statement, symptom-list, system-context]
+
+outputs:
+  primary: docs/creative-artifacts/problem-solving-<topic>.md
+  traceable_to: []
+
+gates:
+  pre_start: []
+  post_complete:
+    - Root cause identified and distinguished from symptoms
+    - At least 2 solution options evaluated
+    - Selected solution resolves the core contradiction
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

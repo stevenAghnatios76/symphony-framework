@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="problem-solving">
+  <setup>
+    <action>If problem-statement, symptom-list, or system-context artifacts exist, load them as context.</action>
+  </setup>
+
+  <topic>
+    Crack the problem through systematic analysis. The Problem Solver drives root cause identification using 5 Whys, fishbone, and TRIZ. The Brainstorming Coach generates divergent solution ideas once root cause is established. The Design Thinking Coach contributes human-centered perspective on problem framing. The Architect evaluates technical feasibility of proposed solutions.
+
+    Flow: problem framing → symptom vs. cause separation → 5 Whys deep dive → contradiction identification → solution generation → solution evaluation → recommendation.
+  </topic>
+
+  <synthesis>
+    <action>Compile the problem-solving artifact. Root cause must be clearly distinguished from symptoms with evidence. Selected solution must resolve the core contradiction, not just patch symptoms.</action>
+    <template-output file="docs/creative-artifacts/problem-solving-{topic}.md">
+      Apply the template from template.md. Fill all sections with session outputs.
+    </template-output>
+  </synthesis>
+</instructions>
