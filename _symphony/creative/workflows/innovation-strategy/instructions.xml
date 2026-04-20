@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="innovation-strategy">
+  <setup>
+    <action>If market-research, product-brief, or competitive-landscape artifacts exist, load them as context.</action>
+  </setup>
+
+  <topic>
+    Architect strategic disruption opportunities through structured innovation analysis. The Innovation Strategist drives JTBD analysis and Blue Ocean mapping. The Brainstorming Coach generates divergent market opportunity ideas. The Product Manager grounds opportunities in user value. The Research Analyst identifies unknowns and validates market assumptions.
+
+    Flow: current-state mapping → Jobs-to-be-Done analysis → Blue Ocean canvas (eliminate, reduce, raise, create) → innovation opportunity identification → business model implications → strategic recommendations.
+  </topic>
+
+  <synthesis>
+    <action>Compile the innovation strategy artifact. Every innovation recommendation must map to business model impact. Rank opportunities by disruption potential and feasibility.</action>
+    <template-output file="docs/creative-artifacts/innovation-strategy-{topic}.md">
+      Apply the template from template.md. Fill all sections with session outputs.
+    </template-output>
+  </synthesis>
+</instructions>

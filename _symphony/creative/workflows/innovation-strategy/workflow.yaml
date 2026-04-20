@@ -1,0 +1,32 @@
+id: innovation-strategy
+owner: innovation-strategist
+model: opus
+description: Strategic disruption analysis — Jobs-to-be-Done, Blue Ocean mapping, business model innovation
+
+execution:
+  mode: ensemble
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: [innovation-strategist, brainstorming-coach, product-manager, research-analyst]
+  ensemble_turn_policy: user-picks
+  max_turns: 18
+
+inputs:
+  required: []
+  optional: [market-research, product-brief, competitive-landscape]
+
+outputs:
+  primary: docs/creative-artifacts/innovation-strategy-<topic>.md
+  traceable_to: []
+
+gates:
+  pre_start: []
+  post_complete:
+    - Jobs-to-be-Done analysis completed
+    - Blue Ocean canvas populated
+    - At least 2 innovation opportunities with business model implications
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true
