@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="storytelling">
+  <steps>
+    <step n="1" title="Discover the core message">
+      <action>Ask the user what truth they want the audience to feel. Identify the transformation: what changes from beginning to end?</action>
+      <action>If audience and tone are supplied, load them. Otherwise ask.</action>
+    </step>
+    <step n="2" title="Design the character">
+      <action>Define the protagonist — who is the audience meant to identify with? What is their motivation? What do they want and what stands in their way?</action>
+    </step>
+    <step n="3" title="Build the arc">
+      <action>Structure the narrative: setup (world before), inciting incident (what disrupts), rising action (obstacles), climax (moment of truth), resolution (new world).</action>
+    </step>
+    <step n="4" title="Add sensory detail">
+      <action>Apply show-don't-tell. Replace abstractions with concrete, sensory details. Make the audience see, hear, and feel the story.</action>
+    </step>
+    <step n="5" title="Test the story">
+      <action>Read the story back. Does the resolution tie to the setup? Does the character transform? Would the target audience care? Revise if needed.</action>
+    </step>
+    <step n="6" title="Produce the story artifact">
+      <template-output file="docs/creative-artifacts/story-{topic}.md">
+        Apply the template from template.md. Fill all sections with the crafted narrative.
+      </template-output>
+    </step>
+  </steps>
+</instructions>
