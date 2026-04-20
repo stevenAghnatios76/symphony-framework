@@ -315,6 +315,63 @@
   .section-divider.feature::before { background: #e8a87c; }
   .section-divider.anytime::before { background: #a89a8e; }
   .section-divider.engine::before { background: #d97757; }
+  .section-divider.creative::before { background: #c49ad1; }
+
+  /* Creative panel */
+  .creative-panel {
+    margin: 0 24px 16px;
+    background: #2a2725;
+    border: 1px solid #c49ad130;
+    border-radius: 10px;
+    padding: 16px 20px;
+  }
+  .creative-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #c49ad1;
+    margin-bottom: 8px;
+  }
+  .creative-desc {
+    font-size: 0.75rem;
+    color: #a89a8e;
+    margin-bottom: 12px;
+  }
+  .creative-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .creative-block {
+    background: #332f2c;
+    border: 1px solid #c49ad120;
+    border-radius: 6px;
+    padding: 10px 12px;
+  }
+  .creative-block-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #c49ad1;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .creative-block-items {
+    font-size: 0.7rem;
+    color: #a89a8e;
+    line-height: 1.7;
+  }
+  .creative-block-items code {
+    color: #c4b5a6;
+    font-size: 0.68rem;
+  }
+  .creative-block-items .mode {
+    font-size: 0.6rem;
+    color: #7a6e62;
+    font-style: italic;
+  }
+  @media (max-width: 900px) {
+    .creative-grid { grid-template-columns: 1fr; }
+  }
 
   /* Overture panel */
   .overture-panel {
@@ -576,10 +633,10 @@
     <span class="stat">Engine: <strong>5/5 runtime</strong></span>
     <span class="stat">Protocols: <strong>9/9 runtime</strong></span>
     <span class="stat">Adapters: <strong>2/2 implemented</strong></span>
-    <span class="stat">Agents: <strong>15/15 built</strong></span>
-    <span class="stat">Workflows: <strong>47/47 built</strong></span>
+    <span class="stat">Agents: <strong>21/21 built</strong></span>
+    <span class="stat">Workflows: <strong>54/54 built</strong></span>
     <span class="stat">Lifecycle Seq: <strong>40+ transitions</strong></span>
-    <span class="stat">Tests: <strong>714 passing</strong></span>
+    <span class="stat">Tests: <strong>870 passing</strong></span>
   </div>
 </header>
 
@@ -1119,6 +1176,52 @@
   </div>
 </div>
 
+<!-- ═══════════ CREATIVE MODULE ═══════════ -->
+<div class="section-divider creative">Creative Module — 6 Agents &amp; 7 Workflows (Spec 6a)</div>
+<div class="creative-panel">
+  <div class="creative-title">&#9834; Creative Module: Design Thinking, Innovation, Storytelling, Decks</div>
+  <div class="creative-desc">Cross-lifecycle creative capabilities. Four ensemble-mode workflows drive multi-agent collaborative thinking; three sequential workflows produce concrete narrative and presentation artifacts. Available anytime via <code style="color:#c4b5a6;">/symphony</code>.</div>
+  <div class="creative-grid">
+    <div class="creative-block">
+      <div class="creative-block-label">Agents (6)</div>
+      <div class="creative-block-items">
+        &bull; <code>brainstorming-coach</code> — idea generation, divergent thinking<br>
+        &bull; <code>design-thinking-coach</code> — empathize &rarr; define &rarr; ideate &rarr; prototype &rarr; test<br>
+        &bull; <code>innovation-strategist</code> — jobs-to-be-done, opportunity framing<br>
+        &bull; <code>problem-solver</code> — root-cause, systems thinking, reframing<br>
+        &bull; <code>storyteller</code> — narrative arc, audience framing<br>
+        &bull; <code>presentation-designer</code> — slide structure, visual hierarchy
+      </div>
+    </div>
+    <div class="creative-block">
+      <div class="creative-block-label">Ensemble Workflows (4)</div>
+      <div class="creative-block-items">
+        &bull; <code>/symphony-design-thinking</code> <span class="mode">(ensemble)</span><br>
+        &bull; <code>/symphony-innovation-strategy</code> <span class="mode">(ensemble)</span><br>
+        &bull; <code>/symphony-problem-solving</code> <span class="mode">(ensemble)</span><br>
+        &bull; <code>/symphony-creative-sprint</code> <span class="mode">(ensemble)</span>
+      </div>
+    </div>
+    <div class="creative-block">
+      <div class="creative-block-label">Sequential Workflows (3)</div>
+      <div class="creative-block-items">
+        &bull; <code>/symphony-storytelling</code> <span class="mode">(sequential)</span> &mdash; narrative deliverable<br>
+        &bull; <code>/symphony-slide-deck</code> <span class="mode">(sequential)</span> &mdash; slide deck artifact<br>
+        &bull; <code>/symphony-pitch-deck</code> <span class="mode">(sequential)</span> &mdash; investor/exec pitch
+      </div>
+    </div>
+    <div class="creative-block">
+      <div class="creative-block-label">Integration</div>
+      <div class="creative-block-items">
+        &bull; Invokable anytime, independent of lifecycle phase<br>
+        &bull; Ensemble workflows use turn policies (round-robin / facilitator / user)<br>
+        &bull; Outputs feed Phase 1 (Analysis) or Phase 2 (Planning) artifacts<br>
+        &bull; Self-critique &ge; 0.85 + anti-rationalization enforced
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ═══════════ ANYTIME COMMANDS ═══════════ -->
 <div class="section-divider anytime">Anytime Commands — No Lifecycle Position</div>
 <div class="anytime-grid">
@@ -1334,7 +1437,7 @@
 
 <!-- ═══════════ FOOTER ═══════════ -->
 <div class="footer">
-  SYMPHONY Framework &mdash; Orchestrate your code. &mdash; Last updated: 2026-04-12 &mdash; Specs 1-5 + 7 complete (47/47 workflows, 15 agents, engine 5/5)
+  SYMPHONY Framework &mdash; Orchestrate your code. &mdash; Last updated: 2026-04-20 &mdash; Specs 1-5 + 6a + 7 complete (54/54 workflows, 21 agents, engine 5/5)
 </div>
 
 </body>
