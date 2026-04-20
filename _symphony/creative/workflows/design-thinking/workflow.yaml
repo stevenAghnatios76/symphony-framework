@@ -1,0 +1,32 @@
+id: design-thinking
+owner: design-thinking-coach
+model: opus
+description: Five-stage Stanford design thinking — empathize, define, ideate, prototype, test
+
+execution:
+  mode: ensemble
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: [design-thinking-coach, brainstorming-coach, problem-solver, storyteller]
+  ensemble_turn_policy: round-robin
+  max_turns: 20
+
+inputs:
+  required: []
+  optional: [problem-statement, user-research]
+
+outputs:
+  primary: docs/creative-artifacts/design-thinking-<topic>.md
+  traceable_to: []
+
+gates:
+  pre_start: []
+  post_complete:
+    - All 5 stages addressed with contributions
+    - At least 3 prototypes proposed
+    - Test plan defined
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true
