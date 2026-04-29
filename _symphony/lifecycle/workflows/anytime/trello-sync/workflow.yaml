@@ -1,0 +1,35 @@
+id: trello-sync
+owner: scrum-master
+model: opus
+description: Sync Symphony workflow state with Trello board — bidirectional status synchronization
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [trello-board]
+  optional: []
+
+outputs:
+  primary: docs/planning-artifacts/trello-sync-{date}.md
+  traceable_to: [trello-board]
+
+gates:
+  pre_start:
+    - Trello integration enabled in global.yaml
+    - Board URL configured
+  post_complete:
+    - Output has Sync Summary
+    - Output has Cards Updated
+    - Output has Conflicts Resolved
+    - Output has Sync Timestamp
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

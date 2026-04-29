@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="toggle">
+  <steps>
+    <step n="1" title="Read current feature flags">
+      <action>Read current feature flags from _symphony/_config/global.yaml.</action>
+      <action>Parse all toggleable features and their current values.</action>
+    </step>
+    <step n="2" title="Display current state">
+      <action>Display current state of all toggleable features in a readable format.</action>
+      <action>Highlight the feature being targeted for change.</action>
+    </step>
+    <step n="3" title="Validate feature name">
+      <action>Validate the requested feature name exists in the configuration.</action>
+      <action>If feature does not exist, report available features and abort.</action>
+    </step>
+    <step n="4" title="Toggle the feature">
+      <action>Toggle the specified feature (flip boolean) or set to the specific value if provided.</action>
+      <action>Record the previous value before making the change.</action>
+    </step>
+    <step n="5" title="Validate configuration">
+      <action>Validate configuration after change to ensure no conflicting settings.</action>
+      <action>If validation fails, revert the change and report the conflict.</action>
+    </step>
+    <step n="6" title="Log the change">
+      <action>Log the change with timestamp, feature name, previous value, and new value.</action>
+    </step>
+  </steps>
+</instructions>

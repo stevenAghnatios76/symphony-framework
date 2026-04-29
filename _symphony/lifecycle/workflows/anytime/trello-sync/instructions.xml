@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="trello-sync">
+  <steps>
+    <step n="1" title="Check Trello integration">
+      <action>Read _symphony/_config/global.yaml and verify Trello integration is enabled.</action>
+      <action>Confirm board URL is configured and accessible.</action>
+    </step>
+    <step n="2" title="Connect and load board state">
+      <action>Connect to Trello API and load the full board state including lists, cards, and labels.</action>
+      <action>Cache the current board snapshot for conflict detection.</action>
+    </step>
+    <step n="3" title="Map workflow states to card statuses">
+      <action>Map Symphony workflow states (pending, active, complete, blocked) to Trello card statuses.</action>
+      <action>Map Symphony lifecycle phases to Trello lists.</action>
+    </step>
+    <step n="4" title="Sync status bidirectionally">
+      <action>Update Trello cards from Symphony: move cards whose Symphony state has changed since last sync.</action>
+      <action>Update Symphony from Trello: apply card moves made directly on the Trello board.</action>
+    </step>
+    <step n="5" title="Detect and report conflicts">
+      <action>Identify cards where Symphony state and Trello state diverged since last sync.</action>
+      <action>Flag conflicts for manual resolution and record resolution decisions.</action>
+    </step>
+    <step n="6" title="Produce sync report">
+      <template-output file="docs/planning-artifacts/trello-sync-{date}.md">
+        Apply the template from template.md, filling all sections with sync details.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

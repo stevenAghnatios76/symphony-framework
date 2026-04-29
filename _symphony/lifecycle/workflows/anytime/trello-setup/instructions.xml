@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="trello-setup">
+  <steps>
+    <step n="1" title="Create Trello board">
+      <action>Create a new Trello board named after the project.</action>
+      <action>Set board visibility and default settings.</action>
+    </step>
+    <step n="2" title="Create lifecycle phase lists">
+      <action>Create lists matching Symphony lifecycle phases: Analysis, Planning, Solutioning, Implementation, Deployment, Done.</action>
+      <action>Order lists left-to-right to match the phase flow.</action>
+    </step>
+    <step n="3" title="Create label scheme">
+      <action>Create labels matching workflow categories: agent, workflow, blocker, review.</action>
+      <action>Assign distinct colors to each label for visual clarity.</action>
+    </step>
+    <step n="4" title="Add board members">
+      <action>Read project team configuration and add members to the board.</action>
+      <action>Assign appropriate roles (admin, normal) to each member.</action>
+    </step>
+    <step n="5" title="Create initial cards">
+      <action>Create initial cards for active workflows and place them in the appropriate phase list.</action>
+      <action>Attach relevant labels to each card.</action>
+    </step>
+    <step n="6" title="Produce setup report">
+      <template-output file="docs/planning-artifacts/trello-setup-{project}.md">
+        Apply the template from template.md, filling all sections with setup details.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

@@ -1,0 +1,35 @@
+id: trello-setup
+owner: scrum-master
+model: opus
+description: Initialize Trello board structure for a Symphony project with matching phases and labels
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [project-name]
+  optional: []
+
+outputs:
+  primary: docs/planning-artifacts/trello-setup-{project}.md
+  traceable_to: [project-name]
+
+gates:
+  pre_start:
+    - Trello integration enabled
+    - API credentials available
+  post_complete:
+    - Output has Board URL
+    - Output has Lists Created
+    - Output has Labels Created
+    - Output has Members Added
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

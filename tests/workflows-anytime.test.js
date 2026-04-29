@@ -21,6 +21,9 @@ const workflows = [
   { id: 'document-project', mode: 'sequential', hasTemplate: true },
   { id: 'performance-review', mode: 'sequential', hasTemplate: true },
   { id: 'tech-debt-review', mode: 'sequential', hasTemplate: true },
+  { id: 'trello-sync', mode: 'sequential', hasTemplate: true },
+  { id: 'trello-setup', mode: 'sequential', hasTemplate: true },
+  { id: 'toggle', mode: 'sequential', hasTemplate: true },
 ];
 
 for (const wf of workflows) {
