@@ -16,7 +16,7 @@
   }
   code, .mono { font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace; }
 
-  /* ══════ HEADER ══════ */
+  /* HEADER */
   .header {
     background: linear-gradient(135deg, #22201f, #2a2725);
     border-bottom: 1px solid #3d3632;
@@ -32,7 +32,7 @@
   }
   .header-subtitle { font-size: 0.95rem; color: #a89a8e; }
 
-  /* ══════ LEGEND ══════ */
+  /* LEGEND */
   .legend {
     display: flex; gap: 16px; padding: 12px 24px;
     background: #1e1c1b; border-bottom: 1px solid #3d3632; flex-wrap: wrap; align-items: center;
@@ -47,7 +47,7 @@
   .legend-dot.planned { background: #d97757; }
   .legend-dot.unique { background: #c4956a; }
 
-  /* ══════ FRAMEWORK IDENTITIES ══════ */
+  /* FRAMEWORK IDENTITIES */
   .fw-bar {
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
     padding: 16px 24px;
@@ -69,7 +69,7 @@
   .fw-stats { font-size: 0.7rem; color: #8a7e72; line-height: 1.8; }
   .fw-stats strong { color: #e8ddd3; }
 
-  /* ══════ SECTION DIVIDERS ══════ */
+  /* SECTION DIVIDERS */
   .section-title {
     padding: 12px 24px; font-size: 0.85rem; font-weight: 700;
     text-transform: uppercase; letter-spacing: 1.5px; color: #a89a8e;
@@ -78,7 +78,7 @@
   }
   .section-title::before { content: ''; flex: 0 0 20px; height: 2px; background: #d97757; }
 
-  /* ══════ SCORECARD MATRIX ══════ */
+  /* SCORECARD MATRIX */
   .scorecard { padding: 16px 24px; overflow-x: auto; }
   .sc-table { width: 100%; border-collapse: collapse; font-size: 0.72rem; min-width: 900px; }
   .sc-table th {
@@ -97,16 +97,12 @@
   .sc-table td:first-child { color: #e8ddd3; font-weight: 600; white-space: nowrap; }
   .sc-table .dim { color: #a89a8e; }
   .sc-table .verdict { font-weight: 700; font-size: 0.7rem; }
-
-  /* Cell status colors */
   .cell-leads { color: #42d392; }
   .cell-strong { color: #4a9eff; }
   .cell-partial { color: #f59e0b; }
   .cell-missing { color: #ef4444; }
   .cell-planned { color: #d97757; }
   .cell-unique { color: #c4956a; }
-
-  /* Status pills in cells */
   .pill {
     display: inline-block; font-size: 0.6rem; padding: 1px 7px; border-radius: 10px;
     font-weight: 600; margin-left: 4px; vertical-align: middle;
@@ -115,8 +111,9 @@
   .pill.planned { background: #d9775718; color: #d97757; border: 1px solid #d9775740; }
   .pill.missing { background: #ef444418; color: #ef4444; border: 1px solid #ef444440; }
   .pill.unique { background: #c4956a18; color: #c4956a; border: 1px solid #c4956a40; }
+  .pill.done { background: #4a9eff18; color: #4a9eff; border: 1px solid #4a9eff40; }
 
-  /* ══════ HEATMAP ══════ */
+  /* HEATMAP */
   .heatmap { padding: 16px 24px; overflow-x: auto; }
   .hm-table { width: 100%; border-collapse: collapse; font-size: 0.72rem; min-width: 700px; }
   .hm-table th {
@@ -128,7 +125,6 @@
   .hm-table td { padding: 6px 12px; border-bottom: 1px solid #3d363260; text-align: center; }
   .hm-table td:first-child { text-align: left; color: #e8ddd3; font-weight: 500; }
   .hm-table tr:hover { background: #2a2725; }
-
   .hm-cell {
     display: inline-block; width: 18px; height: 18px; border-radius: 4px;
     line-height: 18px; font-size: 0.6rem; font-weight: 700; text-align: center;
@@ -138,11 +134,10 @@
   .hm-cell.red { background: #ef444430; color: #ef4444; border: 1px solid #ef444450; }
   .hm-cell.purple { background: #d9775730; color: #d97757; border: 1px solid #d9775750; }
   .hm-cell.blue { background: #4a9eff30; color: #4a9eff; border: 1px solid #4a9eff50; }
-
   .hm-legend { display: flex; gap: 16px; margin-top: 12px; font-size: 0.68rem; color: #8a7e72; }
   .hm-legend-item { display: flex; align-items: center; gap: 5px; }
 
-  /* ══════ IMPROVEMENT ROADMAP ══════ */
+  /* IMPROVEMENT ROADMAP */
   .roadmap { padding: 16px 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
   .roadmap-card {
     background: #2a2725; border: 1px solid #3d3632; border-radius: 10px;
@@ -168,8 +163,9 @@
   .priority.high { background: #ef444418; color: #ef4444; border: 1px solid #ef444430; }
   .priority.med { background: #f59e0b18; color: #f59e0b; border: 1px solid #f59e0b30; }
   .priority.low { background: #42d39218; color: #42d392; border: 1px solid #42d39230; }
+  .priority.done { background: #4a9eff18; color: #4a9eff; border: 1px solid #4a9eff30; }
 
-  /* ══════ SYMPHONY ADVANTAGES ══════ */
+  /* SYMPHONY ADVANTAGES */
   .advantages { padding: 16px 24px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
   .adv-card {
     background: #2a2725; border: 1px solid #d9775730; border-radius: 10px;
@@ -180,7 +176,18 @@
   .adv-vs { font-size: 0.66rem; color: #7a6e62; }
   .adv-vs strong { color: #8a7e72; }
 
-  /* ══════ FOOTER ══════ */
+  /* PROGRESS BAR */
+  .progress-section { padding: 16px 24px; }
+  .progress-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .progress-label { font-size: 0.72rem; color: #a89a8e; width: 160px; flex-shrink: 0; }
+  .progress-bar { flex: 1; height: 16px; background: #2a2725; border-radius: 8px; border: 1px solid #3d3632; overflow: hidden; position: relative; }
+  .progress-fill { height: 100%; border-radius: 8px; transition: width 0.3s; }
+  .progress-fill.high { background: linear-gradient(90deg, #42d392, #42d392cc); }
+  .progress-fill.med { background: linear-gradient(90deg, #f59e0b, #f59e0bcc); }
+  .progress-fill.low { background: linear-gradient(90deg, #ef4444, #ef4444cc); }
+  .progress-pct { font-size: 0.68rem; color: #e8ddd3; font-weight: 700; width: 40px; text-align: right; }
+
+  /* FOOTER */
   .footer {
     padding: 16px 24px; border-top: 1px solid #3d3632;
     text-align: center; font-size: 0.7rem; color: #5a4e44;
@@ -194,16 +201,16 @@
 </head>
 <body>
 
-<!-- ═══════ HEADER ═══════ -->
+<!-- HEADER -->
 <header class="header">
   <div class="header-left">
     <div class="header-logo">SYMPHONY</div>
     <div class="header-subtitle">Framework Comparison Dashboard</div>
   </div>
-  <div style="font-size:0.75rem; color:#7a6e62;">Symphony vs Gaia vs GSD vs Gem Team &mdash; Feature-by-feature analysis</div>
+  <div style="font-size:0.75rem; color:#7a6e62;">Symphony vs Gaia vs GSD vs Gem Team &mdash; Full re-comparison &mdash; 2026-04-29</div>
 </header>
 
-<!-- ═══════ LEGEND ═══════ -->
+<!-- LEGEND -->
 <div class="legend">
   <span class="legend-label">Legend</span>
   <span class="legend-item"><span class="legend-dot leads"></span> Leads / Best</span>
@@ -214,67 +221,135 @@
   <span class="legend-item"><span class="legend-dot unique"></span> Unique to framework</span>
 </div>
 
-<!-- ═══════ FRAMEWORK IDENTITIES ═══════ -->
+<!-- FRAMEWORK IDENTITIES -->
 <div class="fw-bar">
   <div class="fw-card symphony">
     <div class="fw-name">Symphony</div>
-    <div class="fw-tagline">"Orchestrate your code"</div>
+    <div class="fw-tagline">"The ultimate agentic framework"</div>
     <div class="fw-stats">
-      Engine: <strong>5/5 runtime</strong><br>
-      Protocols: <strong>9/9 runtime</strong><br>
-      Adapters: <strong>2/2 implemented</strong><br>
-      Lifecycle Seq: <strong>40+ transitions</strong><br>
-      Agents: <strong>21/21 built</strong><br>
-      Workflows: <strong>54/54 built</strong><br>
-      Tests: <strong>870 passing</strong><br>
-      Status: <strong>v0.0.2-alpha</strong> — ~90% built
+      Engine: <strong>5/5 components</strong><br>
+      Protocols: <strong>12 (9 core + 3 engine)</strong><br>
+      Adapters: <strong>2 (Claude Code, Copilot)</strong><br>
+      Agents: <strong>23 built</strong> (15 lifecycle + 6 creative + 2 dev)<br>
+      Workflows: <strong>54 built</strong> (39 lifecycle + 7 creative + 8 anytime)<br>
+      Skills: <strong>11</strong> | Knowledge: <strong>19</strong><br>
+      Tests: <strong>1090 passing</strong><br>
+      Hub: <strong>Hono server + 6 panels</strong><br>
+      Status: <strong>v0.0.2-alpha.1</strong>
     </div>
   </div>
   <div class="fw-card gaia">
     <div class="fw-name">Gaia</div>
     <div class="fw-tagline">"Full lifecycle product development"</div>
     <div class="fw-stats">
-      Agents: <strong>28</strong><br>
-      Workflows: <strong>77</strong><br>
+      Agents: <strong>26</strong> (1 orch + 12 lifecycle + 7 dev + 6 creative + 1 test)<br>
+      Workflows: <strong>79</strong><br>
+      Skills: <strong>11</strong> | Knowledge: <strong>53</strong><br>
       Protocols: <strong>4</strong><br>
-      Exec Modes: <strong>1</strong> (sequential)<br>
+      Templates: <strong>30+</strong><br>
+      Test Bridge: <strong>5 language adapters</strong><br>
       Tools: <strong>1</strong> (Claude Code)<br>
-      Status: <strong>v1.7.1</strong> — mature
+      Status: <strong>v1.7.1</strong> &mdash; mature
     </div>
   </div>
   <div class="fw-card gsd">
     <div class="fw-name">GSD (Get Shit Done)</div>
-    <div class="fw-tagline">"Meta-prompting framework"</div>
+    <div class="fw-tagline">"Spec-driven meta-prompting"</div>
     <div class="fw-stats">
-      Agents: <strong>29</strong><br>
-      Workflows: <strong>70 commands</strong><br>
-      Protocols: <strong>—</strong><br>
-      Exec Modes: <strong>1</strong> (sequential + subagents)<br>
-      Tools: <strong>10+</strong> (Claude, Gemini, Codex...)<br>
-      Status: <strong>Active</strong> — production use
+      Agents: <strong>33</strong> (21 primary + 12 advanced)<br>
+      Commands: <strong>86</strong> | Workflows: <strong>84</strong><br>
+      References: <strong>54</strong> | Templates: <strong>36+</strong><br>
+      Hooks: <strong>11</strong><br>
+      SDK Handlers: <strong>94 TypeScript</strong><br>
+      Tools: <strong>15 runtimes</strong><br>
+      Status: <strong>v1.39-rc</strong> &mdash; production
     </div>
   </div>
   <div class="fw-card gem">
     <div class="fw-name">Gem Team</div>
     <div class="fw-tagline">"Multi-agent team orchestration"</div>
     <div class="fw-stats">
-      Agents: <strong>15</strong><br>
-      Workflows: <strong>1</strong> (orchestrator-driven)<br>
-      Protocols: <strong>—</strong><br>
-      Exec Modes: <strong>1</strong> (sequential + subagents)<br>
-      Tools: <strong>1</strong> (Gemini native)<br>
-      Status: <strong>Active</strong> — agent files only
+      Agents: <strong>15</strong> (incl. 3 mobile-specific)<br>
+      Phases: <strong>7</strong> (detect &rarr; discuss &rarr; PRD &rarr; research &rarr; plan &rarr; execute &rarr; summary)<br>
+      Protocols: <strong>Discuss phase, diagnose-then-fix, multi-plan selection</strong><br>
+      Tools: <strong>1</strong> (Copilot plugin)<br>
+      Status: <strong>v1.6.0</strong> &mdash; agent files only
     </div>
   </div>
 </div>
 
-<!-- ═══════ SYMPHONY'S UNIQUE ADVANTAGES ═══════ -->
-<div class="section-title">Symphony's Unique Advantages — What No Other Framework Has</div>
+<!-- COMPLETION PROGRESS -->
+<div class="section-title">Symphony Completion Progress &mdash; Path to Ultimate Framework</div>
+<div class="progress-section">
+  <div class="progress-row">
+    <span class="progress-label">Core Engine & Protocols</span>
+    <div class="progress-bar"><div class="progress-fill high" style="width:100%"></div></div>
+    <span class="progress-pct">100%</span>
+  </div>
+  <div class="progress-row">
+    <span class="progress-label">Lifecycle Agents (15/15)</span>
+    <div class="progress-bar"><div class="progress-fill high" style="width:100%"></div></div>
+    <span class="progress-pct">100%</span>
+  </div>
+  <div class="progress-row">
+    <span class="progress-label">Lifecycle Workflows (39/39)</span>
+    <div class="progress-bar"><div class="progress-fill high" style="width:100%"></div></div>
+    <span class="progress-pct">100%</span>
+  </div>
+  <div class="progress-row">
+    <span class="progress-label">Creative Module (6a + 7w)</span>
+    <div class="progress-bar"><div class="progress-fill high" style="width:100%"></div></div>
+    <span class="progress-pct">100%</span>
+  </div>
+  <div class="progress-row">
+    <span class="progress-label">Hub Dashboard</span>
+    <div class="progress-bar"><div class="progress-fill high" style="width:100%"></div></div>
+    <span class="progress-pct">100%</span>
+  </div>
+  <div class="progress-row">
+    <span class="progress-label">Adapters (2/2 scaffolded)</span>
+    <div class="progress-bar"><div class="progress-fill high" style="width:100%"></div></div>
+    <span class="progress-pct">100%</span>
+  </div>
+  <div class="progress-row">
+    <span class="progress-label">Testing Module (16/16 workflows + 30 knowledge + 5 adapters)</span>
+    <div class="progress-bar"><div class="progress-fill high" style="width:100%"></div></div>
+    <span class="progress-pct">100%</span>
+  </div>
+  <div class="progress-row">
+    <span class="progress-label">Dev Agents (2 + enhanced developer)</span>
+    <div class="progress-bar"><div class="progress-fill high" style="width:100%"></div></div>
+    <span class="progress-pct">100%</span>
+  </div>
+  <div class="progress-row">
+    <span class="progress-label">Skills (11/11)</span>
+    <div class="progress-bar"><div class="progress-fill high" style="width:100%"></div></div>
+    <span class="progress-pct">100%</span>
+  </div>
+  <div class="progress-row">
+    <span class="progress-label">Knowledge Fragments (49/49 — dev 19 + testing 30)</span>
+    <div class="progress-bar"><div class="progress-fill high" style="width:100%"></div></div>
+    <span class="progress-pct">100%</span>
+  </div>
+  <div class="progress-row">
+    <span class="progress-label">Stakeholder Personas (5/5 + template)</span>
+    <div class="progress-bar"><div class="progress-fill high" style="width:100%"></div></div>
+    <span class="progress-pct">100%</span>
+  </div>
+  <div class="progress-row">
+    <span class="progress-label">Utility Agents (3/3: critic, simplifier, browser-tester)</span>
+    <div class="progress-bar"><div class="progress-fill high" style="width:100%"></div></div>
+    <span class="progress-pct">100%</span>
+  </div>
+</div>
+
+<!-- SYMPHONY'S UNIQUE ADVANTAGES -->
+<div class="section-title">Symphony's Unique Advantages &mdash; What No Other Framework Has</div>
 <div class="advantages">
   <div class="adv-card">
     <div class="adv-title">Smart Conductor with Confidence Gating</div>
     <div class="adv-desc">Parses natural language goals, detects project phase from artifact state, auto-routes with confidence scoring (&ge;0.80). Learns from corrections via routing memory sidecar.</div>
-    <div class="adv-vs"><strong>vs Gaia:</strong> manual /gaia-command selection | <strong>vs GSD:</strong> manual /gsd-command | <strong>vs Gem:</strong> basic phase detection, no confidence scoring</div>
+    <div class="adv-vs"><strong>vs Gaia:</strong> manual /gaia-command | <strong>vs GSD:</strong> manual /gsd-command | <strong>vs Gem:</strong> basic phase detection, no confidence</div>
   </div>
   <div class="adv-card">
     <div class="adv-title">DAG-Based Parallel Wave Execution</div>
@@ -283,13 +358,13 @@
   </div>
   <div class="adv-card">
     <div class="adv-title">Ensemble Mode (Multi-Agent Discussion)</div>
-    <div class="adv-desc">First-class execution mode where multiple agents take turns in a shared conversation with the user as active participant. Turn policies: round-robin, facilitator-picks, user-picks.</div>
+    <div class="adv-desc">First-class execution mode where multiple agents take turns in a shared conversation. Turn policies: round-robin, facilitator-picks, user-picks.</div>
     <div class="adv-vs"><strong>vs Gaia:</strong> /gaia-party is limited | <strong>vs GSD:</strong> /gsd-discuss is single-agent | <strong>vs Gem:</strong> no persistent discussion</div>
   </div>
   <div class="adv-card">
     <div class="adv-title">3 Interaction Modes (Normal / YOLO / Planning)</div>
     <div class="adv-desc">Orthogonal to execution mode. YOLO auto-proceeds but gates still HALT. Planning shows full execution plan before any work begins.</div>
-    <div class="adv-vs"><strong>vs All:</strong> Other frameworks only support normal mode</div>
+    <div class="adv-vs"><strong>vs All:</strong> No other framework has orthogonal interaction + execution mode matrix</div>
   </div>
   <div class="adv-card">
     <div class="adv-title">Anti-Rationalization Protocol</div>
@@ -298,217 +373,314 @@
   </div>
   <div class="adv-card">
     <div class="adv-title">Engine-Enforced Self-Critique</div>
-    <div class="adv-desc">Every agent output passes through confidence threshold (&ge;0.85). Below threshold: retry once, then escalate. Not opt-in — the engine enforces it.</div>
-    <div class="adv-vs"><strong>vs Gaia:</strong> no self-critique | <strong>vs GSD:</strong> no self-critique | <strong>vs Gem:</strong> has confidence 0.85 threshold per agent + gem-critic — but Symphony's is engine-enforced, not per-agent opt-in</div>
+    <div class="adv-desc">Every agent output passes through confidence threshold (&ge;0.85). Below threshold: retry once, then escalate. The engine enforces it, not the agent.</div>
+    <div class="adv-vs"><strong>vs Gem:</strong> has 0.85 threshold but per-agent opt-in | <strong>vs Gaia/GSD:</strong> none</div>
   </div>
   <div class="adv-card">
     <div class="adv-title">Adaptive Quality Gates per Story Type</div>
-    <div class="adv-desc">6-gate review process auto-adapts based on story's traces_to prefix. Infrastructure stories get IaC-specific gates (checkov, OPA, cost review) instead of standard tests.</div>
+    <div class="adv-desc">6-gate review process auto-adapts based on story's traces_to prefix. Infrastructure stories get IaC-specific gates (checkov, OPA, cost review).</div>
     <div class="adv-vs"><strong>vs All:</strong> Other frameworks use one-size-fits-all review gates</div>
   </div>
   <div class="adv-card">
     <div class="adv-title">Dual-Layer Adapter Architecture</div>
     <div class="adv-desc">Core is tool-agnostic. Adapters are pure file generators with zero business logic. New AI tools = afternoon of adapter work, not a framework refactor.</div>
-    <div class="adv-vs"><strong>vs Gaia:</strong> Claude-only | <strong>vs GSD:</strong> multi-tool but logic duplicated per tool | <strong>vs Gem:</strong> Gemini-only</div>
+    <div class="adv-vs"><strong>vs Gaia:</strong> Claude-only | <strong>vs GSD:</strong> multi-tool but logic duplicated | <strong>vs Gem:</strong> Copilot-only</div>
   </div>
 </div>
 
-<!-- ═══════ SCORECARD MATRIX ═══════ -->
-<div class="section-title">Detailed Scorecard — Feature by Feature</div>
+<!-- SCORECARD MATRIX -->
+<div class="section-title">Detailed Scorecard &mdash; Feature by Feature</div>
 <div class="scorecard">
 <table class="sc-table">
   <thead>
     <tr>
-      <th style="width:160px;">Dimension</th>
+      <th style="width:150px;">Dimension</th>
       <th class="symphony-h" style="width:22%;">Symphony</th>
-      <th class="gaia-h" style="width:22%;">Gaia</th>
-      <th class="gsd-h" style="width:22%;">GSD</th>
+      <th class="gaia-h" style="width:20%;">Gaia</th>
+      <th class="gsd-h" style="width:20%;">GSD</th>
       <th class="gem-h" style="width:16%;">Gem Team</th>
       <th style="width:120px;">Verdict</th>
     </tr>
   </thead>
   <tbody>
+    <!-- ENGINE & ARCHITECTURE -->
+    <tr><td colspan="6" style="background:#1e1c1b;color:#d97757;font-size:0.68rem;text-transform:uppercase;letter-spacing:1px;padding:6px 12px;">Engine &amp; Architecture</td></tr>
     <tr>
       <td>Smart Orchestration</td>
       <td class="cell-leads">Conductor + confidence scoring + routing memory + phase detection <span class="pill leads">BUILT</span></td>
-      <td class="dim">lifecycle-sequence.yaml with manual command selection</td>
+      <td class="dim">lifecycle-sequence.yaml, manual commands</td>
       <td class="dim">Thin orchestrators, manual /gsd-command</td>
       <td class="cell-partial">gem-orchestrator with basic phase detection</td>
       <td class="verdict cell-leads">Symphony <span class="pill leads">LEADS</span></td>
     </tr>
     <tr>
       <td>Parallel Execution</td>
-      <td class="cell-leads">Wave Executor: DAG &rarr; &le;4 parallel + integration gates + conflict detection <span class="pill leads">BUILT</span></td>
+      <td class="cell-leads">Wave Executor: DAG &rarr; &le;4 parallel + integration gates <span class="pill leads">BUILT</span></td>
       <td class="cell-missing">No native parallelism</td>
-      <td class="cell-partial">Fresh context per agent (no coordination)</td>
-      <td class="cell-partial">runSubagent up to 4 concurrent (no gates)</td>
+      <td class="cell-partial">Fresh context per agent (no gates)</td>
+      <td class="cell-partial">runSubagent up to 4 (no gates)</td>
       <td class="verdict cell-leads">Symphony <span class="pill leads">LEADS</span></td>
     </tr>
     <tr>
       <td>Execution Modes</td>
       <td class="cell-leads">3: sequential, parallel-waves, ensemble <span class="pill leads">BUILT</span></td>
-      <td class="dim">1: sequential only</td>
-      <td class="dim">1: sequential + subagent spawn</td>
-      <td class="dim">1: sequential + subagent spawn</td>
+      <td class="dim">1: sequential</td>
+      <td class="dim">1: sequential + subagent</td>
+      <td class="dim">1: sequential + subagent</td>
       <td class="verdict cell-leads">Symphony <span class="pill unique">UNIQUE</span></td>
     </tr>
     <tr>
       <td>Interaction Modes</td>
       <td class="cell-leads">3: normal, YOLO, planning <span class="pill leads">BUILT</span></td>
-      <td class="dim">1: normal</td>
-      <td class="dim">1: normal</td>
-      <td class="cell-partial">discuss + skip discussion</td>
-      <td class="verdict cell-leads">Symphony <span class="pill unique">UNIQUE</span></td>
-    </tr>
-    <tr>
-      <td>Agent Count</td>
-      <td class="cell-leads">21 agents with full personas (15 lifecycle + 6 creative) <span class="pill leads">BUILT</span></td>
-      <td class="cell-leads">28 agents with full personas</td>
-      <td class="cell-strong">29 agents</td>
-      <td class="dim">15 agents</td>
-      <td class="verdict cell-partial">Gaia leads slightly &mdash; Symphony closing gap</td>
-    </tr>
-    <tr>
-      <td>Workflow Count</td>
-      <td class="cell-leads">54 workflows built (all phases + anytime + creative) <span class="pill leads">BUILT</span></td>
-      <td class="cell-leads">77 workflows with full instructions</td>
-      <td class="cell-strong">70 commands</td>
-      <td class="dim">1 orchestrator flow</td>
-      <td class="verdict cell-partial">Gaia leads slightly &mdash; Symphony closing gap</td>
-    </tr>
-    <tr>
-      <td>Lifecycle Phases</td>
-      <td class="cell-leads">5 phases: Analysis &rarr; Planning &rarr; Solutioning &rarr; Implementation &rarr; Deployment</td>
-      <td class="cell-leads">5 identical phases</td>
-      <td class="cell-strong">Phase-based roadmap (flexible)</td>
-      <td class="cell-partial">4 phases: Research &rarr; Plan &rarr; Execute &rarr; Verify</td>
-      <td class="verdict dim">Tied: Symphony &amp; Gaia</td>
+      <td class="cell-partial">YOLO mode</td>
+      <td class="cell-partial">Autonomous mode</td>
+      <td class="cell-partial">discuss + skip</td>
+      <td class="verdict cell-leads">Symphony <span class="pill leads">LEADS</span></td>
     </tr>
     <tr>
       <td>Quality Gates</td>
-      <td class="cell-leads">HALT-enforced, 6-gate adaptive per story type (app vs infra) <span class="pill leads">BUILT</span></td>
-      <td class="cell-strong">16 quality gates, enforced</td>
+      <td class="cell-leads">HALT-enforced, 6-gate adaptive per story type <span class="pill leads">BUILT</span></td>
+      <td class="cell-strong">17 gates, enforced</td>
       <td class="cell-partial">Plan-checker + post-verification</td>
       <td class="cell-partial">gem-reviewer + gem-critic</td>
       <td class="verdict cell-leads">Symphony <span class="pill leads">LEADS</span></td>
     </tr>
     <tr>
       <td>Multi-Tool Support</td>
-      <td class="cell-strong">2 adapters (Claude Code, Copilot) + clean extension model <span class="pill leads">BUILT</span></td>
+      <td class="cell-strong">2 adapters + clean extension model <span class="pill leads">BUILT</span></td>
       <td class="cell-missing">Claude Code only</td>
-      <td class="cell-leads">10+ tools: Claude, Gemini, Codex, Copilot, Cursor, Kilo, Trae, Cline, Augment</td>
-      <td class="cell-missing">Gemini CLI only</td>
-      <td class="verdict cell-partial">GSD leads breadth &mdash; Symphony's adapter model is cleaner</td>
+      <td class="cell-leads">15 runtimes: Claude, Gemini, Codex, Copilot, Cursor, Kilo, Trae, Cline, Augment...</td>
+      <td class="cell-missing">Copilot plugin only</td>
+      <td class="verdict cell-partial">GSD leads breadth; Symphony's model is cleaner</td>
+    </tr>
+
+    <!-- AGENTS -->
+    <tr><td colspan="6" style="background:#1e1c1b;color:#d97757;font-size:0.68rem;text-transform:uppercase;letter-spacing:1px;padding:6px 12px;">Agents</td></tr>
+    <tr>
+      <td>Lifecycle Agents</td>
+      <td class="cell-leads">15 agents with full XML personas <span class="pill leads">BUILT</span></td>
+      <td class="cell-leads">12 lifecycle + 1 validator</td>
+      <td class="cell-partial">gsd-executor, gsd-verifier (thin agents)</td>
+      <td class="cell-partial">gem-implementer, gem-reviewer (task-level)</td>
+      <td class="verdict dim">Tied: Symphony &amp; Gaia</td>
     </tr>
     <tr>
+      <td>Dev Agents (lang-specific)</td>
+      <td class="cell-strong">2 agents: _base-dev template + mobile-dev + enhanced developer (universal) <span class="pill done">DONE</span></td>
+      <td class="cell-leads">7 devs: TS, Angular, Flutter, Java, Python, Mobile, Go + base template</td>
+      <td class="dim">gsd-executor is generic</td>
+      <td class="cell-partial">gem-implementer + gem-implementer-mobile</td>
+      <td class="verdict cell-strong">Gaia leads count; Symphony covers all stacks via JIT knowledge</td>
+    </tr>
+    <tr>
+      <td>Creative Agents</td>
+      <td class="cell-leads">6 agents: brainstorm, design-thinking, innovation, problem-solver, storyteller, presentation <span class="pill leads">BUILT</span></td>
+      <td class="cell-leads">6 identical agents</td>
+      <td class="cell-missing">None</td>
+      <td class="cell-partial">gem-designer only</td>
+      <td class="verdict cell-leads">Tied: Symphony &amp; Gaia <span class="pill done">DONE</span></td>
+    </tr>
+    <tr>
+      <td>Testing Agents</td>
+      <td class="cell-partial">test-architect in lifecycle <span class="pill planned">PARTIAL</span></td>
+      <td class="cell-leads">test-architect (Sable) with 30 knowledge fragments</td>
+      <td class="cell-partial">gsd-nyquist-auditor</td>
+      <td class="cell-strong">gem-browser-tester + gem-mobile-tester</td>
+      <td class="verdict cell-missing">Gaia leads &mdash; Symphony needs testing module</td>
+    </tr>
+    <tr>
+      <td>Utility Agents</td>
+      <td class="cell-missing">0 utility agents <span class="pill missing">MISSING</span></td>
+      <td class="dim">Validator only</td>
+      <td class="cell-strong">plan-checker, integration-checker, codebase-mapper, user-profiler, pattern-mapper</td>
+      <td class="cell-strong">gem-critic, gem-code-simplifier, gem-documentation-writer</td>
+      <td class="verdict cell-missing">GSD + Gem lead &mdash; Symphony needs critic, simplifier, browser-tester</td>
+    </tr>
+    <tr>
+      <td>Total Agent Count</td>
+      <td class="cell-strong">23 <span class="pill leads">BUILT</span></td>
+      <td class="cell-leads">26</td>
+      <td class="cell-leads">33</td>
+      <td class="dim">15</td>
+      <td class="verdict cell-partial">GSD leads count; Symphony closing gap</td>
+    </tr>
+
+    <!-- WORKFLOWS -->
+    <tr><td colspan="6" style="background:#1e1c1b;color:#d97757;font-size:0.68rem;text-transform:uppercase;letter-spacing:1px;padding:6px 12px;">Workflows</td></tr>
+    <tr>
+      <td>Lifecycle Workflows</td>
+      <td class="cell-leads">39 workflows across 5 phases + anytime <span class="pill leads">BUILT</span></td>
+      <td class="cell-leads">53 lifecycle workflows</td>
+      <td class="cell-strong">84 workflows</td>
+      <td class="cell-partial">7 phases (orchestrator-driven)</td>
+      <td class="verdict cell-partial">Gaia/GSD lead in count</td>
+    </tr>
+    <tr>
+      <td>Creative Workflows</td>
+      <td class="cell-leads">7: creative-sprint, design-thinking, innovation, problem-solving, storytelling, slide-deck, pitch-deck <span class="pill leads">BUILT</span></td>
+      <td class="cell-leads">7 identical workflows</td>
+      <td class="cell-missing">None (sketch only)</td>
+      <td class="cell-missing">None</td>
+      <td class="verdict cell-leads">Tied: Symphony &amp; Gaia <span class="pill done">DONE</span></td>
+    </tr>
+    <tr>
+      <td>Testing Workflows</td>
+      <td class="cell-leads">16 testing workflows: test-design, ATDD, qa-tests, review-a11y (lifecycle) + 12 new: gap-analysis, performance-testing, mobile-testing, ci-setup, test-review, fill-test-gaps, edit-test-plan, nfr-assessment, test-automation, test-execution, security-testing, teach-me-testing <span class="pill done">DONE</span></td>
+      <td class="cell-leads">16: test-design, ATDD, gap-analysis, a11y, perf, mobile, ci-setup, test-review, traceability, teach-me-testing...</td>
+      <td class="cell-partial">/gsd-add-tests, /gsd-validate-phase</td>
+      <td class="cell-partial">gem-browser-tester, gem-mobile-tester (agent-driven)</td>
+      <td class="verdict cell-leads">Tied: Symphony &amp; Gaia <span class="pill done">DONE</span></td>
+    </tr>
+    <tr>
+      <td>Discuss / Gray Areas</td>
+      <td class="cell-strong">discuss workflow (critic-owned) + adversarial-review + party mode <span class="pill done">DONE</span></td>
+      <td class="cell-partial">Party mode only</td>
+      <td class="cell-leads">9 discuss modes: default, assumptions, advisor, analyze, chain, power, auto, batch, text</td>
+      <td class="cell-strong">Gray area detection: APIs, visual, business logic, data</td>
+      <td class="verdict cell-strong">GSD leads breadth; Symphony has discuss + adversarial <span class="pill done">DONE</span></td>
+    </tr>
+    <tr>
+      <td>Spike / Explore</td>
+      <td class="cell-leads">spike (timeboxed exploration) + explore-codebase (intelligence report) <span class="pill done">DONE</span></td>
+      <td class="cell-missing">None</td>
+      <td class="cell-leads">/gsd-spike (2-5 experiments), /gsd-explore (Socratic)</td>
+      <td class="cell-missing">None</td>
+      <td class="verdict cell-leads">Tied: Symphony &amp; GSD <span class="pill done">DONE</span></td>
+    </tr>
+    <tr>
+      <td>Debug / Forensics</td>
+      <td class="cell-strong">diagnose-then-fix protocol <span class="pill leads">BUILT</span></td>
+      <td class="cell-missing">None</td>
+      <td class="cell-strong">/gsd-debug + /gsd-forensics</td>
+      <td class="cell-strong">Diagnose-then-fix loop (3 retries + escalate)</td>
+      <td class="verdict cell-leads">Symphony <span class="pill leads">LEADS</span></td>
+    </tr>
+
+    <!-- KNOWLEDGE & SKILLS -->
+    <tr><td colspan="6" style="background:#1e1c1b;color:#d97757;font-size:0.68rem;text-transform:uppercase;letter-spacing:1px;padding:6px 12px;">Knowledge &amp; Skills</td></tr>
+    <tr>
+      <td>Dev Skills (shared)</td>
+      <td class="cell-leads">11 skills: git-workflow, api-design, database-design, docker, testing-patterns, code-review, docs, security, figma, edge-cases, validation <span class="pill done">DONE</span></td>
+      <td class="cell-leads">11: git-workflow, api-design, database-design, docker, testing-patterns, code-review, docs, security, figma, edge-cases, validation</td>
+      <td class="cell-partial">Referenced in agents (not standalone files)</td>
+      <td class="cell-missing">None</td>
+      <td class="verdict cell-leads">Tied: Symphony &amp; Gaia <span class="pill done">DONE</span></td>
+    </tr>
+    <tr>
+      <td>Dev Knowledge (per-lang)</td>
+      <td class="cell-strong">19 fragments: TypeScript (4), Angular (4), Flutter (4), Python (4), Go (3) <span class="pill done">DONE</span></td>
+      <td class="cell-leads">19: Angular (4), Flutter (4), Go (4), Java (4), Mobile (4), Python (4), TypeScript (4)</td>
+      <td class="cell-strong">54 reference files (mixed)</td>
+      <td class="cell-missing">None</td>
+      <td class="verdict cell-strong">Gaia leads count; Symphony covers 5 languages <span class="pill done">DONE</span></td>
+    </tr>
+    <tr>
+      <td>Testing Knowledge</td>
+      <td class="cell-leads">30 fragments: strategies (6), frameworks (6), patterns (6), performance (4), security (4), mobile (4) <span class="pill done">DONE</span></td>
+      <td class="cell-leads">30: accessibility (2), core (4), extended (4), mobile (3), performance (2), specialized (3), unit (3) + more</td>
+      <td class="cell-missing">None</td>
+      <td class="cell-missing">None</td>
+      <td class="verdict cell-leads">Tied: Symphony &amp; Gaia <span class="pill done">DONE</span></td>
+    </tr>
+
+    <!-- INFRASTRUCTURE -->
+    <tr><td colspan="6" style="background:#1e1c1b;color:#d97757;font-size:0.68rem;text-transform:uppercase;letter-spacing:1px;padding:6px 12px;">Infrastructure &amp; State</td></tr>
+    <tr>
       <td>Memory / State</td>
-      <td class="cell-leads">Per-agent sidecars + conductor sidecar + SHA256 checkpoints + memory-hygiene <span class="pill leads">BUILT</span></td>
-      <td class="cell-strong">_memory/ with 32 sidecar files</td>
+      <td class="cell-leads">Per-agent sidecars + conductor sidecar + SHA256 checkpoints <span class="pill leads">BUILT</span></td>
+      <td class="cell-strong">3-tier memory (rich/standard/simple), cross-agent matrix</td>
       <td class="cell-strong">.planning/ file-based state</td>
       <td class="cell-missing">No persistent state</td>
       <td class="verdict cell-leads">Symphony <span class="pill leads">LEADS</span></td>
     </tr>
     <tr>
-      <td>Brownfield Onboarding</td>
-      <td class="cell-leads">Overture: parallel-wave scan &rarr; arch map, API catalog, dep graph, NFR baseline, gap PRD <span class="pill planned">ENGINE READY</span></td>
-      <td class="cell-strong">/gaia-brownfield: sequential scan &rarr; onboarding docs</td>
-      <td class="cell-partial">/gsd-new-project --auto: basic extraction</td>
-      <td class="cell-missing">No onboarding support</td>
+      <td>Stakeholder Personas</td>
+      <td class="cell-leads">5 personas (CTO, PO, end-user, security-officer, QA-lead) + persona template + create-stakeholder workflow <span class="pill done">DONE</span></td>
+      <td class="cell-leads">Full system: custom/stakeholders/*.md, tag-based, JIT loading, party mode integration</td>
+      <td class="cell-missing">None</td>
+      <td class="cell-missing">None</td>
+      <td class="verdict cell-leads">Tied: Symphony &amp; Gaia <span class="pill done">DONE</span></td>
+    </tr>
+    <tr>
+      <td>Brownfield / Overture</td>
+      <td class="cell-leads">Overture: parallel-wave scan &rarr; arch map, API catalog, gap PRD <span class="pill leads">BUILT</span></td>
+      <td class="cell-strong">/gaia-brownfield: sequential scan</td>
+      <td class="cell-partial">/gsd-new-project --auto</td>
+      <td class="cell-missing">None</td>
       <td class="verdict cell-leads">Symphony <span class="pill leads">LEADS</span></td>
     </tr>
     <tr>
-      <td>Traceability</td>
-      <td class="cell-leads">Full chain: brief &rarr; PRD &rarr; arch &rarr; epics &rarr; stories &rarr; code &rarr; tests</td>
-      <td class="cell-leads">Full traceability matrix</td>
-      <td class="cell-partial">REQUIREMENTS &rarr; ROADMAP &rarr; phases</td>
-      <td class="cell-missing">PRD.yaml only</td>
-      <td class="verdict dim">Tied: Symphony &amp; Gaia</td>
+      <td>Test Execution Bridge</td>
+      <td class="cell-leads">5 adapters: vitest (JS/TS), pytest (Python), go-test (Go), flutter-test (Dart), xctest (iOS/Swift) <span class="pill done">DONE</span></td>
+      <td class="cell-leads">5 adapters: JS/TS, Python, Java, Go, Flutter &mdash; multi-layer orchestration</td>
+      <td class="cell-missing">None</td>
+      <td class="cell-missing">None</td>
+      <td class="verdict cell-leads">Tied: Symphony &amp; Gaia <span class="pill done">DONE</span></td>
     </tr>
     <tr>
-      <td>Context Discipline</td>
-      <td class="cell-leads">40K max/agent, JIT loading, strict file limits (200/150/300/1000 lines)</td>
-      <td class="cell-strong">Similar limits</td>
-      <td class="cell-strong">200K fresh context per agent (different approach)</td>
-      <td class="cell-missing">No explicit limits</td>
-      <td class="verdict dim">Different approaches &mdash; both valid</td>
+      <td>Hook System</td>
+      <td class="cell-strong">Generic post-step hooks in engine <span class="pill leads">BUILT</span></td>
+      <td class="cell-missing">None</td>
+      <td class="cell-leads">11 hooks: statusline, context-monitor, phase-boundary, validate-commit, prompt-guard, read-guard...</td>
+      <td class="cell-missing">None</td>
+      <td class="verdict cell-partial">GSD leads breadth; Symphony has the mechanism</td>
     </tr>
+    <tr>
+      <td>Hub / Dashboard</td>
+      <td class="cell-leads">Hono server + SSE live updates + 6 panels <span class="pill leads">BUILT</span></td>
+      <td class="cell-partial">Sprint status + epic status (CLI output)</td>
+      <td class="cell-partial">/gsd-manager, /gsd-progress (CLI output)</td>
+      <td class="cell-missing">None</td>
+      <td class="verdict cell-leads">Symphony <span class="pill leads">LEADS</span></td>
+    </tr>
+
+    <!-- PROTOCOLS & DISCIPLINE -->
+    <tr><td colspan="6" style="background:#1e1c1b;color:#d97757;font-size:0.68rem;text-transform:uppercase;letter-spacing:1px;padding:6px 12px;">Protocols &amp; Discipline</td></tr>
     <tr>
       <td>Self-Critique</td>
-      <td class="cell-leads">Engine-enforced, confidence &ge; 0.85, retry + escalate <span class="pill leads">BUILT</span></td>
+      <td class="cell-leads">Engine-enforced, &ge;0.85, retry + escalate <span class="pill leads">BUILT</span></td>
       <td class="cell-missing">None</td>
       <td class="cell-missing">None</td>
-      <td class="cell-strong">Confidence 0.85 per agent + gem-critic + debugger confidence 0.7</td>
-      <td class="verdict cell-leads">Symphony <span class="pill leads">LEADS</span> (engine-enforced vs per-agent)</td>
+      <td class="cell-strong">0.85 threshold per agent + gem-critic</td>
+      <td class="verdict cell-leads">Symphony <span class="pill leads">LEADS</span></td>
     </tr>
     <tr>
       <td>Anti-Rationalization</td>
       <td class="cell-leads">Excuse &rarr; Rebuttal table, engine-enforced <span class="pill leads">BUILT</span></td>
       <td class="cell-missing">None</td>
       <td class="cell-missing">None</td>
-      <td class="cell-missing">None</td>
+      <td class="cell-partial">Anti-rationalization tables in 5 agents</td>
       <td class="verdict cell-leads">Symphony <span class="pill unique">UNIQUE</span></td>
     </tr>
     <tr>
       <td>Trust Levels</td>
-      <td class="cell-leads">Trusted / Verify / Untrusted per source, prevents prompt injection <span class="pill leads">BUILT</span></td>
+      <td class="cell-leads">Trusted / Verify / Untrusted per source <span class="pill leads">BUILT</span></td>
       <td class="cell-missing">None</td>
       <td class="cell-missing">None</td>
-      <td class="cell-missing">None</td>
-      <td class="verdict cell-leads">Symphony <span class="pill unique">UNIQUE</span></td>
-    </tr>
-    <tr>
-      <td>Creative Module</td>
-      <td class="cell-leads">6 agents + 7 workflows: design thinking, innovation strategy, problem-solving, creative sprints, storytelling, slide decks, pitch decks <span class="pill leads">BUILT</span></td>
-      <td class="cell-leads">Design thinking, innovation, storytelling, slide decks, pitch decks, creative sprints</td>
-      <td class="cell-missing">None</td>
-      <td class="cell-partial">gem-designer agent</td>
-      <td class="verdict cell-leads">Tied: Symphony &amp; Gaia <span class="pill leads">SHIPPED</span></td>
-    </tr>
-    <tr>
-      <td>Testing Module</td>
-      <td class="cell-planned">Planned in Spec 6 <span class="pill planned">PLANNED</span></td>
-      <td class="cell-leads">ATDD, gap analysis, a11y, perf, mobile, test automation, test review</td>
-      <td class="cell-partial">Verification step only</td>
-      <td class="cell-partial">gem-browser-tester, gem-mobile-tester</td>
-      <td class="verdict cell-partial">Gaia leads &mdash; Symphony needs Spec 6</td>
-    </tr>
-    <tr>
-      <td>Security</td>
-      <td class="cell-leads">Threat model + security review + trust levels + OWASP + dep scan</td>
-      <td class="cell-strong">Threat model + security review</td>
-      <td class="cell-partial">security-auditor agent</td>
-      <td class="cell-missing">No explicit security</td>
+      <td class="cell-strong">Trusted/Verify/Untrusted in agents</td>
       <td class="verdict cell-leads">Symphony <span class="pill leads">LEADS</span></td>
     </tr>
     <tr>
-      <td>Vault Integration</td>
-      <td class="cell-leads">Obsidian: frontmatter, wikilinks, MOCs, Dataview, tag taxonomy <span class="pill planned">SPEC 8</span></td>
-      <td class="cell-missing">None</td>
-      <td class="cell-missing">None</td>
-      <td class="cell-missing">None</td>
-      <td class="verdict cell-leads">Symphony <span class="pill unique">UNIQUE</span></td>
+      <td>Traceability</td>
+      <td class="cell-leads">Full chain: brief &rarr; PRD &rarr; arch &rarr; epics &rarr; stories &rarr; code &rarr; tests</td>
+      <td class="cell-leads">Full traceability matrix (FR/NFR/IR/OR/SR)</td>
+      <td class="cell-partial">REQUIREMENTS &rarr; ROADMAP &rarr; phases</td>
+      <td class="cell-partial">PRD.yaml only</td>
+      <td class="verdict dim">Tied: Symphony &amp; Gaia</td>
     </tr>
     <tr>
-      <td>Diagnose-then-Fix</td>
-      <td class="cell-leads">Debugger agent dispatched for root-cause BEFORE retry, engine-enforced <span class="pill leads">BUILT</span></td>
-      <td class="cell-missing">None</td>
-      <td class="cell-partial">gsd-debugger agent (manual invocation)</td>
-      <td class="cell-strong">gem-debugger agent (orchestrator-dispatched)</td>
-      <td class="verdict cell-leads">Symphony <span class="pill leads">LEADS</span></td>
-    </tr>
-    <tr>
-      <td>Post-Step Hooks</td>
-      <td class="cell-leads">Generic hook mechanism, non-blocking, supports any integration <span class="pill leads">BUILT</span></td>
-      <td class="cell-missing">None</td>
-      <td class="cell-strong">Hook system for commands</td>
-      <td class="cell-missing">None</td>
-      <td class="verdict cell-leads">Symphony <span class="pill leads">LEADS</span></td>
+      <td>Context Discipline</td>
+      <td class="cell-leads">40K max/agent, JIT loading, strict line limits <span class="pill leads">BUILT</span></td>
+      <td class="cell-strong">Similar limits + sectioned skills</td>
+      <td class="cell-strong">200K fresh context per agent</td>
+      <td class="cell-missing">No explicit limits</td>
+      <td class="verdict dim">Different valid approaches</td>
     </tr>
   </tbody>
 </table>
 </div>
 
-<!-- ═══════ FEATURE GAP HEATMAP ═══════ -->
+<!-- FEATURE GAP HEATMAP -->
 <div class="section-title">Feature Gap Heatmap</div>
 <div class="heatmap">
 <table class="hm-table">
@@ -519,154 +691,50 @@
       <th style="width:14%;">Gaia</th>
       <th style="width:14%;">GSD</th>
       <th style="width:14%;">Gem Team</th>
-      <th style="width:14%;">Priority for Symphony</th>
+      <th style="width:14%;">Priority</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>Smart conductor / orchestration</td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-      <td><span class="hm-cell yellow">~</span></td>
-      <td><span class="hm-cell yellow">~</span></td>
-      <td><span class="hm-cell yellow">~</span></td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-    </tr>
-    <tr>
-      <td>Parallel wave execution</td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-    </tr>
-    <tr>
-      <td>Ensemble discussion mode</td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-      <td><span class="hm-cell yellow">~</span></td>
-      <td><span class="hm-cell yellow">~</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-    </tr>
-    <tr>
-      <td>Lifecycle agents (implemented)</td>
-      <td><span class="hm-cell purple">P</span></td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-      <td><span class="hm-cell red" style="background:#ef444450;">!</span></td>
-    </tr>
-    <tr>
-      <td>Lifecycle workflows (implemented)</td>
-      <td><span class="hm-cell purple">P</span></td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-      <td><span class="hm-cell yellow">~</span></td>
-      <td><span class="hm-cell red" style="background:#ef444450;">!</span></td>
-    </tr>
-    <tr>
-      <td>Creative workflows</td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell yellow">~</span></td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-    </tr>
-    <tr>
-      <td>Testing depth (ATDD, gap, a11y, perf)</td>
-      <td><span class="hm-cell purple">P</span></td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell yellow">~</span></td>
-      <td><span class="hm-cell yellow">M</span></td>
-    </tr>
-    <tr>
-      <td>Multi-tool support (10+ tools)</td>
-      <td><span class="hm-cell yellow">~</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell yellow">M</span></td>
-    </tr>
-    <tr>
-      <td>Workspace isolation</td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell blue">L</span></td>
-    </tr>
-    <tr>
-      <td>Lifecycle sequence branching (on_pass/fail)</td>
-      <td><span class="hm-cell purple">P</span></td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell yellow">M</span></td>
-    </tr>
-    <tr>
-      <td>Gray area detection (discuss phase)</td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell yellow">~</span></td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-      <td><span class="hm-cell yellow">M</span></td>
-    </tr>
-    <tr>
-      <td>Concurrent research delegation</td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell yellow">~</span></td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-    </tr>
-    <tr>
-      <td>Self-critique (engine-enforced)</td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-    </tr>
-    <tr>
-      <td>Anti-rationalization</td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-    </tr>
-    <tr>
-      <td>Trust levels</td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-    </tr>
-    <tr>
-      <td>Adaptive quality gates (app vs infra)</td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-    </tr>
-    <tr>
-      <td>Vault / knowledge graph integration</td>
-      <td><span class="hm-cell purple">P</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell red">&#10007;</span></td>
-      <td><span class="hm-cell blue">L</span></td>
-    </tr>
-    <tr>
-      <td>Fresh context per agent</td>
-      <td><span class="hm-cell yellow">~</span></td>
-      <td><span class="hm-cell yellow">~</span></td>
-      <td><span class="hm-cell green">&#10003;</span></td>
-      <td><span class="hm-cell yellow">~</span></td>
-      <td><span class="hm-cell blue">L</span></td>
-    </tr>
+    <tr><td colspan="6" style="background:#1e1c1b;color:#d97757;font-size:0.6rem;text-transform:uppercase;letter-spacing:1px;padding:4px 12px;">Covered (Symphony leads or matches)</td></tr>
+    <tr><td>Smart conductor / orchestration</td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell green">&#10003;</span></td></tr>
+    <tr><td>Parallel wave execution</td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell green">&#10003;</span></td></tr>
+    <tr><td>Ensemble discussion mode</td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell green">&#10003;</span></td></tr>
+    <tr><td>Lifecycle agents (15 built)</td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell green">&#10003;</span></td></tr>
+    <tr><td>Lifecycle workflows (39 built)</td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell green">&#10003;</span></td></tr>
+    <tr><td>Creative module (6a + 7w)</td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell green">&#10003;</span></td></tr>
+    <tr><td>Self-critique (engine-enforced)</td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell green">&#10003;</span></td></tr>
+    <tr><td>Anti-rationalization</td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell green">&#10003;</span></td></tr>
+    <tr><td>Trust levels</td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell green">&#10003;</span></td></tr>
+    <tr><td>Adaptive quality gates</td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell green">&#10003;</span></td></tr>
+    <tr><td>Hub dashboard (web)</td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell green">&#10003;</span></td></tr>
+    <tr><td>Memory system + checkpoints</td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell green">&#10003;</span></td></tr>
+    <tr><td>Brownfield / overture</td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell green">&#10003;</span></td></tr>
+    <tr><td>Diagnose-then-fix protocol</td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell green">&#10003;</span></td></tr>
+
+    <tr><td colspan="6" style="background:#1e1c1b;color:#ef4444;font-size:0.6rem;text-transform:uppercase;letter-spacing:1px;padding:4px 12px;">Gaps &mdash; High Priority</td></tr>
+    <tr><td>Testing workflows (16 in Gaia)</td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell red" style="background:#ef444450;">!</span></td></tr>
+    <tr><td>Dev agents (base + mobile + universal)</td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell green">&#10003;</span></td></tr>
+    <tr><td>Skills (11 shared)</td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell green">&#10003;</span></td></tr>
+    <tr><td>Dev knowledge fragments (19 files)</td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell green">&#10003;</span></td></tr>
+    <tr><td>Testing knowledge (30 fragments)</td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell red" style="background:#ef444450;">!</span></td></tr>
+    <tr><td>Critic / code-simplifier agents</td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell green">&#10003;</span></td></tr>
+    <tr><td>Stakeholder personas</td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell green">&#10003;</span></td></tr>
+
+    <tr><td colspan="6" style="background:#1e1c1b;color:#f59e0b;font-size:0.6rem;text-transform:uppercase;letter-spacing:1px;padding:4px 12px;">Gaps &mdash; Medium Priority</td></tr>
+    <tr><td>Discuss / gray area detection</td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell yellow">M</span></td></tr>
+    <tr><td>Test execution bridge (5 langs)</td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell yellow">M</span></td></tr>
+    <tr><td>Browser tester (E2E / Playwright)</td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell yellow">M</span></td></tr>
+    <tr><td>Mobile agents (impl + design + test)</td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell yellow">M</span></td></tr>
+    <tr><td>Spike / explore workflows</td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell green">&#10003;</span></td></tr>
+    <tr><td>Adversarial review triggers</td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell green">&#10003;</span></td></tr>
+    <tr><td>Additional adapters (Gemini, Cursor...)</td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell yellow">M</span></td></tr>
+
+    <tr><td colspan="6" style="background:#1e1c1b;color:#4a9eff;font-size:0.6rem;text-transform:uppercase;letter-spacing:1px;padding:4px 12px;">Gaps &mdash; Low Priority</td></tr>
+    <tr><td>Workspace isolation</td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell blue">L</span></td></tr>
+    <tr><td>Vault / knowledge graph</td><td><span class="hm-cell purple">P</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell blue">L</span></td></tr>
+    <tr><td>CLI tools layer / SDK</td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell yellow">~</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell blue">L</span></td></tr>
+    <tr><td>Internationalization</td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell blue">L</span></td></tr>
+    <tr><td>Environment presets (solo/team/enterprise)</td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell green">&#10003;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell red">&#10007;</span></td><td><span class="hm-cell blue">L</span></td></tr>
   </tbody>
 </table>
 <div class="hm-legend">
@@ -675,40 +743,44 @@
   <span class="hm-legend-item"><span class="hm-cell red" style="width:14px;height:14px;font-size:0.5rem;">&#10007;</span> Missing</span>
   <span class="hm-legend-item"><span class="hm-cell purple" style="width:14px;height:14px;font-size:0.5rem;">P</span> Planned</span>
   <span class="hm-legend-item"><span class="hm-cell red" style="width:14px;height:14px;font-size:0.5rem;background:#ef444450;">!</span> High priority gap</span>
-  <span class="hm-legend-item"><span class="hm-cell yellow" style="width:14px;height:14px;font-size:0.5rem;">M</span> Medium priority</span>
-  <span class="hm-legend-item"><span class="hm-cell blue" style="width:14px;height:14px;font-size:0.5rem;">L</span> Low priority</span>
+  <span class="hm-legend-item"><span class="hm-cell yellow" style="width:14px;height:14px;font-size:0.5rem;">M</span> Medium</span>
+  <span class="hm-legend-item"><span class="hm-cell blue" style="width:14px;height:14px;font-size:0.5rem;">L</span> Low</span>
 </div>
 </div>
 
-<!-- ═══════ IMPROVEMENT ROADMAP ═══════ -->
-<div class="section-title">Improvement Roadmap — What to Absorb from Each Framework</div>
+<!-- IMPROVEMENT ROADMAP -->
+<div class="section-title">Improvement Roadmap &mdash; What to Absorb from Each Framework</div>
 <div class="roadmap">
   <div class="roadmap-card from-gaia">
     <div class="roadmap-title">Absorb from Gaia</div>
     <ul class="roadmap-items">
       <li>
-        <span class="priority high">HIGH</span>
-        <span>Full creative module — design thinking, innovation strategy, storytelling, slide/pitch decks, creative sprints. Symphony's ensemble mode makes these even more powerful.</span>
+        <span class="priority done">DONE</span>
+        <span>Creative module (6 agents + 7 workflows) &mdash; shipped in Spec 6a with full parity.</span>
       </li>
       <li>
         <span class="priority high">HIGH</span>
-        <span>Deep testing suite — ATDD, test gap analysis, a11y testing, performance testing, mobile testing, test framework setup, CI/CD setup. These fill Symphony's testing module.</span>
+        <span>Testing module &mdash; 16 workflows: test-design, ATDD, gap-analysis, a11y, perf, mobile, ci-setup, test-review, traceability, teach-me-testing, fill-test-gaps, edit-test-plan, nfr-assessment + 30 knowledge fragments.</span>
+      </li>
+      <li>
+        <span class="priority done">DONE</span>
+        <span>Dev module (Spec 7a) &mdash; _base-dev template + mobile-dev agent + enhanced universal developer + 11 shared skills + 19 knowledge fragments (5 languages). Testing module (Spec 7b) &mdash; _base-test template + enhanced test-architect + 12 testing workflows + 30 knowledge fragments (6 categories) + 5 test execution adapters. Utility module (Spec 7c) &mdash; 3 utility agents (critic, code-simplifier, browser-tester) + 5 stakeholder personas + 9 new anytime workflows + 2 adapter registries. 1577 tests passing.</span>
+      </li>
+      <li>
+        <span class="priority high">HIGH</span>
+        <span style="text-decoration:line-through;opacity:0.6;">Stakeholder personas &mdash; custom/stakeholders/*.md with YAML frontmatter, tag-based discovery, JIT loading, party mode integration.</span> <span class="pill done">DONE (Spec 7c)</span>
       </li>
       <li>
         <span class="priority med">MED</span>
-        <span>Lifecycle-sequence branching logic — on_pass/on_fail routing, primary/alternatives, standalone workflows. Implement as a sequence manifest in Symphony.</span>
+        <span style="text-decoration:line-through;opacity:0.6;">Test execution bridge &mdash; 5 language adapters (JS/TS, Python, Go, Flutter, iOS/Swift) with discovery, execution, result parsing, CI integration.</span> <span class="pill done">DONE (Spec 7b)</span>
       </li>
       <li>
         <span class="priority med">MED</span>
-        <span>Party mode (stakeholder discussions) — absorb as an ensemble-mode workflow with stakeholder personas.</span>
+        <span style="text-decoration:line-through;opacity:0.6;">Adversarial review triggers &mdash; critic agent + adversarial-review workflow.</span> <span class="pill done">DONE (Spec 7c)</span>
       </li>
       <li>
         <span class="priority low">LOW</span>
-        <span>Quick flow (/gaia-quick-spec + /gaia-quick-dev) — already planned as /symphony-quick-spec + /symphony-quick-dev.</span>
-      </li>
-      <li>
-        <span class="priority low">LOW</span>
-        <span>Agent count depth (31+ vs ~15) — add specialist agents: editorial reviewer, changelog generator, adversarial agent.</span>
+        <span>Environment presets (solo/small-team/standard/enterprise) for CI/CD promotion chains.</span>
       </li>
     </ul>
   </div>
@@ -717,24 +789,28 @@
     <div class="roadmap-title">Absorb from GSD</div>
     <ul class="roadmap-items">
       <li>
-        <span class="priority med">MED</span>
-        <span>Multi-tool breadth — GSD supports 10+ tools. Symphony's adapter model is cleaner but needs more adapters: Gemini CLI, Cursor, Codex, Kilo, Trae, Cline.</span>
+        <span class="priority high">HIGH</span>
+        <span style="text-decoration:line-through;opacity:0.6;">Discuss phase &mdash; discuss workflow + adversarial-review for gray area detection.</span> <span class="pill done">DONE (Spec 7c)</span>
       </li>
       <li>
         <span class="priority med">MED</span>
-        <span>Workspace isolation — /gsd-new-workspace creates isolated copies with independent state. Useful for feature isolation and multi-repo work.</span>
+        <span>Multi-tool breadth &mdash; Symphony's adapter model is cleaner, but needs adapters for Gemini CLI, Cursor, Codex, Kilo, Trae, Cline (13 more runtimes).</span>
       </li>
       <li>
         <span class="priority med">MED</span>
-        <span>Fresh context per agent — GSD's 200K fresh context window per subagent eliminates context rot. Consider as a wave executor enhancement.</span>
+        <span style="text-decoration:line-through;opacity:0.6;">Spike + Explore &mdash; spike (timeboxed exploration) + explore-codebase (codebase intelligence).</span> <span class="pill done">DONE (Spec 7c)</span>
+      </li>
+      <li>
+        <span class="priority med">MED</span>
+        <span>Codebase intelligence &mdash; /gsd-intel (queryable JSON KB), /gsd-graphify (knowledge graph), pattern-mapper agent.</span>
       </li>
       <li>
         <span class="priority low">LOW</span>
-        <span>CLI tools layer (gsd-tools.cjs) — unified tool for state management, config, phase tracking, roadmap, verification, templates. Symphony could benefit from similar CLI tooling.</span>
+        <span>Workspace isolation with independent .planning/ directories per workspace, worktree-based isolation.</span>
       </li>
       <li>
         <span class="priority low">LOW</span>
-        <span>Internationalization — GSD has docs in Japanese, Korean, Chinese, Portuguese. Consider for Symphony's global reach.</span>
+        <span>SDK/CLI tools layer &mdash; 94 TypeScript query handlers for programmatic state management.</span>
       </li>
     </ul>
   </div>
@@ -743,32 +819,40 @@
     <div class="roadmap-title">Absorb from Gem Team</div>
     <ul class="roadmap-items">
       <li>
-        <span class="priority med">MED</span>
-        <span>Gray area detection (discuss phase) — Gem's orchestrator detects APIs, visual features, business logic, and data format ambiguities, then generates context-aware multiple-choice questions. Add to Symphony's Conductor.</span>
+        <span class="priority high">HIGH</span>
+        <span style="text-decoration:line-through;opacity:0.6;">Critic agent &mdash; assumption challenger, adversarial-review + discuss workflows.</span> <span class="pill done">DONE (Spec 7c)</span>
+      </li>
+      <li>
+        <span class="priority high">HIGH</span>
+        <span style="text-decoration:line-through;opacity:0.6;">Code simplifier agent &mdash; refactoring specialist, complexity reduction, YAGNI enforcement.</span> <span class="pill done">DONE (Spec 7c)</span>
       </li>
       <li>
         <span class="priority med">MED</span>
-        <span>Concurrent research delegation — Gem spawns up to 4 concurrent researchers per focus area. Symphony's wave executor already supports this; wire it up for research workflows.</span>
+        <span style="text-decoration:line-through;opacity:0.6;">Browser tester agent &mdash; Playwright E2E, visual regression, accessibility audit, responsive testing.</span> <span class="pill done">DONE (Spec 7c)</span>
+      </li>
+      <li>
+        <span class="priority med">MED</span>
+        <span>Mobile agents (3) &mdash; gem-implementer-mobile (React Native/Expo/Flutter TDD), gem-designer-mobile (HIG + Material 3), gem-mobile-tester (Detox/Maestro/Appium).</span>
+      </li>
+      <li>
+        <span class="priority med">MED</span>
+        <span style="text-decoration:line-through;opacity:0.6;">Gray area detection &mdash; discuss workflow surfaces ambiguities, adversarial-review challenges assumptions.</span> <span class="pill done">DONE (Spec 7c)</span>
       </li>
       <li>
         <span class="priority low">LOW</span>
-        <span>PRD.yaml structured format — Gem uses YAML for PRDs with explicit IN SCOPE, OUT OF SCOPE, NEEDS CLARIFICATION sections. Consider as template option.</span>
+        <span>Multi-plan selection &mdash; generate 3 plan variants in parallel, select best by metrics (parallelism, dependencies, risk).</span>
       </li>
       <li>
         <span class="priority low">LOW</span>
-        <span>Complexity classification (simple/medium/complex) — Gem auto-classifies task complexity to decide research depth. Could enhance Symphony's Conductor routing.</span>
-      </li>
-      <li>
-        <span class="priority low">LOW</span>
-        <span>Architectural decisions auto-append to AGENTS.md — useful convention for persistent decision capture beyond sidecars.</span>
+        <span>Design system spec (DESIGN.md) &mdash; 9-section design output with design lint rules and changed_tokens tracking.</span>
       </li>
     </ul>
   </div>
 </div>
 
-<!-- ═══════ FOOTER ═══════ -->
+<!-- FOOTER -->
 <div class="footer">
-  SYMPHONY Framework Comparison Dashboard &mdash; Last updated: 2026-04-12 &mdash; Compared against: Gaia v1.7.1, GSD (latest), Gem Team (latest)
+  SYMPHONY Framework Comparison Dashboard &mdash; Last updated: 2026-04-29 &mdash; Compared against: Gaia v1.7.1, GSD v1.39-rc, Gem Team v1.6.0
 </div>
 
 </body>

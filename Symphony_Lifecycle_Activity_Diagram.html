@@ -629,14 +629,14 @@
     <div class="header-subtitle">Full Lifecycle Activity Diagram</div>
   </div>
   <div class="header-stats">
-    <span class="stat"><strong>v0.0.2-alpha.1</strong> ~90% implemented</span>
+    <span class="stat"><strong>v0.0.2-alpha.1</strong> ~95% implemented</span>
     <span class="stat">Engine: <strong>5/5 runtime</strong></span>
     <span class="stat">Protocols: <strong>9/9 runtime</strong></span>
-    <span class="stat">Adapters: <strong>2/2 implemented</strong></span>
-    <span class="stat">Agents: <strong>21/21 built</strong></span>
-    <span class="stat">Workflows: <strong>54/54 built</strong></span>
-    <span class="stat">Lifecycle Seq: <strong>40+ transitions</strong></span>
-    <span class="stat">Tests: <strong>870 passing</strong></span>
+    <span class="stat">Adapters: <strong>4/4 registered</strong></span>
+    <span class="stat">Agents: <strong>30 built</strong></span>
+    <span class="stat">Workflows: <strong>75/75 built</strong></span>
+    <span class="stat">Skills: <strong>11</strong> | Knowledge: <strong>49</strong></span>
+    <span class="stat">Tests: <strong>1577 passing</strong></span>
   </div>
 </header>
 
@@ -1222,6 +1222,114 @@
   </div>
 </div>
 
+<!-- ═══════════ DEV MODULE ═══════════ -->
+<div class="section-divider engine">Dev Module — 2 Agents, 11 Skills, 19 Knowledge Fragments (Spec 7a)</div>
+<div style="margin:0 24px 16px; background:#2a2725; border:1px solid #e8a87c30; border-radius:10px; padding:16px 20px;">
+  <div style="font-size:0.9rem; font-weight:700; color:#e8a87c; margin-bottom:8px;">&#128736; Dev Module: Universal Developer + Mobile Specialist</div>
+  <div style="font-size:0.75rem; color:#a89a8e; margin-bottom:12px;">JIT knowledge loading based on stack detection. Developer agent detects project markers (package.json, angular.json, pubspec.yaml, pyproject.toml, go.mod) and loads matching language knowledge + shared skills on demand.</div>
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;">
+    <div style="background:#332f2c; border:1px solid #e8a87c20; border-radius:6px; padding:10px 12px;">
+      <div style="font-size:0.68rem; font-weight:700; color:#e8a87c; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Agents (2 + 1 enhanced)</div>
+      <div style="font-size:0.7rem; color:#a89a8e; line-height:1.7;">
+        &bull; <code style="color:#c4b5a6;">_base-dev</code> &mdash; abstract template (8-step TDD protocol)<br>
+        &bull; <code style="color:#c4b5a6;">mobile-dev</code> &mdash; React Native, Flutter, Kotlin, Swift<br>
+        &bull; <code style="color:#c4b5a6;">developer</code> &mdash; enhanced with skills-registry + knowledge-detection
+      </div>
+    </div>
+    <div style="background:#332f2c; border:1px solid #e8a87c20; border-radius:6px; padding:10px 12px;">
+      <div style="font-size:0.68rem; font-weight:700; color:#e8a87c; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Skills (11)</div>
+      <div style="font-size:0.7rem; color:#a89a8e; line-height:1.7;">
+        &bull; git-workflow, api-design, database-design<br>
+        &bull; docker-workflow, testing-patterns, code-review-standards<br>
+        &bull; documentation-standards, security-basics<br>
+        &bull; figma-integration, edge-cases, validation-patterns
+      </div>
+    </div>
+    <div style="background:#332f2c; border:1px solid #e8a87c20; border-radius:6px; padding:10px 12px;">
+      <div style="font-size:0.68rem; font-weight:700; color:#e8a87c; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Knowledge (19 fragments, 5 languages)</div>
+      <div style="font-size:0.7rem; color:#a89a8e; line-height:1.7;">
+        &bull; TypeScript (4): conventions, React, Next.js, Express<br>
+        &bull; Angular (4): conventions, patterns, NgRx, RxJS<br>
+        &bull; Flutter (4): Dart, widgets, state, platform channels<br>
+        &bull; Python (4): conventions, Django, FastAPI, pipelines<br>
+        &bull; Go (3): conventions, stdlib, testing
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ TESTING MODULE (Spec 7b) ═══════════ -->
+<div class="section-divider engine">Testing Module — 12 Workflows, 30 Knowledge, 5 Adapters (Spec 7b)</div>
+<div style="margin:0 24px 16px; background:#2a2725; border:1px solid #e8a87c30; border-radius:10px; padding:16px 20px;">
+  <div style="font-size:0.9rem; font-weight:700; color:#e8a87c; margin-bottom:8px;">&#128269; Testing Module: Test Architect + Knowledge + Adapters</div>
+  <div style="font-size:0.75rem; color:#a89a8e; margin-bottom:12px;">JIT knowledge loading by workflow context. Test-architect detects project stack and selects matching test execution adapter. 30 knowledge fragments across 6 categories loaded on demand.</div>
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;">
+    <div style="background:#332f2c; border:1px solid #e8a87c20; border-radius:6px; padding:10px 12px;">
+      <div style="font-size:0.68rem; font-weight:700; color:#e8a87c; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Workflows (12 new)</div>
+      <div style="font-size:0.7rem; color:#a89a8e; line-height:1.7;">
+        &bull; gap-analysis, performance-testing, mobile-testing<br>
+        &bull; ci-setup, test-review, fill-test-gaps<br>
+        &bull; edit-test-plan, nfr-assessment, test-automation<br>
+        &bull; test-execution, security-testing, teach-me-testing
+      </div>
+    </div>
+    <div style="background:#332f2c; border:1px solid #e8a87c20; border-radius:6px; padding:10px 12px;">
+      <div style="font-size:0.68rem; font-weight:700; color:#e8a87c; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Knowledge (30 fragments, 6 categories)</div>
+      <div style="font-size:0.7rem; color:#a89a8e; line-height:1.7;">
+        &bull; Strategies (6): pyramid, risk, BDD, contract, mutation, regression<br>
+        &bull; Frameworks (6): Vitest/Jest, pytest, Flutter, Go, Playwright, Cypress<br>
+        &bull; Patterns (6): doubles, fixtures, builders, snapshots, property, visual<br>
+        &bull; Performance (4) &bull; Security (4) &bull; Mobile (4)
+      </div>
+    </div>
+    <div style="background:#332f2c; border:1px solid #e8a87c20; border-radius:6px; padding:10px 12px;">
+      <div style="font-size:0.68rem; font-weight:700; color:#e8a87c; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Test Execution Bridge (5 adapters)</div>
+      <div style="font-size:0.7rem; color:#a89a8e; line-height:1.7;">
+        &bull; <code style="color:#c4b5a6;">vitest-adapter</code> &mdash; JS/TS (Vitest, Jest)<br>
+        &bull; <code style="color:#c4b5a6;">pytest-adapter</code> &mdash; Python<br>
+        &bull; <code style="color:#c4b5a6;">go-test-adapter</code> &mdash; Go<br>
+        &bull; <code style="color:#c4b5a6;">flutter-test-adapter</code> &mdash; Dart/Flutter<br>
+        &bull; <code style="color:#c4b5a6;">xctest-adapter</code> &mdash; iOS/Swift
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ UTILITY MODULE (Spec 7c) ═══════════ -->
+<div class="section-divider engine">Utility Module — 3 Agents, 5 Stakeholder Personas (Spec 7c)</div>
+<div style="margin:0 24px 16px; background:#2a2725; border:1px solid #e8a87c30; border-radius:10px; padding:16px 20px;">
+  <div style="font-size:0.9rem; font-weight:700; color:#e8a87c; margin-bottom:8px;">&#128295; Utility Module: Critic + Code Simplifier + Browser Tester</div>
+  <div style="font-size:0.75rem; color:#a89a8e; margin-bottom:12px;">Standalone agents invocable from any workflow. Plus pre-defined stakeholder personas for role-play reviews, and new adapter registries for Gemini CLI and Cursor.</div>
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;">
+    <div style="background:#332f2c; border:1px solid #e8a87c20; border-radius:6px; padding:10px 12px;">
+      <div style="font-size:0.68rem; font-weight:700; color:#e8a87c; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Utility Agents (3)</div>
+      <div style="font-size:0.7rem; color:#a89a8e; line-height:1.7;">
+        &bull; <code style="color:#c4b5a6;">critic</code> &mdash; adversarial review, assumption stress-testing<br>
+        &bull; <code style="color:#c4b5a6;">code-simplifier</code> &mdash; refactoring, complexity reduction<br>
+        &bull; <code style="color:#c4b5a6;">browser-tester</code> &mdash; E2E, visual regression, a11y audit
+      </div>
+    </div>
+    <div style="background:#332f2c; border:1px solid #e8a87c20; border-radius:6px; padding:10px 12px;">
+      <div style="font-size:0.68rem; font-weight:700; color:#e8a87c; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Stakeholder Personas (5)</div>
+      <div style="font-size:0.7rem; color:#a89a8e; line-height:1.7;">
+        &bull; <code style="color:#c4b5a6;">cto</code> &mdash; scalability, tech debt, architecture<br>
+        &bull; <code style="color:#c4b5a6;">product-owner</code> &mdash; value, timeline, scope<br>
+        &bull; <code style="color:#c4b5a6;">end-user</code> &mdash; usability, accessibility<br>
+        &bull; <code style="color:#c4b5a6;">security-officer</code> &mdash; OWASP, data protection<br>
+        &bull; <code style="color:#c4b5a6;">qa-lead</code> &mdash; coverage, quality gates
+      </div>
+    </div>
+    <div style="background:#332f2c; border:1px solid #e8a87c20; border-radius:6px; padding:10px 12px;">
+      <div style="font-size:0.68rem; font-weight:700; color:#e8a87c; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">New Anytime Workflows (9)</div>
+      <div style="font-size:0.7rem; color:#a89a8e; line-height:1.7;">
+        &bull; spike, explore-codebase, discuss<br>
+        &bull; adversarial-review, hub, status<br>
+        &bull; trello-sync, trello-setup, toggle
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ═══════════ ANYTIME COMMANDS ═══════════ -->
 <div class="section-divider anytime">Anytime Commands — No Lifecycle Position</div>
 <div class="anytime-grid">
@@ -1256,6 +1364,42 @@
   <div class="anytime-card" style="border-left-color:#b8977a;">
     <div class="anytime-cmd" style="color:#b8977a;">/symphony-create-stakeholder</div>
     <div class="anytime-desc">Create a stakeholder persona — define role, perspective, expertise, biases. Available for Party Mode and ensemble discussions.</div>
+  </div>
+  <div class="anytime-card">
+    <div class="anytime-cmd">/symphony-spike</div>
+    <div class="anytime-desc">Timeboxed exploration — research a question, prototype, document findings with go/no-go recommendation</div>
+  </div>
+  <div class="anytime-card">
+    <div class="anytime-cmd">/symphony-explore-codebase</div>
+    <div class="anytime-desc">Analyze codebase structure, patterns, dependencies, and generate intelligence report</div>
+  </div>
+  <div class="anytime-card">
+    <div class="anytime-cmd">/symphony-discuss</div>
+    <div class="anytime-desc">Surface gray areas, ambiguities, unstated assumptions in any artifact</div>
+  </div>
+  <div class="anytime-card" style="border-left-color:#d97757;">
+    <div class="anytime-cmd" style="color:#d97757;">/symphony-adversarial-review</div>
+    <div class="anytime-desc">Devil's advocate review — challenge assumptions, find weaknesses, stress-test claims</div>
+  </div>
+  <div class="anytime-card">
+    <div class="anytime-cmd">/symphony-hub</div>
+    <div class="anytime-desc">Launch the Symphony Hub dashboard for project visibility</div>
+  </div>
+  <div class="anytime-card">
+    <div class="anytime-cmd">/symphony-status</div>
+    <div class="anytime-desc">Generate current project status summary across all lifecycle phases</div>
+  </div>
+  <div class="anytime-card">
+    <div class="anytime-cmd">/symphony-trello-sync</div>
+    <div class="anytime-desc">Sync Symphony workflow state with Trello board bidirectionally</div>
+  </div>
+  <div class="anytime-card">
+    <div class="anytime-cmd">/symphony-trello-setup</div>
+    <div class="anytime-desc">Initialize Trello board structure for Symphony project</div>
+  </div>
+  <div class="anytime-card">
+    <div class="anytime-cmd">/symphony-toggle</div>
+    <div class="anytime-desc">Toggle Symphony feature flags and configuration settings</div>
   </div>
 </div>
 
@@ -1437,7 +1581,7 @@
 
 <!-- ═══════════ FOOTER ═══════════ -->
 <div class="footer">
-  SYMPHONY Framework &mdash; Orchestrate your code. &mdash; Last updated: 2026-04-20 &mdash; Specs 1-5 + 6a + 7 complete (54/54 workflows, 21 agents, engine 5/5)
+  SYMPHONY Framework &mdash; Orchestrate your code. &mdash; Last updated: 2026-04-29 &mdash; Specs 1-7c complete (75 workflows, 30 agents, 11 skills, 49 knowledge, 1577 tests)
 </div>
 
 </body>
