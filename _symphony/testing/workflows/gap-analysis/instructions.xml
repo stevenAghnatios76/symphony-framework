@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="gap-analysis">
+  <steps>
+    <step n="1" title="Load codebase and test suites">
+      <action>Read source code and existing test suites, run coverage tools if available.</action>
+      <action>If a coverage report exists, load it for baseline metrics.</action>
+    </step>
+    <step n="2" title="Identify untested areas">
+      <action>Identify untested modules, functions, branches, and critical paths.</action>
+      <action>Cross-reference with test plan if available to find planned but missing tests.</action>
+    </step>
+    <step n="3" title="Categorize gaps by severity">
+      <action>Categorize each gap by severity (critical/high/medium/low) based on risk impact.</action>
+      <action>Assess risk factors: user-facing, data integrity, security, frequency of use.</action>
+    </step>
+    <step n="4" title="Generate remediation plan">
+      <action>Generate prioritized remediation plan ordered by severity and effort.</action>
+      <action>Estimate effort for each gap remediation in story points or hours.</action>
+    </step>
+    <step n="5" title="Produce gap analysis report">
+      <template-output file="docs/testing-artifacts/gap-analysis-{{project}}.md">
+        Apply the template from template.md, filling all sections with gap analysis details.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

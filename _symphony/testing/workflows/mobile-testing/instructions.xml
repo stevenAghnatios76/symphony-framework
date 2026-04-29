@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="mobile-testing">
+  <steps>
+    <step n="1" title="Load architecture and detect framework">
+      <action>Read architecture document and detect mobile framework (Flutter, React Native, native).</action>
+      <action>Identify platform targets (iOS, Android, or both) and minimum OS versions.</action>
+    </step>
+    <step n="2" title="Define device testing matrix">
+      <action>Define device testing matrix: OS versions, screen sizes, capabilities.</action>
+      <action>Include both physical devices and simulators/emulators in the matrix.</action>
+    </step>
+    <step n="3" title="Design platform-specific test plans">
+      <action>Design platform-specific test plans for iOS (HIG compliance) and Android (Material 3).</action>
+      <action>Cover platform-specific behaviors: permissions, deep linking, app lifecycle.</action>
+    </step>
+    <step n="4" title="Plan gesture and interaction testing">
+      <action>Plan gesture and interaction testing coverage: tap, swipe, pinch, long-press, drag.</action>
+      <action>Include accessibility gesture support and screen reader compatibility.</action>
+    </step>
+    <step n="5" title="Plan push notification and background testing">
+      <action>Plan push notification testing across foreground, background, and terminated states.</action>
+      <action>Plan offline mode and background state transition testing.</action>
+    </step>
+    <step n="6" title="Produce mobile test plan">
+      <template-output file="docs/testing-artifacts/mobile-test-plan-{{project}}.md">
+        Apply the template from template.md, filling all sections with mobile test details.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

@@ -1,0 +1,35 @@
+id: ci-setup
+owner: test-architect
+model: opus
+description: Configure CI pipeline for test execution and reporting
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [test-plan]
+  optional: [architecture]
+
+outputs:
+  primary: docs/testing-artifacts/ci-test-config-{{project}}.md
+  traceable_to: [test-plan]
+
+gates:
+  pre_start:
+    - test-plan exists
+  post_complete:
+    - Output has Pipeline Stages
+    - Output has Parallelization Strategy
+    - Output has Reporting Config
+    - Output has Gate Thresholds
+    - Output has Caching Strategy
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

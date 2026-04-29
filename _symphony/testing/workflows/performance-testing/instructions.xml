@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="performance-testing">
+  <steps>
+    <step n="1" title="Load architecture and identify critical paths">
+      <action>Read architecture document and extract performance-critical paths.</action>
+      <action>Identify APIs, database queries, and user flows with latency sensitivity.</action>
+    </step>
+    <step n="2" title="Define performance goals">
+      <action>Define performance goals: response time, throughput, error rate targets.</action>
+      <action>If NFR requirements exist, align goals with specified thresholds.</action>
+    </step>
+    <step n="3" title="Design load test scenarios">
+      <action>Design load test scenarios: normal, peak, stress, spike, and soak.</action>
+      <action>Define user concurrency levels and ramp-up patterns for each scenario.</action>
+    </step>
+    <step n="4" title="Select tools">
+      <action>Select performance testing tools (k6, Artillery, Locust) with rationale.</action>
+      <action>Consider team familiarity, scripting language, and CI integration support.</action>
+    </step>
+    <step n="5" title="Define baseline metrics and thresholds">
+      <action>Define baseline metrics for each critical path.</action>
+      <action>Set alerting thresholds for degradation detection.</action>
+    </step>
+    <step n="6" title="Produce performance test plan">
+      <template-output file="docs/testing-artifacts/performance-test-plan-{{project}}.md">
+        Apply the template from template.md, filling all sections with performance test details.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

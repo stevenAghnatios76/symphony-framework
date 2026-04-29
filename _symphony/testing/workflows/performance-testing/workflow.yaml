@@ -1,0 +1,35 @@
+id: performance-testing
+owner: test-architect
+model: opus
+description: Design and execute performance/load test strategy
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [architecture]
+  optional: [test-plan, nfr-requirements]
+
+outputs:
+  primary: docs/testing-artifacts/performance-test-plan-{{project}}.md
+  traceable_to: [architecture]
+
+gates:
+  pre_start:
+    - architecture.md exists
+  post_complete:
+    - Output has Performance Goals
+    - Output has Test Scenarios
+    - Output has Tool Selection
+    - Output has Baseline Metrics
+    - Output has Alerting Thresholds
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

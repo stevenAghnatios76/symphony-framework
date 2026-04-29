@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="ci-setup">
+  <steps>
+    <step n="1" title="Load test plan and identify frameworks">
+      <action>Read test plan and identify test types, frameworks, and execution requirements.</action>
+      <action>If architecture exists, load it for infrastructure context.</action>
+    </step>
+    <step n="2" title="Design pipeline stages">
+      <action>Design pipeline stages: lint, unit, integration, e2e.</action>
+      <action>Define stage ordering, dependencies, and failure behavior.</action>
+    </step>
+    <step n="3" title="Configure parallelization">
+      <action>Configure parallelization and test splitting strategy.</action>
+      <action>Determine optimal shard count based on test suite size and runner capacity.</action>
+    </step>
+    <step n="4" title="Set up reporting and coverage">
+      <action>Set up test reporting format and coverage upload configuration.</action>
+      <action>Configure artifact collection for test results and screenshots.</action>
+    </step>
+    <step n="5" title="Define quality gate thresholds">
+      <action>Define quality gate thresholds: coverage percentage, flake rate, max duration.</action>
+      <action>Configure branch protection rules tied to gate results.</action>
+    </step>
+    <step n="6" title="Produce CI configuration plan">
+      <template-output file="docs/testing-artifacts/ci-test-config-{{project}}.md">
+        Apply the template from template.md, filling all sections with CI configuration details.
+      </template-output>
+    </step>
+  </steps>
+</instructions>
