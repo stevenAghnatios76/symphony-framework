@@ -9,7 +9,7 @@ modules:
     version: "0.0.1"
     description: "5-phase lifecycle agents, workflows, templates"
   dev:
-    version: "0.0.1"
+    version: "0.0.2-alpha.1"
     description: "Developer agents, skills, knowledge fragments"
   creative:
     version: "0.0.2-alpha.1"

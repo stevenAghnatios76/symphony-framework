@@ -5,7 +5,9 @@
       "Bash(git commit -m ':*)",
       "Bash(npx vitest:*)",
       "Bash(open /Users/stevenagh76/Documents/symphony-framework/Symphony_Framework_Comparison.html)",
-      "Bash(open /Users/stevenagh76/Documents/symphony-framework/Symphony_Lifecycle_Activity_Diagram.html)"
+      "Bash(open /Users/stevenagh76/Documents/symphony-framework/Symphony_Lifecycle_Activity_Diagram.html)",
+      "Bash(wc -l /Users/stevenagh76/Documents/solution-comapre/Gaia-framework/_gaia/creative/agents/*.md)",
+      "Bash(git commit *)"
     ]
   }
 }

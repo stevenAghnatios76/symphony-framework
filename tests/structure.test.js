@@ -151,6 +151,33 @@ describe('Symphony repo structure (architecture spec §4.1)', () => {
     }
   });
 
+  describe('_symphony/dev — agents, skills, knowledge (Spec 7a)', () => {
+    it('has _base-dev.md', () => {
+      expect(exists('_symphony/dev/agents/_base-dev.md')).toBe(true);
+    });
+    it('has mobile-dev.md', () => {
+      expect(exists('_symphony/dev/agents/mobile-dev.md')).toBe(true);
+    });
+
+    const skills = [
+      'git-workflow', 'api-design', 'database-design', 'docker-workflow',
+      'testing-patterns', 'code-review-standards', 'documentation-standards',
+      'security-basics', 'figma-integration', 'edge-cases', 'validation-patterns',
+    ];
+    for (const s of skills) {
+      it(`has skill ${s}`, () => {
+        expect(exists(`_symphony/dev/skills/${s}.md`)).toBe(true);
+      });
+    }
+
+    const knowledgeDirs = ['typescript', 'angular', 'flutter', 'python', 'go'];
+    for (const d of knowledgeDirs) {
+      it(`has knowledge/${d} directory`, () => {
+        expect(exists(`_symphony/dev/knowledge/${d}`)).toBe(true);
+      });
+    }
+  });
+
   describe('_symphony/_memory', () => {
     it('has checkpoints directory', () => {
       expect(exists('_symphony/_memory/checkpoints')).toBe(true);
