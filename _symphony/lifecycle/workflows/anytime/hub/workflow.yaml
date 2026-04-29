@@ -1,0 +1,33 @@
+id: hub
+owner: conductor
+model: opus
+description: Launch the Symphony Hub dashboard for project visibility and workflow monitoring
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: []
+  optional: []
+
+outputs:
+  primary: null
+  traceable_to: []
+
+gates:
+  pre_start:
+    - Hub directory exists at _symphony/hub/
+  post_complete:
+    - Hub server started
+    - URL displayed
+    - Dashboard accessible
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

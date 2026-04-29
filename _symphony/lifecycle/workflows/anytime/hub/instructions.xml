@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="hub">
+  <steps>
+    <step n="1" title="Check hub configuration">
+      <action>Read global.yaml and check hub configuration: port, enabled status.</action>
+      <action>Use default port 3100 if not configured.</action>
+    </step>
+    <step n="2" title="Verify hub directory">
+      <action>Verify hub directory exists at _symphony/hub/.</action>
+      <action>Check that required hub assets are present.</action>
+    </step>
+    <step n="3" title="Check port availability">
+      <action>Check if the configured port (default 3100) is available.</action>
+      <action>If port is in use, suggest an alternative or prompt user.</action>
+    </step>
+    <step n="4" title="Start hub server">
+      <action>Start the local hub server on the configured port.</action>
+      <action>Initialize dashboard with current project state.</action>
+    </step>
+    <step n="5" title="Display dashboard URL">
+      <action>Display the dashboard URL to the user (e.g., http://localhost:3100).</action>
+      <action>List available dashboard views and quick actions.</action>
+    </step>
+    <step n="6" title="Confirm accessibility">
+      <action>Confirm the dashboard is accessible and responding.</action>
+      <action>Report server status and any warnings.</action>
+    </step>
+  </steps>
+</instructions>

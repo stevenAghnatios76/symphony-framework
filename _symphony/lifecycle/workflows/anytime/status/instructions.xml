@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="status">
+  <steps>
+    <step n="1" title="Scan lifecycle phases">
+      <action>Scan all lifecycle phases for workflow execution state.</action>
+      <action>Identify which phases have active, completed, or pending workflows.</action>
+    </step>
+    <step n="2" title="Collect progress indicators">
+      <action>Collect progress indicators: completed workflows, pending gates, open items.</action>
+      <action>If sprint-plan exists, load it for sprint context and velocity data.</action>
+    </step>
+    <step n="3" title="Identify blockers and risks">
+      <action>Identify blockers, risks, and unresolved dependencies.</action>
+      <action>Flag any failed gates or stalled workflows.</action>
+    </step>
+    <step n="4" title="Calculate health metrics">
+      <action>Calculate health metrics: velocity, completion rate, blocker count.</action>
+      <action>Compare against targets if sprint-plan is available.</action>
+    </step>
+    <step n="5" title="Determine next actions">
+      <action>Determine recommended next actions based on current state.</action>
+      <action>Prioritize actions that unblock the most downstream work.</action>
+    </step>
+    <step n="6" title="Produce status report">
+      <template-output file="docs/planning-artifacts/status-{date}.md">
+        Apply the template from template.md, filling all sections with current project status.
+      </template-output>
+    </step>
+  </steps>
+</instructions>
