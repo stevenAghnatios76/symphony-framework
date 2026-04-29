@@ -55,7 +55,31 @@ max_lines: 200
     <workflow>atdd</workflow>
     <workflow>qa-tests</workflow>
     <workflow>review-a11y</workflow>
+    <workflow>security-testing</workflow>
+    <workflow>teach-me-testing</workflow>
   </workflows-owned>
+
+  <base-test ref="_symphony/testing/agents/_base-test.md"/>
+
+  <knowledge-registry>
+    <category dir="strategies">test-pyramid, risk-based-testing, bdd-gherkin, contract-testing, mutation-testing, regression-strategy</category>
+    <category dir="frameworks">vitest-jest, pytest-patterns, flutter-testing, go-testing, playwright-patterns, cypress-patterns</category>
+    <category dir="patterns">test-doubles, fixture-management, data-builders, snapshot-testing, property-based, visual-regression</category>
+    <category dir="performance">load-testing, profiling, benchmarking, lighthouse</category>
+    <category dir="security">owasp-testing, dependency-scanning, sast-dast, pen-testing</category>
+    <category dir="mobile">device-testing, app-store-testing, gesture-testing, push-notification-testing</category>
+  </knowledge-registry>
+
+  <adapter-detection>
+    <stack marker="package.json" adapter="vitest-adapter"/>
+    <stack marker="pyproject.toml" adapter="pytest-adapter"/>
+    <stack marker="setup.py" adapter="pytest-adapter"/>
+    <stack marker="requirements.txt" adapter="pytest-adapter"/>
+    <stack marker="go.mod" adapter="go-test-adapter"/>
+    <stack marker="pubspec.yaml" adapter="flutter-test-adapter"/>
+    <stack marker="*.xcodeproj" adapter="xctest-adapter"/>
+    <stack marker="Package.swift" adapter="xctest-adapter"/>
+  </adapter-detection>
 
   <memory-sidecar path="_symphony/_memory/test-architect-sidecar/"/>
 </agent>
