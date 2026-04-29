@@ -1,0 +1,35 @@
+id: status
+owner: scrum-master
+model: opus
+description: Generate current project status summary across all lifecycle phases
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: []
+  optional: [sprint-plan]
+
+outputs:
+  primary: docs/planning-artifacts/status-{date}.md
+  traceable_to: []
+
+gates:
+  pre_start:
+    - At least one workflow has been executed
+  post_complete:
+    - Output has Phase Summary
+    - Output has Active Workflows
+    - Output has Blockers
+    - Output has Metrics
+    - Output has Next Steps
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

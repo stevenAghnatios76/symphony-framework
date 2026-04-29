@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="adversarial-review">
+  <steps>
+    <step n="1" title="Load artifact and extract claims">
+      <action>Read the target artifact and extract all claims, decisions, and assumptions.</action>
+      <action>If architecture or PRD exists, load them for additional context.</action>
+    </step>
+    <step n="2" title="Assess evidence strength">
+      <action>For each claim, assess evidence strength: strong, moderate, weak, or none.</action>
+      <action>Note claims that rely on unstated assumptions or circular reasoning.</action>
+    </step>
+    <step n="3" title="Identify weaknesses">
+      <action>Identify logical gaps, unaddressed risks, and missing alternatives.</action>
+      <action>Flag areas where the artifact contradicts itself or ignores edge cases.</action>
+    </step>
+    <step n="4" title="Stress-test assumptions">
+      <action>Stress-test critical assumptions with failure scenarios.</action>
+      <action>Model what happens if each key assumption proves false.</action>
+    </step>
+    <step n="5" title="Rate findings by severity">
+      <action>Rate each finding by severity: critical, high, medium, or low.</action>
+      <action>Prioritize findings that could derail the project if unaddressed.</action>
+    </step>
+    <step n="6" title="Produce adversarial review report">
+      <template-output file="docs/planning-artifacts/adversarial-review-{artifact}.md">
+        Apply the template from template.md, filling all sections with adversarial review findings.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

@@ -1,0 +1,35 @@
+id: adversarial-review
+owner: critic
+model: opus
+description: Devil's advocate review of any artifact — find weaknesses, challenge assumptions, rate severity
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [artifact]
+  optional: [architecture, prd]
+
+outputs:
+  primary: docs/planning-artifacts/adversarial-review-{artifact}.md
+  traceable_to: [artifact]
+
+gates:
+  pre_start:
+    - Artifact to review exists
+  post_complete:
+    - Output has Claims Inventory
+    - Output has Weakness Analysis
+    - Output has Risk Assessment
+    - Output has Severity Ratings
+    - Output has Actionable Recommendations
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true
