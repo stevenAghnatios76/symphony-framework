@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="spike">
+  <steps>
+    <step n="1" title="Define hypothesis">
+      <action>Define the question or hypothesis to investigate. Clarify what a successful answer looks like.</action>
+      <action>If architecture context exists, load it to ground the investigation.</action>
+    </step>
+    <step n="2" title="Set timebox and scope">
+      <action>Set timebox (default 2 hours) and scope boundaries.</action>
+      <action>Define what is in-scope and explicitly out-of-scope to prevent rabbit holes.</action>
+    </step>
+    <step n="3" title="Research approaches">
+      <action>Research approaches — read docs, explore libraries, check prior art, review community solutions.</action>
+    </step>
+    <step n="4" title="Build minimal prototype">
+      <action>Build minimal prototype if needed to validate hypothesis. Keep it throwaway — just enough to prove or disprove.</action>
+    </step>
+    <step n="5" title="Document findings">
+      <action>Document findings with evidence: code snippets, benchmarks, links, and observations.</action>
+    </step>
+    <step n="6" title="Make recommendation">
+      <action>Make go/no-go recommendation with rationale. If go, outline next steps. If no-go, explain why and suggest alternatives.</action>
+    </step>
+    <step n="7" title="Produce spike report">
+      <template-output file="docs/planning-artifacts/spike-{{topic}}.md">
+        Apply the template from template.md, filling all sections with spike findings and recommendation.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

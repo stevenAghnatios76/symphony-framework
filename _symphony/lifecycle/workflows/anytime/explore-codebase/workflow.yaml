@@ -1,0 +1,35 @@
+id: explore-codebase
+owner: developer
+model: opus
+description: Analyze codebase structure, patterns, dependencies, and generate intelligence report
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [codebase]
+  optional: []
+
+outputs:
+  primary: docs/planning-artifacts/codebase-report-{{project}}.md
+  traceable_to: [codebase]
+
+gates:
+  pre_start:
+    - Source code accessible
+  post_complete:
+    - Output has Structure Overview section
+    - Output has Patterns & Conventions section
+    - Output has Dependency Map section
+    - Output has Code Quality Metrics section
+    - Output has Key Findings section
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

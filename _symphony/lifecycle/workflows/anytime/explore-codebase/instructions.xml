@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="explore-codebase">
+  <steps>
+    <step n="1" title="Scan directory structure">
+      <action>Scan directory structure, identify framework, language, and build system.</action>
+      <action>Map the top-level layout and note any non-standard organization.</action>
+    </step>
+    <step n="2" title="Map architecture layers">
+      <action>Map architecture layers: presentation, business logic, data access, infrastructure.</action>
+      <action>Identify entry points, routing, and module boundaries.</action>
+    </step>
+    <step n="3" title="Identify patterns and conventions">
+      <action>Identify patterns and conventions: naming, file organization, testing approach, error handling.</action>
+      <action>Note any design patterns in use (MVC, repository, event-driven, etc.).</action>
+    </step>
+    <step n="4" title="Analyze dependencies">
+      <action>Analyze dependencies (direct, dev, peer) from package manifests.</action>
+      <action>Assess dependency health: outdated packages, known vulnerabilities, license concerns.</action>
+    </step>
+    <step n="5" title="Measure code quality">
+      <action>Measure code quality indicators: complexity hotspots, duplication, test coverage, linting configuration.</action>
+    </step>
+    <step n="6" title="Produce codebase report">
+      <template-output file="docs/planning-artifacts/codebase-report-{{project}}.md">
+        Apply the template from template.md, filling all sections with codebase intelligence findings.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

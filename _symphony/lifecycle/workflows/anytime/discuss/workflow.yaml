@@ -1,0 +1,35 @@
+id: discuss
+owner: critic
+model: opus
+description: Surface gray areas, ambiguities, and unresolved decisions in requirements or architecture
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [artifact]
+  optional: [prd, architecture]
+
+outputs:
+  primary: docs/planning-artifacts/discussion-{{topic}}.md
+  traceable_to: [artifact]
+
+gates:
+  pre_start:
+    - Artifact to analyze exists
+  post_complete:
+    - Output has Ambiguities Found section
+    - Output has Unstated Assumptions section
+    - Output has Conflicting Requirements section
+    - Output has Resolution Options section
+    - Output has Decisions Made section
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

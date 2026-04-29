@@ -21,6 +21,9 @@ const workflows = [
   { id: 'document-project', mode: 'sequential', hasTemplate: true },
   { id: 'performance-review', mode: 'sequential', hasTemplate: true },
   { id: 'tech-debt-review', mode: 'sequential', hasTemplate: true },
+  { id: 'spike', mode: 'sequential', hasTemplate: true },
+  { id: 'explore-codebase', mode: 'sequential', hasTemplate: true },
+  { id: 'discuss', mode: 'sequential', hasTemplate: true },
 ];
 
 for (const wf of workflows) {
