@@ -1,0 +1,34 @@
+id: teach-me-testing
+owner: test-architect
+model: opus
+description: Interactive educational workflow teaching testing concepts
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [topic]
+  optional: []
+
+outputs:
+  primary: docs/testing-artifacts/testing-lesson-<topic>.md
+  traceable_to: []
+
+gates:
+  pre_start:
+    - Topic specified by user
+  post_complete:
+    - Output has Concept Explanation section
+    - Output has Worked Example section
+    - Output has Practice Exercise section
+    - Output has Key Takeaways section
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

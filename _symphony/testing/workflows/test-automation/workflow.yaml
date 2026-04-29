@@ -1,0 +1,36 @@
+id: test-automation
+owner: test-architect
+model: opus
+description: Design test automation framework and strategy for the project
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [test-plan, architecture]
+  optional: [ci-config]
+
+outputs:
+  primary: docs/testing-artifacts/test-automation-strategy-<project>.md
+  traceable_to: [test-plan, architecture]
+
+gates:
+  pre_start:
+    - test-plan exists
+    - architecture exists
+  post_complete:
+    - Output has Framework Selection section
+    - Output has Automation Scope section
+    - Output has Page Object / Fixture Design section
+    - Output has Maintenance Strategy section
+    - Output has ROI Analysis section
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true
