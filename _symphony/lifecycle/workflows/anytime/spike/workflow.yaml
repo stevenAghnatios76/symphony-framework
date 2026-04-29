@@ -1,0 +1,35 @@
+id: spike
+owner: architect
+model: opus
+description: Timeboxed exploration of a technical question with documented findings and go/no-go recommendation
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [question]
+  optional: [architecture, timebox]
+
+outputs:
+  primary: docs/planning-artifacts/spike-{{topic}}.md
+  traceable_to: [question]
+
+gates:
+  pre_start:
+    - Question or hypothesis clearly stated
+  post_complete:
+    - Output has Hypothesis section
+    - Output has Research Findings section
+    - Output has Prototype Results section (if applicable)
+    - Output has Go/No-Go Recommendation
+    - Output has Time Spent section
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="discuss">
+  <steps>
+    <step n="1" title="Load artifact">
+      <action>Load the artifact and identify its claims, constraints, and decisions.</action>
+      <action>If PRD or architecture context exists, load them for cross-reference.</action>
+    </step>
+    <step n="2" title="List ambiguities">
+      <action>List all ambiguities — places where the meaning is unclear, underspecified, or open to multiple interpretations.</action>
+    </step>
+    <step n="3" title="Surface unstated assumptions">
+      <action>Surface unstated assumptions — things taken for granted without evidence or explicit justification.</action>
+    </step>
+    <step n="4" title="Find conflicting requirements">
+      <action>Find conflicting requirements — places where goals, constraints, or decisions contradict each other.</action>
+    </step>
+    <step n="5" title="Propose resolution options">
+      <action>For each issue, propose 2-3 resolution options with trade-offs clearly articulated.</action>
+    </step>
+    <step n="6" title="Produce discussion report">
+      <template-output file="docs/planning-artifacts/discussion-{{topic}}.md">
+        Apply the template from template.md, filling all sections with analysis findings and resolution options.
+      </template-output>
+    </step>
+  </steps>
+</instructions>
