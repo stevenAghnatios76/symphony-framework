@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="fill-test-gaps">
+  <steps>
+    <step n="1" title="Load gap analysis and prioritize">
+      <action>Load gap analysis report and extract all identified coverage gaps.</action>
+      <action>Prioritize gaps by severity: critical, high, medium, low.</action>
+    </step>
+    <step n="2" title="Write failing tests (TDD red)">
+      <action>For each critical and high gap, write the failing test first following TDD red phase.</action>
+      <action>Ensure test names clearly describe the gap being addressed.</action>
+    </step>
+    <step n="3" title="Implement minimal changes (TDD green)">
+      <action>Implement minimal code changes if needed to make tests pass following TDD green phase.</action>
+      <action>Keep changes focused — only what is needed for the test to pass.</action>
+    </step>
+    <step n="4" title="Verify gap coverage">
+      <action>Verify new tests actually cover the identified gaps by running coverage analysis.</action>
+      <action>Compare before and after coverage for each addressed gap.</action>
+    </step>
+    <step n="5" title="Run full regression suite">
+      <action>Run full test suite to ensure no regressions were introduced.</action>
+      <action>Document any test failures and resolve them before proceeding.</action>
+    </step>
+    <step n="6" title="Produce gap fill report">
+      <template-output file="docs/testing-artifacts/gap-fill-report-{project}.md">
+        Apply the template from template.md, filling all sections with gap fill results.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

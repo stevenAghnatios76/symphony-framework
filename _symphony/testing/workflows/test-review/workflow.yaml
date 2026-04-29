@@ -1,0 +1,34 @@
+id: test-review
+owner: test-architect
+model: opus
+description: Review test quality, coverage effectiveness, and test code health
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [test-suite]
+  optional: [test-plan, coverage-report]
+
+outputs:
+  primary: docs/testing-artifacts/test-review-<project>.md
+  traceable_to: [test-plan]
+
+gates:
+  pre_start:
+    - Test suite exists and is runnable
+  post_complete:
+    - Output has Quality Score
+    - Output has Coverage Analysis
+    - Output has Flaky Test Inventory
+    - Output has Improvement Recommendations
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

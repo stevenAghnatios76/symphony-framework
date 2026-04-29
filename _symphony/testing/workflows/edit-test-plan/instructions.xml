@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="edit-test-plan">
+  <steps>
+    <step n="1" title="Load test plan and change request">
+      <action>Load existing test plan and review its current structure and coverage targets.</action>
+      <action>Load change request and extract the specific changes required.</action>
+    </step>
+    <step n="2" title="Analyze change impact">
+      <action>Analyze impact of changes on test strategy and coverage goals.</action>
+      <action>Identify which components, test levels, and coverage areas are affected.</action>
+    </step>
+    <step n="3" title="Identify sections to update">
+      <action>Identify specific sections of the test plan that need updating.</action>
+      <action>Flag any sections where changes may conflict with existing strategy.</action>
+    </step>
+    <step n="4" title="Revise affected sections">
+      <action>Revise affected sections while maintaining consistency with unchanged parts.</action>
+      <action>Ensure traceability links remain valid after revisions.</action>
+    </step>
+    <step n="5" title="Update coverage targets">
+      <action>Update coverage targets if scope has changed.</action>
+      <action>Document previous vs new targets for transparency.</action>
+    </step>
+    <step n="6" title="Produce revision report">
+      <template-output file="docs/testing-artifacts/test-plan-revision-{project}.md">
+        Apply the template from template.md, filling all sections with revision details.
+      </template-output>
+    </step>
+  </steps>
+</instructions>
