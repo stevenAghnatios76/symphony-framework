@@ -48,6 +48,25 @@ max_lines: 200
     </anti-rationalization>
   </disciplines>
 
+  <base-dev ref="_symphony/dev/agents/_base-dev.md"/>
+
+  <skills-registry>
+    <default>git-workflow, testing-patterns, code-review-standards, security-basics</default>
+    <on-demand>api-design, database-design, docker-workflow, documentation-standards, figma-integration, edge-cases, validation-patterns</on-demand>
+  </skills-registry>
+
+  <knowledge-detection>
+    <stack marker="angular.json" tier="typescript,angular"/>
+    <stack marker="next.config.mjs" tier="typescript"/>
+    <stack marker="next.config.ts" tier="typescript"/>
+    <stack marker="package.json" tier="typescript"/>
+    <stack marker="pubspec.yaml" tier="flutter"/>
+    <stack marker="pyproject.toml" tier="python"/>
+    <stack marker="setup.py" tier="python"/>
+    <stack marker="requirements.txt" tier="python"/>
+    <stack marker="go.mod" tier="go"/>
+  </knowledge-detection>
+
   <workflows-owned>
     <workflow>dev-story</workflow>
     <workflow>quick-dev</workflow>
