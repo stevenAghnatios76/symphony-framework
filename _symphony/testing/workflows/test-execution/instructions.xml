@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="test-execution">
+  <steps>
+    <step n="1" title="Detect test framework">
+      <action>Detect the test framework in use and select the appropriate execution adapter.</action>
+      <action>If a test plan exists, load it for context on expected coverage.</action>
+    </step>
+    <step n="2" title="Run test suite">
+      <action>Run the test suite with structured output enabled (JSON or JUnit reporters).</action>
+      <action>Capture stdout, stderr, and exit codes for analysis.</action>
+    </step>
+    <step n="3" title="Parse results">
+      <action>Parse results to extract pass, fail, skip, and total counts.</action>
+      <action>Extract failure details including test name, error message, and stack trace.</action>
+    </step>
+    <step n="4" title="Analyze failures">
+      <action>Categorize each failure as real bug, flaky test, or environment issue.</action>
+      <action>Note patterns such as repeated timeout failures or missing fixtures.</action>
+    </step>
+    <step n="5" title="Collect metrics">
+      <action>Collect code coverage metrics: line, branch, and function coverage percentages.</action>
+      <action>Collect duration metrics: total time, slowest tests, average per-test time.</action>
+    </step>
+    <step n="6" title="Produce execution report">
+      <template-output file="docs/testing-artifacts/test-execution-report-<project>.md">
+        Apply the template from template.md, filling all sections with execution results.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

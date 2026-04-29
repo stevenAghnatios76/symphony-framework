@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="security-testing">
+  <steps>
+    <step n="1" title="Load architecture and identify attack surfaces">
+      <action>Read architecture document and identify exposed endpoints, data flows, and trust boundaries.</action>
+      <action>If a test plan exists, load it for security-specific test requirements.</action>
+    </step>
+    <step n="2" title="Run dependency vulnerability scan">
+      <action>Run the appropriate dependency scanner: npm audit, pip-audit, or govulncheck.</action>
+      <action>Capture all reported vulnerabilities with advisory IDs and affected versions.</action>
+    </step>
+    <step n="3" title="Check OWASP Top 10 categories">
+      <action>Review codebase patterns against each OWASP Top 10 category.</action>
+      <action>Check for injection, broken auth, sensitive data exposure, XXE, broken access control, misconfiguration, XSS, insecure deserialization, known vulnerabilities, and insufficient logging.</action>
+    </step>
+    <step n="4" title="Classify findings by severity">
+      <action>Classify each finding as critical, high, medium, or low severity.</action>
+      <action>Assess exploitability and blast radius for each finding.</action>
+    </step>
+    <step n="5" title="Create remediation plan">
+      <action>Create a remediation plan prioritized by severity and exploitability.</action>
+      <action>Include specific fix guidance, estimated effort, and responsible owner for each finding.</action>
+    </step>
+    <step n="6" title="Produce security test report">
+      <template-output file="docs/testing-artifacts/security-test-report-<project>.md">
+        Apply the template from template.md, filling all sections with security findings.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

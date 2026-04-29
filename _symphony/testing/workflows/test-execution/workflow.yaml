@@ -1,0 +1,35 @@
+id: test-execution
+owner: test-architect
+model: opus
+description: Execute test suites and generate structured reports
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [test-suite]
+  optional: [test-plan]
+
+outputs:
+  primary: docs/testing-artifacts/test-execution-report-<project>.md
+  traceable_to: [test-suite]
+
+gates:
+  pre_start:
+    - Test suite exists and dependencies installed
+  post_complete:
+    - Output has Execution Summary section
+    - Output has Pass/Fail Counts section
+    - Output has Failure Analysis section
+    - Output has Coverage Metrics section
+    - Output has Duration Metrics section
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

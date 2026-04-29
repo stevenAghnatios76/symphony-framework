@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="teach-me-testing">
+  <steps>
+    <step n="1" title="Identify topic and learner level">
+      <action>Identify the testing topic the user wants to learn about.</action>
+      <action>Assess the learner's current level to calibrate depth and vocabulary.</action>
+    </step>
+    <step n="2" title="Explain the concept">
+      <action>Explain the concept using real-world analogies that make it intuitive.</action>
+      <action>Define key terms and distinguish from related concepts.</action>
+    </step>
+    <step n="3" title="Walk through a worked example">
+      <action>Walk through a complete worked example with code.</action>
+      <action>Annotate each step so the learner understands the why behind the code.</action>
+    </step>
+    <step n="4" title="Provide a practice exercise">
+      <action>Provide a practice exercise that reinforces the concept.</action>
+      <action>Include progressive hints so the learner can attempt it independently first.</action>
+    </step>
+    <step n="5" title="Summarize key takeaways">
+      <action>Summarize key takeaways in a concise list.</action>
+      <action>Call out common mistakes and misconceptions.</action>
+    </step>
+    <step n="6" title="Produce lesson document">
+      <template-output file="docs/testing-artifacts/testing-lesson-<topic>.md">
+        Apply the template from template.md, filling all sections with lesson content.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

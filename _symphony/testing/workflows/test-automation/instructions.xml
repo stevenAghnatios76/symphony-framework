@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="test-automation">
+  <steps>
+    <step n="1" title="Load test plan and architecture">
+      <action>Read the test plan and architecture documents to understand project scope and testing requirements.</action>
+      <action>If CI config exists, load it for pipeline context.</action>
+    </step>
+    <step n="2" title="Select automation framework">
+      <action>Select automation framework(s) based on the technology stack and requirements.</action>
+      <action>Document rationale for each framework choice.</action>
+    </step>
+    <step n="3" title="Define automation scope">
+      <action>Define what to automate versus what to keep manual.</action>
+      <action>Justify each decision based on ROI, stability, and frequency of execution.</action>
+    </step>
+    <step n="4" title="Design test infrastructure">
+      <action>Design page objects, fixtures, helpers, and shared utilities.</action>
+      <action>Define folder structure and naming conventions for test code.</action>
+    </step>
+    <step n="5" title="Plan maintenance strategy">
+      <action>Plan test data management, selector strategies, and flake management.</action>
+      <action>Define retry policies, quarantine rules, and ownership rotation.</action>
+    </step>
+    <step n="6" title="Produce automation strategy report">
+      <template-output file="docs/testing-artifacts/test-automation-strategy-<project>.md">
+        Apply the template from template.md, filling all sections with automation strategy details.
+      </template-output>
+    </step>
+  </steps>
+</instructions>
