@@ -142,9 +142,8 @@ Integration test CI job:
 ```
 
 ## Common Issues
-
 - **Golden file updates** — Golden image tests fail when expected images change. Run `flutter test --update-goldens` to regenerate baselines. Commit golden files to version control. Goldens are platform-sensitive; generate on the same OS as CI.
 - **Platform-specific tests** — Use `skip` parameter for platform-dependent tests: `testWidgets('...', skip: !kIsWeb, (tester) async { ... })`. Run separate CI jobs per platform.
 - **Integration test driver** — Integration tests need a running app instance. Use `IntegrationTestWidgetsFlutterBinding.ensureInitialized()` at the top of each integration test file.
-- **Pub dependency conflicts** — Run `flutter pub get` before testing. Use `dependency_overrides` in `pubspec.yaml` sparingly and only during migration.
-- **Slow widget tests** — Use `pumpAndSettle()` with a timeout: `await tester.pumpAndSettle(timeout: Duration(seconds: 10))`. Avoid infinite animations that prevent settling.
+- **Pub dependency conflicts** — Run `flutter pub get` before testing. Use `dependency_overrides` in `pubspec.yaml` sparingly.
+- **Slow widget tests** — Use `pumpAndSettle()` with a timeout. Avoid infinite animations that prevent settling.

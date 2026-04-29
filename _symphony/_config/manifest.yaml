@@ -15,8 +15,8 @@ modules:
     version: "0.0.2-alpha.1"
     description: "Creative agents and workflows"
   testing:
-    version: "0.0.1"
-    description: "Test architect and testing workflows"
+    version: "0.0.2-alpha.1"
+    description: "Test architect, testing workflows, knowledge, adapters"
 
 adapters:
   claude-code:

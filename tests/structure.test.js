@@ -178,6 +178,37 @@ describe('Symphony repo structure (architecture spec §4.1)', () => {
     }
   });
 
+  describe('_symphony/testing — agents, workflows, knowledge, adapters (Spec 7b)', () => {
+    it('has _base-test.md', () => {
+      expect(exists('_symphony/testing/agents/_base-test.md')).toBe(true);
+    });
+
+    const testingWorkflows = [
+      'gap-analysis', 'performance-testing', 'mobile-testing', 'ci-setup',
+      'test-review', 'fill-test-gaps', 'edit-test-plan', 'nfr-assessment',
+      'test-automation', 'test-execution', 'security-testing', 'teach-me-testing',
+    ];
+    for (const w of testingWorkflows) {
+      it(`has testing workflow ${w}`, () => {
+        expect(exists(`_symphony/testing/workflows/${w}/workflow.yaml`)).toBe(true);
+      });
+    }
+
+    const knowledgeDirs = ['strategies', 'frameworks', 'patterns', 'performance', 'security', 'mobile'];
+    for (const d of knowledgeDirs) {
+      it(`has testing knowledge/${d} directory`, () => {
+        expect(exists(`_symphony/testing/knowledge/${d}`)).toBe(true);
+      });
+    }
+
+    const adapterFiles = ['vitest-adapter', 'pytest-adapter', 'go-test-adapter', 'flutter-test-adapter', 'xctest-adapter'];
+    for (const a of adapterFiles) {
+      it(`has testing adapter ${a}`, () => {
+        expect(exists(`_symphony/testing/adapters/${a}.md`)).toBe(true);
+      });
+    }
+  });
+
   describe('_symphony/_memory', () => {
     it('has checkpoints directory', () => {
       expect(exists('_symphony/_memory/checkpoints')).toBe(true);
