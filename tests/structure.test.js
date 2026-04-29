@@ -209,6 +209,48 @@ describe('Symphony repo structure (architecture spec §4.1)', () => {
     }
   });
 
+  describe('_symphony/utility — agents (Spec 7c)', () => {
+    const utilityAgents = ['critic', 'code-simplifier', 'browser-tester'];
+    for (const a of utilityAgents) {
+      it(`has utility agent ${a}`, () => {
+        expect(exists(`_symphony/utility/agents/${a}.md`)).toBe(true);
+      });
+    }
+  });
+
+  describe('_symphony/lifecycle/agents/stakeholders (Spec 7c)', () => {
+    it('has _persona-template.md', () => {
+      expect(exists('_symphony/lifecycle/agents/stakeholders/_persona-template.md')).toBe(true);
+    });
+    const stakeholders = ['cto', 'product-owner', 'end-user', 'security-officer', 'qa-lead'];
+    for (const s of stakeholders) {
+      it(`has stakeholder persona ${s}`, () => {
+        expect(exists(`_symphony/lifecycle/agents/stakeholders/${s}.md`)).toBe(true);
+      });
+    }
+  });
+
+  describe('_symphony/core/adapter-registry — new adapters (Spec 7c)', () => {
+    const adapters = ['gemini-cli', 'cursor'];
+    for (const a of adapters) {
+      it(`has adapter registry ${a}.yaml`, () => {
+        expect(exists(`_symphony/core/adapter-registry/${a}.yaml`)).toBe(true);
+      });
+    }
+  });
+
+  describe('Anytime workflows — new additions (Spec 7c)', () => {
+    const newWorkflows = [
+      'spike', 'explore-codebase', 'discuss', 'adversarial-review',
+      'hub', 'status', 'trello-sync', 'trello-setup', 'toggle',
+    ];
+    for (const w of newWorkflows) {
+      it(`has anytime workflow ${w}`, () => {
+        expect(exists(`_symphony/lifecycle/workflows/anytime/${w}/workflow.yaml`)).toBe(true);
+      });
+    }
+  });
+
   describe('_symphony/_memory', () => {
     it('has checkpoints directory', () => {
       expect(exists('_symphony/_memory/checkpoints')).toBe(true);

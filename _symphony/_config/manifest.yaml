@@ -6,8 +6,8 @@ modules:
     version: "0.0.2-alpha.1"
     description: "Engine, protocols, adapter registry, memory"
   lifecycle:
-    version: "0.0.1"
-    description: "5-phase lifecycle agents, workflows, templates"
+    version: "0.0.2-alpha.1"
+    description: "5-phase lifecycle agents, workflows, stakeholder personas"
   dev:
     version: "0.0.2-alpha.1"
     description: "Developer agents, skills, knowledge fragments"
@@ -17,6 +17,9 @@ modules:
   testing:
     version: "0.0.2-alpha.1"
     description: "Test architect, testing workflows, knowledge, adapters"
+  utility:
+    version: "0.0.2-alpha.1"
+    description: "Utility agents — critic, code-simplifier, browser-tester"
 
 adapters:
   claude-code:
