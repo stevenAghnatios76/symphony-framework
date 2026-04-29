@@ -1,0 +1,35 @@
+id: nfr-assessment
+owner: test-architect
+model: opus
+description: Non-functional requirements testing — performance, reliability, scalability, security
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [architecture, nfr-requirements]
+  optional: [test-plan]
+
+outputs:
+  primary: docs/testing-artifacts/nfr-assessment-<project>.md
+  traceable_to: [architecture, nfr-requirements]
+
+gates:
+  pre_start:
+    - Architecture doc exists
+    - NFR requirements documented
+  post_complete:
+    - Output has NFR Categories
+    - Output has Test Approach per category
+    - Output has Pass/Fail Criteria
+    - Output has Tool Recommendations
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

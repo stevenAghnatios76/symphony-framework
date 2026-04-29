@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="test-review">
+  <steps>
+    <step n="1" title="Load test suite and baseline metrics">
+      <action>Load test suite and run tests to get baseline metrics: pass/fail counts, execution time, coverage.</action>
+      <action>If test plan or coverage report exists, load them for additional context.</action>
+    </step>
+    <step n="2" title="Analyze test quality">
+      <action>Analyze test quality: naming conventions, structure, assertion patterns, test isolation.</action>
+      <action>Score each quality dimension and compute an overall Quality Score.</action>
+    </step>
+    <step n="3" title="Identify flaky tests">
+      <action>Identify flaky tests by analyzing test history, timing-dependent logic, and shared state.</action>
+      <action>Document root causes for each flaky test found.</action>
+    </step>
+    <step n="4" title="Assess coverage effectiveness">
+      <action>Assess coverage effectiveness beyond line coverage: branch coverage, path coverage, mutation testing potential.</action>
+      <action>Identify areas with high line coverage but low meaningful coverage.</action>
+    </step>
+    <step n="5" title="Generate improvement recommendations">
+      <action>Generate improvement recommendations prioritized by impact on test reliability and coverage.</action>
+      <action>Estimate effort for each recommendation.</action>
+    </step>
+    <step n="6" title="Produce test review report">
+      <template-output file="docs/testing-artifacts/test-review-{project}.md">
+        Apply the template from template.md, filling all sections with test review findings.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

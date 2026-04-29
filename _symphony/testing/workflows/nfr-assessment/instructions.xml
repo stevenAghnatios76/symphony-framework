@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="nfr-assessment">
+  <steps>
+    <step n="1" title="Load architecture and NFR requirements">
+      <action>Load architecture document and extract system components and quality attributes.</action>
+      <action>Load NFR requirements and map them to architectural components.</action>
+    </step>
+    <step n="2" title="Categorize NFRs">
+      <action>Categorize NFRs into: performance, reliability, scalability, security, usability.</action>
+      <action>Identify any NFRs that span multiple categories.</action>
+    </step>
+    <step n="3" title="Define measurable test criteria">
+      <action>For each category, define specific measurable test criteria.</action>
+      <action>Ensure criteria are quantifiable with clear units and thresholds.</action>
+    </step>
+    <step n="4" title="Select testing tools and approaches">
+      <action>Select testing tools and approaches per category with rationale.</action>
+      <action>Consider open-source vs commercial options and team capability.</action>
+    </step>
+    <step n="5" title="Define pass/fail thresholds">
+      <action>Define pass/fail thresholds aligned with business requirements.</action>
+      <action>Include degradation thresholds for early warning detection.</action>
+    </step>
+    <step n="6" title="Produce NFR assessment report">
+      <template-output file="docs/testing-artifacts/nfr-assessment-{project}.md">
+        Apply the template from template.md, filling all sections with NFR assessment details.
+      </template-output>
+    </step>
+  </steps>
+</instructions>

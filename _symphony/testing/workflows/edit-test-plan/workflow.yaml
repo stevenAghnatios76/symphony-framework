@@ -1,0 +1,35 @@
+id: edit-test-plan
+owner: test-architect
+model: opus
+description: Update or revise existing test plan based on new requirements or findings
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [test-plan, change-request]
+  optional: [architecture, gap-analysis-report]
+
+outputs:
+  primary: docs/testing-artifacts/test-plan-revision-<project>.md
+  traceable_to: [test-plan, change-request]
+
+gates:
+  pre_start:
+    - Existing test plan exists
+    - Change request documented
+  post_complete:
+    - Output has Change Summary
+    - Output has Impact Analysis
+    - Output has Updated Sections
+    - Output has New Coverage Targets
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true

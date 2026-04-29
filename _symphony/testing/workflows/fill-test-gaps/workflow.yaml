@@ -1,0 +1,33 @@
+id: fill-test-gaps
+owner: test-architect
+model: opus
+description: Write tests to fill identified coverage gaps from gap analysis
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [gap-analysis-report]
+  optional: [test-plan, architecture]
+
+outputs:
+  primary: docs/testing-artifacts/gap-fill-report-<project>.md
+  traceable_to: [gap-analysis-report]
+
+gates:
+  pre_start:
+    - Gap analysis report exists
+  post_complete:
+    - Output has Tests Written count
+    - Output has Coverage Before/After
+    - Output has Remaining Gaps
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true
