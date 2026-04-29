@@ -1,0 +1,34 @@
+id: mobile-testing
+owner: test-architect
+model: opus
+description: Mobile-specific test strategy covering simulators, devices, gestures, and platform differences
+
+execution:
+  mode: sequential
+  wave_eligible: false
+  max_wave_siblings: 0
+  ensemble_participants: []
+  ensemble_turn_policy: null
+  max_turns: null
+
+inputs:
+  required: [architecture]
+  optional: [test-plan]
+
+outputs:
+  primary: docs/testing-artifacts/mobile-test-plan-{{project}}.md
+  traceable_to: [architecture]
+
+gates:
+  pre_start:
+    - Mobile project detected (pubspec.yaml or react-native in deps)
+  post_complete:
+    - Output has Device Matrix
+    - Output has Platform Test Plan
+    - Output has Gesture Coverage
+    - Output has Push Notification Test Plan
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true
