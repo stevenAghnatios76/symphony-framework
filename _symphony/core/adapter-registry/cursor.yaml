@@ -1,0 +1,26 @@
+# Symphony Cursor adapter manifest (Core-side).
+# See architecture spec §7.2.
+# The adapter implementation lives at adapters/cursor/ in the repo;
+# this file is Core's awareness of the adapter.
+
+id: cursor
+target_tool: "Cursor"
+target_tool_url: "https://cursor.com"
+
+output_paths:
+  commands: ".cursor/rules/"
+  config: ".cursorrules"
+
+command_file_extension: ".mdc"
+command_naming_pattern: "symphony-{action}"
+
+supports:
+  model_frontmatter: false
+  slash_commands: false
+  agent_memory: false
+  model_selection_per_command: true
+
+capabilities_declared:
+  - sequential_workflows
+  - gate_enforcement
+  - self_critique

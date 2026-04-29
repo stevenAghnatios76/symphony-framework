@@ -1,0 +1,27 @@
+# Symphony Gemini CLI adapter manifest (Core-side).
+# See architecture spec §7.2.
+# The adapter implementation lives at adapters/gemini-cli/ in the repo;
+# this file is Core's awareness of the adapter.
+
+id: gemini-cli
+target_tool: "Gemini CLI"
+target_tool_url: "https://github.com/google-gemini/gemini-cli"
+
+output_paths:
+  commands: ".gemini/commands/"
+  config: "GEMINI.md"
+
+command_file_extension: ".md"
+command_naming_pattern: "symphony{-action}"
+
+supports:
+  model_frontmatter: true
+  slash_commands: true
+  agent_memory: false
+  model_selection_per_command: false
+
+capabilities_declared:
+  - sequential_workflows
+  - parallel_waves
+  - gate_enforcement
+  - self_critique
