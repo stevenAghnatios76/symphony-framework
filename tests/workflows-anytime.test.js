@@ -24,6 +24,12 @@ const workflows = [
   { id: 'spike', mode: 'sequential', hasTemplate: true },
   { id: 'explore-codebase', mode: 'sequential', hasTemplate: true },
   { id: 'discuss', mode: 'sequential', hasTemplate: true },
+  { id: 'adversarial-review', mode: 'sequential', hasTemplate: true },
+  { id: 'hub', mode: 'sequential', hasTemplate: true },
+  { id: 'status', mode: 'sequential', hasTemplate: true },
+  { id: 'trello-sync', mode: 'sequential', hasTemplate: true },
+  { id: 'trello-setup', mode: 'sequential', hasTemplate: true },
+  { id: 'toggle', mode: 'sequential', hasTemplate: true },
 ];
 
 for (const wf of workflows) {
