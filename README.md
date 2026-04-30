@@ -25,7 +25,7 @@ This repo currently contains:
 - Stub engine component files (conductor, wave-executor, workflow-engine, gate-enforcer, task-runner)
 - Stub protocol files (status-sync, review-gate-check, checkpoint-resume, memory-hygiene, artifact-enrichment-hook, self-critique, trust-levels, anti-rationalization, diagnose-then-fix)
 - Stub adapter modules (claude-code, copilot) with placeholder translators
-- A minimal CLI (`npx symphony-framework --version`)
+- A minimal CLI (`npx @stevenaghnatios/symphony-framework --version`)
 - A structure-validation test suite
 
 The runtime engine, lifecycle agents, workflows, and adapter translators land in follow-up plans.

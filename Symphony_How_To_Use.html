@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SYMPHONY — How to Use</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@300;400;500;600&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 14px; scroll-behavior: smooth; }
+
+:root {
+  --bg:      #0f0e0c;
+  --bg2:     #1e1c19;
+  --bg3:     #2d2b27;
+  --rule:    #4a463f;
+  --rule2:   #5a564e;
+  --muted:   #7a7166;
+  --body:    #aba395;
+  --text:    #d4cbbf;
+  --ink:     #ede6da;
+  --bright:  #ede6da;
+
+  --amber:   #e8a030;
+  --amber-bg: #e8a03012;
+  --amber-bd: #e8a03035;
+
+  --green:   #5dbd8a;
+  --green-bg: #5dbd8a12;
+  --green-bd: #5dbd8a30;
+
+  --blue:    #5b9fd4;
+  --blue-bg: #5b9fd412;
+  --blue-bd: #5b9fd430;
+
+  --red:     #d45b5b;
+  --red-bg:  #d45b5b12;
+  --red-bd:  #d45b5b30;
+
+  --p1: #d97757;
+  --p2: #d4b45b;
+  --p3: #5dbd8a;
+  --p4: #5b9fd4;
+  --p5: #c49ad1;
+
+  --serif: 'Instrument Serif', Georgia, serif;
+  --sans:  'Geist', system-ui, sans-serif;
+  --mono:  'Geist Mono', 'Fira Code', monospace;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* GRAIN */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.5;
+}
+
+/* ═══ LAYOUT ═══ */
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ═══ HEADER ═══ */
+.masthead {
+  border-bottom: 2px solid var(--amber);
+  padding: 40px 0 32px;
+  margin-bottom: 56px;
+  animation: rise 0.6s ease both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.masthead-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.masthead-title {
+  font-family: var(--serif);
+  font-size: 4rem;
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.masthead-title em {
+  font-style: italic;
+  color: var(--amber);
+}
+
+.masthead-sub {
+  font-size: 1.05rem;
+  color: var(--body);
+  font-weight: 300;
+  max-width: 560px;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.masthead-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.mpill {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  padding: 4px 12px;
+  border: 1px solid var(--rule2);
+  color: var(--body);
+  background: var(--bg2);
+}
+
+/* ═══ TOC ═══ */
+.toc {
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--amber);
+  padding: 20px 24px;
+  margin-bottom: 64px;
+  animation: rise 0.6s 0.08s ease both;
+}
+
+.toc-title {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.toc-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 24px;
+  list-style: none;
+}
+
+.toc-item a {
+  text-decoration: none;
+  font-size: 0.82rem;
+  color: var(--body);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  transition: color 0.15s;
+}
+
+.toc-item a:hover { color: var(--amber); }
+
+.toc-num {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  color: var(--rule2);
+  flex-shrink: 0;
+  width: 18px;
+}
+
+/* ═══ SECTIONS ═══ */
+.section {
+  margin-bottom: 72px;
+  animation: rise 0.5s ease both;
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: 2.2rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--bright);
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.section-lead {
+  font-size: 0.95rem;
+  color: var(--body);
+  line-height: 1.7;
+  margin-bottom: 28px;
+  max-width: 720px;
+}
+
+/* ═══ STEP CARDS ═══ */
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  border-top: 1px solid var(--rule);
+  padding: 20px 0;
+}
+
+.step:last-child { border-bottom: 1px solid var(--rule); }
+
+.step-num {
+  font-family: var(--serif);
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: var(--rule2);
+  padding-top: 2px;
+  line-height: 1;
+}
+
+.step-body {}
+
+.step-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--bright);
+  margin-bottom: 6px;
+  letter-spacing: 0.01em;
+}
+
+.step-desc {
+  font-size: 0.8rem;
+  color: var(--body);
+  line-height: 1.65;
+  margin-bottom: 10px;
+}
+
+.step-desc:last-child { margin-bottom: 0; }
+
+/* ═══ CODE BLOCKS ═══ */
+.code-block {
+  background: var(--bg2);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  line-height: 1.7;
+  padding: 16px 20px;
+  margin: 12px 0;
+  border-left: 3px solid var(--amber);
+  overflow-x: auto;
+}
+
+.code-block .comment { color: var(--muted); }
+.code-block .cmd     { color: var(--amber); }
+.code-block .str     { color: var(--green); }
+.code-block .key     { color: var(--blue); }
+.code-block .val     { color: var(--text); }
+
+.inline-code {
+  font-family: var(--mono);
+  font-size: 0.78em;
+  background: var(--bg3);
+  border: 1px solid var(--rule);
+  padding: 1px 6px;
+  color: var(--amber);
+  border-radius: 2px;
+  border-radius: 2px;
+}
+
+/* ═══ CALLOUTS ═══ */
+.callout {
+  padding: 14px 18px;
+  margin: 16px 0;
+  border-left: 3px solid;
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.callout.tip    { background: var(--green-bg);  border-color: var(--green);  color: var(--green); }
+.callout.warn   { background: var(--amber-bg);  border-color: var(--amber);  color: var(--amber); }
+.callout.info   { background: var(--blue-bg);   border-color: var(--blue);   color: var(--blue); }
+.callout.stop   { background: var(--red-bg);    border-color: var(--red);    color: var(--red); }
+
+.callout strong { color: inherit; }
+.callout .label { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; margin-bottom: 4px; display: block; }
+
+/* ═══ ENTRY PATHS ═══ */
+.paths-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.path-card {
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  padding: 16px 18px;
+  border-top: 3px solid;
+  transition: background 0.15s;
+}
+
+.path-card:hover { background: var(--bg3); }
+
+.path-card.gf  { border-top-color: var(--p1); }
+.path-card.ov  { border-top-color: var(--p2); }
+.path-card.af  { border-top-color: var(--p3); }
+.path-card.qk  { border-top-color: var(--p4); }
+.path-card.dbg { border-top-color: var(--muted); }
+
+.path-trigger {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.path-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--bright);
+  margin-bottom: 6px;
+}
+
+.path-card.gf  .path-name { color: var(--p1); }
+.path-card.ov  .path-name { color: var(--p2); }
+.path-card.af  .path-name { color: var(--p3); }
+.path-card.qk  .path-name { color: var(--p4); }
+
+.path-desc {
+  font-size: 0.76rem;
+  color: var(--body);
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+
+.path-lands {
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  color: var(--muted);
+}
+
+.path-lands span {
+  color: var(--amber);
+}
+
+/* ═══ PHASE TIMELINE ═══ */
+.phase-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 16px;
+}
+
+.phase-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  border-top: 1px solid var(--rule);
+}
+
+.phase-row:last-child { border-bottom: 1px solid var(--rule); }
+
+.phase-label-cell {
+  padding: 14px 16px 14px 0;
+  border-right: 1px solid var(--rule);
+}
+
+.phase-num-label {
+  font-family: var(--mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+
+.phase-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.phase-row:nth-child(1) .phase-name { color: var(--p1); }
+.phase-row:nth-child(2) .phase-name { color: var(--p2); }
+.phase-row:nth-child(3) .phase-name { color: var(--p3); }
+.phase-row:nth-child(4) .phase-name { color: var(--p4); }
+.phase-row:nth-child(5) .phase-name { color: var(--p5); }
+
+.phase-content {
+  padding: 14px 0 14px 20px;
+}
+
+.phase-wf-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.phase-wf {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  padding: 2px 8px;
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  color: var(--body);
+}
+
+.phase-wf.key {
+  background: var(--amber-bg);
+  border-color: var(--amber-bd);
+  color: var(--amber);
+  font-weight: 600;
+}
+
+/* ═══ WORKFLOW REFERENCE TABLE ═══ */
+.ref-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.76rem;
+  margin-bottom: 16px;
+}
+
+.ref-table th {
+  text-align: left;
+  padding: 8px 14px;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 2px solid var(--rule);
+  background: var(--bg2);
+}
+
+.ref-table td {
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--rule);
+  color: var(--body);
+  line-height: 1.5;
+}
+
+.ref-table tr:hover td { background: var(--bg2); }
+.ref-table td:first-child { font-family: var(--mono); font-size: 0.7rem; color: var(--amber); font-weight: 600; white-space: nowrap; }
+
+.ref-table td .mode {
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  padding: 1px 5px;
+  border-radius: 2px;
+  font-weight: 600;
+}
+
+.mode.seq  { background: var(--bg3); color: var(--muted); border: 1px solid var(--rule); }
+.mode.wave { background: var(--blue-bg); color: var(--blue); border: 1px solid var(--blue-bd); }
+.mode.ens  { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-bd); }
+
+.ref-cat {
+  background: var(--bg3) !important;
+}
+
+.ref-cat td {
+  font-family: var(--mono) !important;
+  font-size: 0.58rem !important;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted) !important;
+  font-weight: 700;
+  padding: 6px 14px !important;
+}
+
+/* ═══ CONFIG TABLE ═══ */
+.config-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.76rem;
+  margin-bottom: 16px;
+}
+
+.config-table th {
+  text-align: left;
+  padding: 8px 14px;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 2px solid var(--rule);
+  background: var(--bg2);
+}
+
+.config-table td {
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+  line-height: 1.55;
+}
+
+.config-table tr:hover td { background: var(--bg2); }
+.config-table td:first-child { font-family: var(--mono); font-size: 0.7rem; color: var(--amber); white-space: nowrap; }
+.config-table td:nth-child(2) { color: var(--muted); font-family: var(--mono); font-size: 0.68rem; }
+.config-table td:nth-child(3) { color: var(--body); }
+
+/* ═══ TIPS GRID ═══ */
+.tips-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.tip-card {
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  padding: 14px 16px;
+  border-top: 2px solid var(--green);
+}
+
+.tip-card.warn { border-top-color: var(--amber); }
+.tip-card.info { border-top-color: var(--blue); }
+.tip-card.stop { border-top-color: var(--red); }
+
+.tip-head {
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+
+.tip-text {
+  font-size: 0.78rem;
+  color: var(--body);
+  line-height: 1.6;
+}
+
+/* ═══ AGENT GRID ═══ */
+.agent-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.agent-card {
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  padding: 12px 14px;
+}
+
+.agent-name {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  color: var(--amber);
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.agent-desc {
+  font-size: 0.7rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ═══ FOOTER ═══ */
+.footer {
+  border-top: 2px solid var(--rule);
+  padding: 24px 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.footer-brand {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--body);
+}
+
+.footer-meta {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-align: right;
+}
+
+@media (max-width: 700px) {
+  .masthead-title { font-size: 2.6rem; }
+  .paths-grid { grid-template-columns: 1fr; }
+  .tips-grid { grid-template-columns: 1fr; }
+  .agent-grid { grid-template-columns: 1fr 1fr; }
+  .toc-list { grid-template-columns: 1fr; }
+  .page { padding: 0 20px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-eyebrow">Symphony Framework · v0.0.2-alpha.2</div>
+  <h1 class="masthead-title">How to use<br><em>Symphony</em></h1>
+  <p class="masthead-sub">A practical guide to orchestrating agents, running workflows, and getting from a blank project to deployed code.</p>
+  <div class="masthead-pills">
+    <span class="mpill">32 agents</span>
+    <span class="mpill">76 workflows</span>
+    <span class="mpill">5 lifecycle phases</span>
+    <span class="mpill">Claude Code · Copilot · Gemini CLI · Cursor</span>
+  </div>
+</header>
+
+<!-- TOC -->
+<nav class="toc">
+  <div class="toc-title">Contents</div>
+  <ol class="toc-list">
+    <li class="toc-item"><a href="#install"><span class="toc-num">01</span>Installation &amp; setup</a></li>
+    <li class="toc-item"><a href="#concept"><span class="toc-num">02</span>The core concept</a></li>
+    <li class="toc-item"><a href="#entry"><span class="toc-num">03</span>Choosing your entry point</a></li>
+    <li class="toc-item"><a href="#phases"><span class="toc-num">04</span>The 5 lifecycle phases</a></li>
+    <li class="toc-item"><a href="#conductor"><span class="toc-num">05</span>How the Conductor works</a></li>
+    <li class="toc-item"><a href="#modes"><span class="toc-num">06</span>Execution &amp; interaction modes</a></li>
+    <li class="toc-item"><a href="#config"><span class="toc-num">07</span>Configuration</a></li>
+    <li class="toc-item"><a href="#anytime"><span class="toc-num">08</span>Anytime commands</a></li>
+    <li class="toc-item"><a href="#agents"><span class="toc-num">09</span>Agents reference</a></li>
+    <li class="toc-item"><a href="#tips"><span class="toc-num">10</span>Tips &amp; common mistakes</a></li>
+  </ol>
+</nav>
+
+<!-- 01 INSTALL -->
+<section class="section" id="install">
+  <div class="section-label">01</div>
+  <h2 class="section-title">Installation &amp; setup</h2>
+  <p class="section-lead">Symphony runs inside your AI coding tool of choice. Install it once, configure a few fields in <span class="inline-code">global.yaml</span>, and every workflow is immediately available as a slash command.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Clone or install the framework</div>
+        <div class="step-desc">Add Symphony to your project root or to a shared directory.</div>
+        <div class="code-block"><span class="comment"># Option A — add to an existing project</span>
+<span class="cmd">git clone</span> https://github.com/your-org/symphony-framework .symphony-fw
+<span class="cmd">cp</span> -r .symphony-fw/_symphony ./
+<span class="cmd">rm</span> -rf .symphony-fw
+
+<span class="comment"># Option B — install via npm</span>
+<span class="cmd">npm install</span> symphony-framework
+<span class="cmd">npx</span> symphony-framework --version</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Pick your adapter</div>
+        <div class="step-desc">Symphony has a thin adapter for each AI tool. Each adapter generates the tool-specific command files from the same Core — no business logic lives in the adapter.</div>
+        <div class="code-block"><span class="comment"># Claude Code (default)</span>
+<span class="comment"># Adapter writes slash commands to .claude/commands/symphony-*.md</span>
+<span class="comment"># Set up via CLAUDE.md — Symphony is auto-discoverable</span>
+
+<span class="comment"># GitHub Copilot</span>
+<span class="comment"># Adapter writes .github/prompts/symphony-*.prompt.md</span>
+<span class="comment"># + copilot-instructions.md for global context</span>
+
+<span class="comment"># Gemini CLI · Cursor — registered, same pattern</span></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">Edit <span class="inline-code">_symphony/_config/global.yaml</span></div>
+        <div class="step-desc">This is the only file you need to change before your first run. Set your name, project name, and where your source lives.</div>
+        <div class="code-block"><span class="key">framework_name</span><span class="val">: "Symphony"</span>
+<span class="key">framework_version</span><span class="val">: "0.0.2-alpha.2"</span>
+<span class="key">user_name</span><span class="val">: </span><span class="str">"Alice"</span>           <span class="comment"># your name</span>
+<span class="key">project_name</span><span class="val">: </span><span class="str">"my-app"</span>      <span class="comment"># your project name</span>
+<span class="key">project_path</span><span class="val">: </span><span class="str">"."</span>           <span class="comment"># "." = root, or "src" if code lives in a subdir</span></div>
+        <div class="callout tip">
+          <span class="label">Tip</span>
+          That's it. You don't need to touch limits, disciplines, or vault settings to get started. The defaults are production-ready.
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-title">Choose an environment preset (optional)</div>
+        <div class="step-desc">Three presets scale the gate strictness to match your team size. Copy the one that fits into <span class="inline-code">global.yaml</span>.</div>
+        <div class="code-block"><span class="comment"># _symphony/_config/presets/</span>
+<span class="str">solo.yaml</span>        <span class="comment"># no gates, single-agent, weekly memory hygiene</span>
+<span class="str">team.yaml</span>        <span class="comment"># code review gate, multi-agent, daily hygiene</span>
+<span class="str">enterprise.yaml</span>  <span class="comment"># all 6 gates + compliance audit trail</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 CONCEPT -->
+<section class="section" id="concept">
+  <div class="section-label">02</div>
+  <h2 class="section-title">The core concept</h2>
+  <p class="section-lead">Symphony is not a chatbot wrapper. It's an <em>orchestration engine</em>. You describe a goal; the Conductor figures out where you are in the lifecycle and dispatches the right agents.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">→</div>
+      <div class="step-body">
+        <div class="step-title">You don't drive — you declare</div>
+        <div class="step-desc">Instead of copying prompts or managing agents manually, you run a single slash command. Symphony handles sequencing, parallelism, memory, and gate enforcement. Your job is to approve outputs at gate checkpoints.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">→</div>
+      <div class="step-body">
+        <div class="step-title">Phases produce artifacts, not just answers</div>
+        <div class="step-desc">Each workflow writes structured outputs to your project: <span class="inline-code">docs/brief.md</span>, <span class="inline-code">docs/prd.md</span>, <span class="inline-code">docs/architecture.md</span>, sprint files, story files. These artifacts form a complete traceability chain — every line of code traces back to a requirement.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">→</div>
+      <div class="step-body">
+        <div class="step-title">The engine enforces quality — you don't have to</div>
+        <div class="step-desc">Self-critique at ≥ 0.85 confidence, anti-rationalization checks, trust levels, and HALT gates are baked into the engine. Agents cannot skip them. If a gate fails, work stops and the problem is surfaced — never silently swallowed.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout info">
+    <span class="label">Key idea</span>
+    <strong>Confidence ≥ 0.80</strong> = Conductor auto-dispatches. <strong>&lt; 0.80</strong> = it asks you to pick. You only need to intervene when Symphony is genuinely unsure about context.
+  </div>
+</section>
+
+<!-- 03 ENTRY POINTS -->
+<section class="section" id="entry">
+  <div class="section-label">03</div>
+  <h2 class="section-title">Choosing your entry point</h2>
+  <p class="section-lead">The Conductor auto-detects which path to take based on what artifacts already exist. You can also invoke any path explicitly.</p>
+
+  <div class="paths-grid">
+    <div class="path-card gf">
+      <div class="path-trigger">When to use</div>
+      <div class="path-name">Greenfield — New Project</div>
+      <div class="path-desc">Starting from scratch. No code, no brief, no PRD. You have an idea and want Symphony to take you all the way through.</div>
+      <div class="path-lands">Starts at → <span>Phase 1 (Analysis)</span></div>
+    </div>
+    <div class="path-card ov">
+      <div class="path-trigger">When to use</div>
+      <div class="path-name">Overture — Existing Codebase</div>
+      <div class="path-desc">You have code but no Symphony artifacts. Overture scans in parallel waves, maps your architecture, and generates a gap-focused PRD.</div>
+      <div class="path-lands">Starts at → <span>Phase 3 (Solutioning)</span></div>
+    </div>
+    <div class="path-card af">
+      <div class="path-trigger">When to use</div>
+      <div class="path-name">Add Feature — Cross-Phase Cascade</div>
+      <div class="path-desc">Project is running, you need to add a feature. Symphony cascades the change through PRD → Architecture → Test Plan → Stories → Trace.</div>
+      <div class="path-lands">Starts at → <span>P2 → P3 → P4</span></div>
+    </div>
+    <div class="path-card qk">
+      <div class="path-trigger">When to use</div>
+      <div class="path-name">Quick Path — Small Change</div>
+      <div class="path-desc">A bug fix, a small UI tweak, a config change. Full lifecycle is overkill. Quick-spec + quick-dev handles it in two workflows.</div>
+      <div class="path-lands">Starts at → <span>quick-spec → quick-dev</span></div>
+    </div>
+    <div class="path-card dbg">
+      <div class="path-trigger">When to use</div>
+      <div class="path-name">Debug / Fix</div>
+      <div class="path-desc">Something is broken. The diagnose-then-fix protocol forces root-cause analysis before any code changes. Up to 3 retry attempts before escalation.</div>
+      <div class="path-lands">Starts at → <span>diagnose-then-fix protocol</span></div>
+    </div>
+    <div class="path-card gf" style="border-top-color: var(--p5);">
+      <div class="path-trigger">When to use</div>
+      <div class="path-name">Just tell Symphony what you want</div>
+      <div class="path-desc">Type a natural language goal in your AI tool. The Conductor reads it, scores confidence, and routes automatically. No command memorization required.</div>
+      <div class="path-lands">Routed by → <span>Conductor (≥ 0.80 confidence)</span></div>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <span class="label">Auto-detection rules</span>
+    No artifacts at all → Phase 1. Source code exists but no Symphony docs → Overture (auto). Brief exists but no PRD → Phase 2. PRD exists but no arch → Phase 3. Architecture + active sprint → Phase 4. Everything done, not shipped → Phase 5.
+  </div>
+</section>
+
+<!-- 04 PHASES -->
+<section class="section" id="phases">
+  <div class="section-label">04</div>
+  <h2 class="section-title">The 5 lifecycle phases</h2>
+  <p class="section-lead">Each phase produces a set of artifacts that gate the next phase. You move forward when a gate passes — never before.</p>
+
+  <div class="phase-timeline">
+    <div class="phase-row">
+      <div class="phase-label-cell">
+        <div class="phase-num-label">Phase 01</div>
+        <div class="phase-name">Analysis</div>
+      </div>
+      <div class="phase-content">
+        <div style="font-size:0.76rem; color:var(--body); margin-bottom:8px; line-height:1.5;">Explore the problem space. Produce a <strong>product brief</strong> — the origin of the traceability chain. Gate: brief approved.</div>
+        <div class="phase-wf-list">
+          <span class="phase-wf">brainstorm</span>
+          <span class="phase-wf">market-research</span>
+          <span class="phase-wf">domain-research</span>
+          <span class="phase-wf">tech-research</span>
+          <span class="phase-wf">advanced-elicitation</span>
+          <span class="phase-wf key">product-brief ← gate</span>
+        </div>
+      </div>
+    </div>
+    <div class="phase-row">
+      <div class="phase-label-cell">
+        <div class="phase-num-label">Phase 02</div>
+        <div class="phase-name">Planning</div>
+      </div>
+      <div class="phase-content">
+        <div style="font-size:0.76rem; color:var(--body); margin-bottom:8px; line-height:1.5;">Translate the brief into a <strong>PRD</strong>, <strong>UX spec</strong>, and an <strong>accessibility review</strong>. PRD validation loop ensures consistency before moving to architecture.</div>
+        <div class="phase-wf-list">
+          <span class="phase-wf">create-prd</span>
+          <span class="phase-wf key">validate-prd ← gate</span>
+          <span class="phase-wf">edit-prd</span>
+          <span class="phase-wf">create-ux</span>
+          <span class="phase-wf">review-a11y</span>
+        </div>
+      </div>
+    </div>
+    <div class="phase-row">
+      <div class="phase-label-cell">
+        <div class="phase-num-label">Phase 03</div>
+        <div class="phase-name">Solutioning</div>
+      </div>
+      <div class="phase-content">
+        <div style="font-size:0.76rem; color:var(--body); margin-bottom:8px; line-height:1.5;">Design the technical solution. Architecture, test strategy, epics, ATDD, security threat model, infra design, and a full traceability matrix. Gate: all artifacts ready.</div>
+        <div class="phase-wf-list">
+          <span class="phase-wf">create-arch</span>
+          <span class="phase-wf">test-design</span>
+          <span class="phase-wf">create-epics</span>
+          <span class="phase-wf">atdd</span>
+          <span class="phase-wf">threat-model</span>
+          <span class="phase-wf">infra-design</span>
+          <span class="phase-wf">trace</span>
+          <span class="phase-wf key">readiness-check ← gate</span>
+        </div>
+      </div>
+    </div>
+    <div class="phase-row">
+      <div class="phase-label-cell">
+        <div class="phase-num-label">Phase 04</div>
+        <div class="phase-name">Implementation</div>
+      </div>
+      <div class="phase-content">
+        <div style="font-size:0.76rem; color:var(--body); margin-bottom:8px; line-height:1.5;">Sprint-based delivery loop. Create → validate → plan → develop → DoD check → 6-gate review → gate. Repeat per story until sprint is complete, then retro.</div>
+        <div class="phase-wf-list">
+          <span class="phase-wf">create-story</span>
+          <span class="phase-wf">validate-story</span>
+          <span class="phase-wf">sprint-plan</span>
+          <span class="phase-wf">dev-story</span>
+          <span class="phase-wf">check-dod</span>
+          <span class="phase-wf key">run-all-reviews ← 6 gates</span>
+          <span class="phase-wf key">review-gate ← HALT</span>
+          <span class="phase-wf">sprint-status</span>
+          <span class="phase-wf">retro</span>
+        </div>
+      </div>
+    </div>
+    <div class="phase-row">
+      <div class="phase-label-cell">
+        <div class="phase-num-label">Phase 05</div>
+        <div class="phase-name">Deployment</div>
+      </div>
+      <div class="phase-content">
+        <div style="font-size:0.76rem; color:var(--body); margin-bottom:8px; line-height:1.5;">Release planning, rollback strategy, pre-deploy checklist, and post-deploy verification. Terminal state — the lifecycle is complete.</div>
+        <div class="phase-wf-list">
+          <span class="phase-wf">release-plan</span>
+          <span class="phase-wf">rollback-plan</span>
+          <span class="phase-wf key">deploy-checklist ← gate</span>
+          <span class="phase-wf key">post-deploy ← terminal</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 CONDUCTOR -->
+<section class="section" id="conductor">
+  <div class="section-label">05</div>
+  <h2 class="section-title">How the Conductor works</h2>
+  <p class="section-lead">The Conductor is Symphony's routing brain. It reads your goal, scans artifact state, scores a confidence level, and dispatches — or asks you to choose if it's not sure.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Goal parsing</div>
+        <div class="step-desc">The Conductor extracts intent from natural language. Keywords like <span class="inline-code">fix</span>, <span class="inline-code">debug</span>, <span class="inline-code">error</span> → diagnose-then-fix. Keywords like <span class="inline-code">onboard</span>, <span class="inline-code">scan</span>, <span class="inline-code">analyze existing</span> → Overture. No keyword match → artifact-state detection.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Artifact-state detection</div>
+        <div class="step-desc">The Conductor looks for landmark files to determine lifecycle position:</div>
+        <div class="code-block"><span class="comment"># No brief.md → Phase 1</span>
+<span class="comment"># brief.md exists, no prd.md → Phase 2</span>
+<span class="comment"># prd.md exists, no architecture.md → Phase 3</span>
+<span class="comment"># architecture.md exists, active sprint → Phase 4</span>
+<span class="comment"># All complete, not shipped → Phase 5</span>
+<span class="comment"># Source code exists, no _symphony/state/ → Overture</span></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">Confidence scoring &amp; dispatch</div>
+        <div class="step-desc">The Conductor assigns a confidence score (0.0–1.0) to its routing decision.</div>
+        <div class="callout info">
+          <span class="label">Routing rule</span>
+          Score ≥ 0.80 → auto-dispatch the workflow.<br>
+          Score &lt; 0.80 → present options, ask you to confirm.
+        </div>
+        <div class="step-desc">The routing memory sidecar logs every routing decision. When you correct a wrong routing, the Conductor updates its memory and improves future decisions on similar goals.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 MODES -->
+<section class="section" id="modes">
+  <div class="section-label">06</div>
+  <h2 class="section-title">Execution &amp; interaction modes</h2>
+  <p class="section-lead">Symphony has two independent mode axes. You can set any combination of execution mode + interaction mode.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">→</div>
+      <div class="step-body">
+        <div class="step-title">Execution modes — how agents run</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:8px;">
+          <div style="background:var(--bg2); border:1px solid var(--rule); padding:12px 14px;">
+            <div style="font-family:var(--mono); font-size:0.62rem; color:var(--amber); font-weight:700; margin-bottom:4px;">Sequential</div>
+            <div style="font-size:0.74rem; color:var(--body); line-height:1.5;">Agents run one at a time, each waiting for the previous. Default for most lifecycle workflows.</div>
+          </div>
+          <div style="background:var(--bg2); border:1px solid var(--rule); padding:12px 14px; border-top:2px solid var(--blue);">
+            <div style="font-family:var(--mono); font-size:0.62rem; color:var(--blue); font-weight:700; margin-bottom:4px;">Parallel Waves</div>
+            <div style="font-size:0.74rem; color:var(--body); line-height:1.5;">DAG-sorted. Up to 4 agents run concurrently per wave. Integration gates between waves catch conflicts. Used by Overture and run-all-reviews.</div>
+          </div>
+          <div style="background:var(--bg2); border:1px solid var(--rule); padding:12px 14px; border-top:2px solid var(--amber);">
+            <div style="font-family:var(--mono); font-size:0.62rem; color:var(--amber); font-weight:700; margin-bottom:4px;">Ensemble</div>
+            <div style="font-size:0.74rem; color:var(--body); line-height:1.5;">Multiple agents share a conversation and take turns. Turn policies: round-robin, facilitator-picks, user-picks. Used by brainstorm, retro, creative workflows.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">→</div>
+      <div class="step-body">
+        <div class="step-title">Interaction modes — when you're involved</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:8px;">
+          <div style="background:var(--bg2); border:1px solid var(--rule); padding:12px 14px;">
+            <div style="font-family:var(--mono); font-size:0.62rem; color:var(--text); font-weight:700; margin-bottom:4px;">Normal</div>
+            <div style="font-size:0.74rem; color:var(--body); line-height:1.5;">Pauses at each checkpoint for your review and approval. Recommended for first-time use and critical phases.</div>
+          </div>
+          <div style="background:var(--bg2); border:1px solid var(--rule); padding:12px 14px;">
+            <div style="font-family:var(--mono); font-size:0.62rem; color:var(--text); font-weight:700; margin-bottom:4px;">YOLO</div>
+            <div style="font-size:0.74rem; color:var(--body); line-height:1.5;">Auto-proceeds through checkpoints without pausing. <strong>Gates still HALT</strong> — YOLO never skips a quality gate, only confirmation prompts.</div>
+          </div>
+          <div style="background:var(--bg2); border:1px solid var(--rule); padding:12px 14px;">
+            <div style="font-family:var(--mono); font-size:0.62rem; color:var(--text); font-weight:700; margin-bottom:4px;">Planning</div>
+            <div style="font-size:0.74rem; color:var(--body); line-height:1.5;">Shows the full execution plan — all steps, agents, and gates — before any work begins. You approve the plan, then execution starts.</div>
+          </div>
+        </div>
+        <div class="callout stop" style="margin-top:12px;">
+          <span class="label">Important</span>
+          YOLO mode does <strong>not</strong> bypass gates. If a gate fails in YOLO mode, execution halts and requires your intervention — same as Normal mode.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 CONFIG -->
+<section class="section" id="config">
+  <div class="section-label">07</div>
+  <h2 class="section-title">Configuration</h2>
+  <p class="section-lead">All configuration lives in <span class="inline-code">_symphony/_config/global.yaml</span>. Below are the settings you're most likely to need.</p>
+
+  <table class="config-table">
+    <thead>
+      <tr>
+        <th>Key</th>
+        <th>Default</th>
+        <th>What it does</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>user_name</td><td>"your-name"</td><td>Your name — used in agent personas and artifact headers</td></tr>
+      <tr><td>project_name</td><td>"your-project"</td><td>Project name — used in all generated artifact headings</td></tr>
+      <tr><td>project_path</td><td>"."</td><td>Relative path to your source code root. Use <span class="inline-code">"src"</span> if your code lives in a subdirectory</td></tr>
+      <tr><td>limits.max_tokens_per_activation</td><td>40000</td><td>Hard token cap per agent activation. Keeps context focused. Decrease for cost control, increase for larger contexts</td></tr>
+      <tr><td>disciplines.self_critique_threshold</td><td>0.85</td><td>Minimum confidence for agent output. Below this: retry once, then escalate. Raise to 0.90 for more rigour</td></tr>
+      <tr><td>conductor.auto_dispatch_confidence</td><td>0.80</td><td>Minimum confidence for auto-routing. Below this: Conductor asks you to pick. Lower to 0.70 for more autonomy</td></tr>
+      <tr><td>vault.enabled</td><td>false</td><td>Enable the Vault knowledge graph (Obsidian-compatible). Set to <span class="inline-code">true</span> and point <span class="inline-code">vault_root</span> at your vault directory</td></tr>
+    </tbody>
+  </table>
+
+  <div class="code-block"><span class="comment"># Minimal production config example</span>
+<span class="key">user_name</span><span class="val">:    </span><span class="str">"Alice"</span>
+<span class="key">project_name</span><span class="val">: </span><span class="str">"acme-platform"</span>
+<span class="key">project_path</span><span class="val">: </span><span class="str">"src"</span>
+
+<span class="key">disciplines</span><span class="val">:</span>
+  <span class="key">self_critique_threshold</span><span class="val">: </span><span class="str">0.85</span>
+  <span class="key">diagnose_confidence_threshold</span><span class="val">: </span><span class="str">0.70</span>
+
+<span class="key">conductor</span><span class="val">:</span>
+  <span class="key">auto_dispatch_confidence</span><span class="val">: </span><span class="str">0.80</span></div>
+</section>
+
+<!-- 08 ANYTIME -->
+<section class="section" id="anytime">
+  <div class="section-label">08</div>
+  <h2 class="section-title">Anytime commands</h2>
+  <p class="section-lead">These 18 commands have no lifecycle position — run them whenever you need them, regardless of which phase you're in.</p>
+
+  <table class="ref-table">
+    <thead>
+      <tr><th>Command</th><th>What it does</th></tr>
+    </thead>
+    <tbody>
+      <tr class="ref-cat"><td colspan="2">Quick paths</td></tr>
+      <tr><td>/symphony-quick-spec</td><td>Lightweight spec for small changes — skips the full lifecycle. Produces a brief spec document.</td></tr>
+      <tr><td>/symphony-quick-dev</td><td>Fast implementation from a quick-spec — generates code + runs a streamlined review pass.</td></tr>
+
+      <tr class="ref-cat"><td colspan="2">Discussion &amp; analysis</td></tr>
+      <tr><td>/symphony-discuss</td><td>Surfaces gray areas, ambiguities, and unstated assumptions in any artifact you point it at.</td></tr>
+      <tr><td>/symphony-adversarial-review</td><td>Devil's advocate pass — challenges assumptions, finds weaknesses, stress-tests decisions.</td></tr>
+      <tr><td>/symphony-spike</td><td>Timeboxed exploration. Research a question, run up to 3 experiments, return go/no-go.</td></tr>
+      <tr><td>/symphony-explore-codebase</td><td>Deep analysis of your codebase — structure, patterns, dependencies, tech debt — as an intelligence report.</td></tr>
+
+      <tr class="ref-cat"><td colspan="2">Team &amp; collaboration</td></tr>
+      <tr><td>/symphony-party</td><td>Party Mode — multi-agent roundtable with your stakeholder personas. Brainstorm, debate, or triage together.</td></tr>
+      <tr><td>/symphony-create-stakeholder</td><td>Define a new stakeholder persona (role, perspective, expertise, biases) for use in Party Mode and ensemble reviews.</td></tr>
+
+      <tr class="ref-cat"><td colspan="2">Project hygiene</td></tr>
+      <tr><td>/symphony-memory-hygiene</td><td>Scans all agent sidecars for stale or contradicted decisions and prompts resolution.</td></tr>
+      <tr><td>/symphony-status</td><td>Generates a concise status summary across all lifecycle phases — good for standup prep.</td></tr>
+      <tr><td>/symphony-hub</td><td>Launches the Symphony Hub dashboard (Hono server, SSE live updates, 6 panels).</td></tr>
+      <tr><td>/symphony-document-project</td><td>Generates comprehensive project documentation from all existing artifacts.</td></tr>
+      <tr><td>/symphony-performance-review</td><td>Analyzes performance characteristics and produces prioritized optimization recommendations.</td></tr>
+      <tr><td>/symphony-tech-debt-review</td><td>Identifies and prioritizes technical debt across the codebase.</td></tr>
+
+      <tr class="ref-cat"><td colspan="2">Integrations</td></tr>
+      <tr><td>/symphony-trello-setup</td><td>Initializes a Trello board with the Symphony phase and story structure.</td></tr>
+      <tr><td>/symphony-trello-sync</td><td>Bidirectional sync between Symphony workflow state and your Trello board.</td></tr>
+      <tr><td>/symphony-i18n-setup</td><td>Internationalization setup — audits strings, selects library, configures locales, extracts bundles, wires CI validation.</td></tr>
+      <tr><td>/symphony-toggle</td><td>Toggle Symphony feature flags and configuration settings at runtime.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 09 AGENTS -->
+<section class="section" id="agents">
+  <div class="section-label">09</div>
+  <h2 class="section-title">Agents reference</h2>
+  <p class="section-lead">You never invoke agents directly — the Conductor and workflow engine dispatch them. But knowing who does what helps you understand what you're reviewing at each gate.</p>
+
+  <div class="agent-grid">
+    <div class="agent-card">
+      <div class="agent-name">product-manager</div>
+      <div class="agent-desc">Owns briefs, PRDs, epics, and stories. Defines requirements and acceptance criteria throughout the lifecycle.</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-name">architect</div>
+      <div class="agent-desc">Designs system architecture — components, APIs, data models, integration patterns.</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-name">ux-designer</div>
+      <div class="agent-desc">Produces UX specs, wireframes, user flows, and interaction patterns from the PRD.</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-name">developer</div>
+      <div class="agent-desc">Implements stories end-to-end using TDD. Detects your stack (TypeScript, Flutter, Python, Go, Angular) and loads matching knowledge JIT.</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-name">test-architect</div>
+      <div class="agent-desc">Designs test strategy, runs ATDD, and manages the 30-fragment testing knowledge base across 6 categories.</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-name">security-agent</div>
+      <div class="agent-desc">Runs STRIDE threat modeling in Phase 3 and OWASP/dependency scanning during the 6-gate review.</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-name">devops-agent</div>
+      <div class="agent-desc">Handles infra design, CI/CD, release plans, rollback strategy, and post-deploy verification.</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-name">reviewer</div>
+      <div class="agent-desc">Code quality review — patterns, best practices, maintainability. One of the 6 gates in run-all-reviews.</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-name">research-analyst</div>
+      <div class="agent-desc">Market research, domain research, technology evaluation. Active in Phase 1 (Analysis).</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-name">critic</div>
+      <div class="agent-desc">Adversarial agent — challenges assumptions, devil's advocate reviews, surfaces blind spots.</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-name">code-simplifier</div>
+      <div class="agent-desc">Refactoring specialist. Reduces complexity, enforces YAGNI, improves readability without changing behavior.</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-name">browser-tester</div>
+      <div class="agent-desc">Playwright E2E tests, visual regression, accessibility audits, responsive testing across viewports.</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-name">mobile-dev</div>
+      <div class="agent-desc">React Native, Flutter, Kotlin, Swift — 8-step TDD protocol applied to mobile stacks.</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-name">designer-mobile</div>
+      <div class="agent-desc">iOS Human Interface Guidelines + Material Design 3. Produces platform-native design specs.</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-name">mobile-tester</div>
+      <div class="agent-desc">Device matrix coverage, Detox/Maestro/Appium test plans, platform-specific verification.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 TIPS -->
+<section class="section" id="tips">
+  <div class="section-label">10</div>
+  <h2 class="section-title">Tips &amp; common mistakes</h2>
+  <p class="section-lead">Things that trip up new Symphony users — and what to do instead.</p>
+
+  <div class="tips-grid">
+    <div class="tip-card warn">
+      <div class="tip-head">Don't skip gates</div>
+      <div class="tip-text">Gates exist to catch problems early. If a gate fails, fix the underlying issue — don't look for ways around it. Skipped gates always surface as bigger problems later.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-head">Use memory hygiene weekly</div>
+      <div class="tip-text">Run <span class="inline-code">/symphony-memory-hygiene</span> at the end of each sprint. Stale decisions in agent sidecars cause incorrect behavior in future workflows and are hard to debug.</div>
+    </div>
+    <div class="tip-card info">
+      <div class="tip-head">Start with Normal mode</div>
+      <div class="tip-text">Use Normal interaction mode until you understand the rhythm of gate checkpoints. Switch to YOLO only on phases you've run before and understand well.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-head">Correct the Conductor explicitly</div>
+      <div class="tip-text">If the Conductor routes to the wrong phase, tell it explicitly: "No, I want to start at Phase 2." It logs the correction and improves future routing on similar goals.</div>
+    </div>
+    <div class="tip-card warn">
+      <div class="tip-head">Don't edit _symphony/ files manually</div>
+      <div class="tip-text">Agent, workflow, and protocol files are read by the engine at activation time. Manual edits may break internal references or violate the engine's validation rules.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-head">Overture for any existing codebase</div>
+      <div class="tip-text">Even if you wrote the code yourself, run Overture on an existing project before starting Symphony workflows. It generates the artifact baseline that all subsequent phases depend on.</div>
+    </div>
+    <div class="tip-card info">
+      <div class="tip-head">The Quick Path is genuinely quick</div>
+      <div class="tip-text">For fixes, small features, and config changes: <span class="inline-code">/symphony-quick-spec</span> then <span class="inline-code">/symphony-quick-dev</span>. Two commands, no PRD, no architecture — done in minutes.</div>
+    </div>
+    <div class="tip-card stop">
+      <div class="tip-head">YOLO ≠ skip gates</div>
+      <div class="tip-text">This is the most common misunderstanding. YOLO auto-approves checkpoints but cannot skip a quality gate. If code fails review, YOLO mode still halts — exactly like Normal mode.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand">Symphony — Orchestrate your code.</div>
+  <div class="footer-meta">
+    v0.0.2-alpha.2 · 76 workflows · 32 agents · 1678 tests passing<br>
+    Last updated: 2026-04-30
+  </div>
+</footer>
+
+</div><!-- /page -->
+</body>
+</html>

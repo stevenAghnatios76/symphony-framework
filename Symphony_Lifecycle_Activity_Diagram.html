@@ -4,1584 +4,1925 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SYMPHONY — Full Lifecycle Activity Diagram</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  /* ══════════════════════════════════════════
-     RESET & BASE
-     ══════════════════════════════════════════ */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 13px; scroll-behavior: smooth; }
-  body {
-    background: #1a1a1e;
-    color: #e8ddd3;
-    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
-    line-height: 1.5;
-    min-height: 100vh;
-    overflow-x: auto;
-  }
-  code, .mono { font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* ══════════════════════════════════════════
-     HEADER
-     ══════════════════════════════════════════ */
-  .header {
-    background: linear-gradient(135deg, #22201f 0%, #2a2725 100%);
-    border-bottom: 1px solid #3d3632;
-    padding: 16px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .header-left { display: flex; align-items: center; gap: 16px; }
-  .header-logo {
-    font-size: 1.6rem;
-    font-weight: 800;
-    letter-spacing: 2px;
-    background: linear-gradient(135deg, #d97757, #e8a87c);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .header-subtitle {
-    font-size: 0.95rem;
-    color: #a89a8e;
-    font-weight: 400;
-  }
-  .header-stats {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  .stat {
-    background: #2a2725;
-    border: 1px solid #3d3632;
-    border-radius: 6px;
-    padding: 4px 12px;
-    font-size: 0.8rem;
-    color: #a89a8e;
-    white-space: nowrap;
-  }
-  .stat strong { color: #e8ddd3; }
+:root {
+  --navy:    #0f0e0c;
+  --navy-2:  #1e1c19;
+  --navy-3:  #2d2b27;
+  --navy-4:  #3d3a35;
+  --rule:    #4a463f;
+  --dim:     #5a564e;
+  --muted:   #7a7166;
+  --body:    #aba395;
+  --text:    #d4cbbf;
+  --bright:  #ede6da;
+  --white:   #f5f0e8;
 
-  /* ══════════════════════════════════════════
-     ENTRY POINTS BAR
-     ══════════════════════════════════════════ */
-  .entry-bar {
-    display: flex;
-    gap: 8px;
-    padding: 12px 24px;
-    background: #1e1c1b;
-    border-bottom: 1px solid #3d3632;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  .entry-label {
-    font-size: 0.8rem;
-    color: #a89a8e;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-right: 8px;
-  }
-  .entry-btn {
-    padding: 6px 16px;
-    border-radius: 6px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    border: 1px solid;
-    cursor: pointer;
-    transition: all 0.2s;
-    background: transparent;
-  }
-  .entry-btn:hover { transform: translateY(-1px); }
-  .entry-btn.greenfield { color: #d97757; border-color: #d9775733; }
-  .entry-btn.greenfield:hover { background: #d9775715; border-color: #d9775766; }
-  .entry-btn.overture { color: #b8977a; border-color: #b8977a33; }
-  .entry-btn.overture:hover { background: #b8977a15; border-color: #b8977a66; }
-  .entry-btn.add-feature { color: #e8a87c; border-color: #e8a87c33; }
-  .entry-btn.add-feature:hover { background: #e8a87c15; border-color: #e8a87c66; }
-  .entry-btn.quick { color: #8fbc8f; border-color: #8fbc8f33; }
-  .entry-btn.quick:hover { background: #8fbc8f15; border-color: #8fbc8f66; }
-  .entry-btn.debug { color: #c97070; border-color: #c9707033; }
-  .entry-btn.debug:hover { background: #c9707015; border-color: #c9707066; }
+  --cyan:    #e8a030;
+  --cyan-dim: #e8a03012;
+  --cyan-mid: #e8a03025;
+  --cyan-glow: #e8a03008;
 
-  .entry-arrow {
-    color: #5a4e44;
-    font-size: 1rem;
-    margin: 0 2px;
-  }
-  .entry-target {
-    font-size: 0.75rem;
-    color: #7a6e62;
-    font-style: italic;
-  }
+  --p1:  #d97757;   /* Analysis — orange */
+  --p2:  #d4b45b;   /* Planning — gold */
+  --p3:  #5dbd8a;   /* Solutioning — green */
+  --p4:  #5b9fd4;   /* Implementation — blue */
+  --p5:  #c49ad1;   /* Deployment — lavender */
 
-  /* ══════════════════════════════════════════
-     PHASE DETECTION RULES
-     ══════════════════════════════════════════ */
-  .conductor-bar {
-    padding: 12px 24px;
-    background: #1e1c1b;
-    border-bottom: 1px solid #3d3632;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .conductor-label {
-    font-size: 0.75rem;
-    color: #d97757;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .conductor-rule {
-    font-size: 0.72rem;
-    color: #8a7e72;
-    background: #2a2725;
-    border: 1px solid #3d3632;
-    border-radius: 4px;
-    padding: 3px 10px;
-  }
-  .conductor-rule code {
-    color: #d97757;
-    font-size: 0.72rem;
-  }
+  --p1-dim: #d9775715;
+  --p2-dim: #d4b45b15;
+  --p3-dim: #5dbd8a15;
+  --p4-dim: #5b9fd415;
+  --p5-dim: #c49ad115;
 
-  /* ══════════════════════════════════════════
-     PHASE COLUMNS GRID
-     ══════════════════════════════════════════ */
-  .phases-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1.15fr 1.5fr 0.85fr;
-    gap: 12px;
-    padding: 16px 24px;
-    min-width: 1200px;
-  }
+  --seq:  #7a7166;
+  --wave: #e8a030;
+  --ens:  #d4b45b;
 
-  .phase-col {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
+  --header-h: 56px;
+}
 
-  .phase-header {
-    text-align: center;
-    padding: 10px 8px;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    position: relative;
-  }
-  .phase-header .phase-num {
-    font-size: 2rem;
-    font-weight: 800;
-    opacity: 0.15;
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  .phase-header.p1 { background: #d9775712; color: #d97757; border: 1px solid #d9775730; }
-  .phase-header.p2 { background: #b8977a12; color: #b8977a; border: 1px solid #b8977a30; }
-  .phase-header.p3 { background: #8fbc8f12; color: #8fbc8f; border: 1px solid #8fbc8f30; }
-  .phase-header.p4 { background: #e8a87c12; color: #e8a87c; border: 1px solid #e8a87c30; }
-  .phase-header.p5 { background: #7db8a012; color: #7db8a0; border: 1px solid #7db8a030; }
+html { font-size: 13px; scroll-behavior: smooth; }
 
-  /* ══════════════════════════════════════════
-     WORKFLOW CARDS
-     ══════════════════════════════════════════ */
-  .wf-card {
-    background: #2a2725;
-    border: 1px solid #3d3632;
-    border-radius: 8px;
-    padding: 10px 12px;
-    border-left: 3px solid;
-    transition: all 0.2s;
-    position: relative;
-  }
-  .wf-card:hover {
-    transform: translateX(2px);
-    border-color: #4d4540;
-  }
-  .wf-card.p1 { border-left-color: #d97757; }
-  .wf-card.p1:hover { box-shadow: 0 0 12px #d9775720; }
-  .wf-card.p2 { border-left-color: #b8977a; }
-  .wf-card.p2:hover { box-shadow: 0 0 12px #b8977a20; }
-  .wf-card.p3 { border-left-color: #8fbc8f; }
-  .wf-card.p3:hover { box-shadow: 0 0 12px #8fbc8f20; }
-  .wf-card.p4 { border-left-color: #e8a87c; }
-  .wf-card.p4:hover { box-shadow: 0 0 12px #e8a87c20; }
-  .wf-card.p5 { border-left-color: #7db8a0; }
-  .wf-card.p5:hover { box-shadow: 0 0 12px #7db8a020; }
+body {
+  background: var(--navy);
+  color: var(--text);
+  font-family: 'Space Mono', 'Fira Code', monospace;
+  line-height: 1.5;
+  min-height: 100vh;
+  overflow-x: auto;
+}
 
-  .wf-card-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 8px;
-    margin-bottom: 4px;
-  }
-  .wf-cmd {
-    font-family: 'JetBrains Mono', 'Fira Code', monospace;
-    font-size: 0.78rem;
-    font-weight: 600;
-  }
-  .wf-card.p1 .wf-cmd { color: #d97757; }
-  .wf-card.p2 .wf-cmd { color: #b8977a; }
-  .wf-card.p3 .wf-cmd { color: #8fbc8f; }
-  .wf-card.p4 .wf-cmd { color: #e8a87c; }
-  .wf-card.p5 .wf-cmd { color: #7db8a0; }
+/* GRID BACKGROUND */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--rule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 0;
+}
 
-  .wf-mode {
-    font-size: 0.62rem;
-    font-weight: 600;
-    padding: 2px 7px;
-    border-radius: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .wf-mode.seq { background: #5a4e4420; color: #a89a8e; border: 1px solid #5a4e4440; }
-  .wf-mode.wave { background: #d9775715; color: #d97757; border: 1px solid #d9775740; }
-  .wf-mode.ens { background: #b8977a15; color: #b8977a; border: 1px solid #b8977a40; }
+/* NOISE OVERLAY */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+}
 
-  .wf-desc {
-    font-size: 0.72rem;
-    color: #a89a8e;
-    margin-bottom: 4px;
-  }
-  .wf-owner {
-    font-size: 0.68rem;
-    color: #7a6e62;
-  }
-  .wf-owner strong { color: #c4b5a6; font-weight: 600; }
+* { position: relative; z-index: 1; }
 
-  .wf-flow {
-    margin-top: 6px;
-    padding-top: 6px;
-    border-top: 1px solid #3d3632;
-    font-size: 0.66rem;
-    color: #7a6e62;
-  }
-  .wf-flow .next { color: #c4b5a6; }
-  .wf-flow .alt { color: #7a6e62; font-style: italic; }
-  .flow-arrow { color: #5a4e44; margin: 0 3px; }
+/* TYPOGRAPHY */
+.mono { font-family: 'Space Mono', monospace; }
+.sans { font-family: 'Syne', sans-serif; }
 
-  /* Gate badges */
-  .gate-badge {
-    display: inline-block;
-    font-size: 0.6rem;
-    padding: 1px 6px;
-    border-radius: 3px;
-    margin-top: 4px;
-    font-weight: 600;
-  }
-  .gate-badge.pre { background: #e8a87c18; color: #e8a87c; border: 1px solid #e8a87c30; }
-  .gate-badge.post { background: #c9707018; color: #c97070; border: 1px solid #c9707030; }
+/* ═══ HEADER ═══ */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: rgba(15, 14, 12, 0.97);
+  border-bottom: 1px solid var(--cyan);
+  height: var(--header-h);
+  display: flex;
+  align-items: stretch;
+  backdrop-filter: blur(8px);
+  animation: fadeDown 0.4s ease both;
+}
 
-  /* ══════════════════════════════════════════
-     SPECIAL SECTIONS
-     ══════════════════════════════════════════ */
-  .section-divider {
-    padding: 8px 24px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: #a89a8e;
-    border-top: 1px solid #3d3632;
-    border-bottom: 1px solid #3d3632;
-    background: #1e1c1b;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .section-divider::before {
-    content: '';
-    flex: 0 0 20px;
-    height: 2px;
-  }
-  .section-divider.overture::before { background: #b8977a; }
-  .section-divider.feature::before { background: #e8a87c; }
-  .section-divider.anytime::before { background: #a89a8e; }
-  .section-divider.engine::before { background: #d97757; }
-  .section-divider.creative::before { background: #c49ad1; }
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-  /* Creative panel */
-  .creative-panel {
-    margin: 0 24px 16px;
-    background: #2a2725;
-    border: 1px solid #c49ad130;
-    border-radius: 10px;
-    padding: 16px 20px;
-  }
-  .creative-title {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: #c49ad1;
-    margin-bottom: 8px;
-  }
-  .creative-desc {
-    font-size: 0.75rem;
-    color: #a89a8e;
-    margin-bottom: 12px;
-  }
-  .creative-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-  .creative-block {
-    background: #332f2c;
-    border: 1px solid #c49ad120;
-    border-radius: 6px;
-    padding: 10px 12px;
-  }
-  .creative-block-label {
-    font-size: 0.68rem;
-    font-weight: 700;
-    color: #c49ad1;
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  .creative-block-items {
-    font-size: 0.7rem;
-    color: #a89a8e;
-    line-height: 1.7;
-  }
-  .creative-block-items code {
-    color: #c4b5a6;
-    font-size: 0.68rem;
-  }
-  .creative-block-items .mode {
-    font-size: 0.6rem;
-    color: #7a6e62;
-    font-style: italic;
-  }
-  @media (max-width: 900px) {
-    .creative-grid { grid-template-columns: 1fr; }
-  }
+.header-brand {
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  border-right: 1px solid var(--rule);
+  gap: 12px;
+  flex-shrink: 0;
+}
 
-  /* Overture panel */
-  .overture-panel {
-    margin: 0 24px 16px;
-    background: #2a2725;
-    border: 1px solid #b8977a30;
-    border-radius: 10px;
-    padding: 16px 20px;
-  }
-  .overture-title {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: #b8977a;
-    margin-bottom: 8px;
-  }
-  .overture-desc {
-    font-size: 0.75rem;
-    color: #a89a8e;
-    margin-bottom: 12px;
-  }
-  .overture-waves {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .overture-wave {
-    background: #332f2c;
-    border: 1px solid #b8977a20;
-    border-radius: 6px;
-    padding: 8px 12px;
-    flex: 1;
-    min-width: 180px;
-  }
-  .overture-wave-label {
-    font-size: 0.68rem;
-    font-weight: 700;
-    color: #d97757;
-    margin-bottom: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  .overture-wave-items {
-    font-size: 0.7rem;
-    color: #a89a8e;
-    line-height: 1.6;
-  }
+.header-wordmark {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.4rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
 
-  /* Add Feature cascade */
-  .cascade-panel {
-    margin: 0 24px 16px;
-    background: #2a2725;
-    border: 1px solid #e8a87c30;
-    border-radius: 10px;
-    padding: 16px 20px;
-  }
-  .cascade-title {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: #e8a87c;
-    margin-bottom: 8px;
-  }
-  .cascade-flow {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
-    font-size: 0.75rem;
-  }
-  .cascade-step {
-    background: #332f2c;
-    border-radius: 6px;
-    padding: 6px 12px;
-    font-weight: 600;
-  }
-  .cascade-step.s2 { color: #b8977a; border: 1px solid #b8977a30; }
-  .cascade-step.s3 { color: #8fbc8f; border: 1px solid #8fbc8f30; }
-  .cascade-step.s4 { color: #e8a87c; border: 1px solid #e8a87c30; }
-  .cascade-arrow { color: #5a4e44; font-size: 1.1rem; }
+.header-title {
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1.4;
+}
 
-  /* ══════════════════════════════════════════
-     BOTTOM PANELS
-     ══════════════════════════════════════════ */
-  .bottom-panels {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    padding: 16px 24px;
-    min-width: 1200px;
-  }
+.header-stats {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 0;
+  flex: 1;
+  overflow: hidden;
+}
 
-  .panel {
-    background: #2a2725;
-    border: 1px solid #3d3632;
-    border-radius: 10px;
-    padding: 16px 20px;
-  }
-  .panel-title {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #e8ddd3;
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .panel-title .icon { font-size: 1rem; }
+.hstat {
+  padding: 0 16px;
+  border-right: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex-shrink: 0;
+}
 
-  /* Engine architecture panel */
-  .engine-flow {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-  .engine-box {
-    background: #332f2c;
-    border: 1px solid #3d3632;
-    border-radius: 8px;
-    padding: 10px 20px;
-    text-align: center;
-    width: 100%;
-    max-width: 340px;
-  }
-  .engine-box.conductor {
-    border-color: #d9775740;
-    background: linear-gradient(135deg, #332f2c, #3a2e28);
-  }
-  .engine-box-name {
-    font-weight: 700;
-    font-size: 0.8rem;
-    margin-bottom: 2px;
-  }
-  .engine-box-name.conductor-name { color: #d97757; }
-  .engine-box-name.wf-name { color: #b8977a; }
-  .engine-box-name.wave-name { color: #e8a87c; }
-  .engine-box-name.gate-name { color: #e8a87c; }
-  .engine-box-desc {
-    font-size: 0.68rem;
-    color: #8a7e72;
-  }
-  .engine-arrow {
-    color: #5a4e44;
-    font-size: 1.2rem;
-  }
-  .engine-split {
-    display: flex;
-    gap: 10px;
-    width: 100%;
-    max-width: 520px;
-  }
-  .engine-split .engine-box { flex: 1; }
+.hstat-key {
+  font-size: 0.5rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
 
-  /* Protocol table */
-  .proto-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 6px;
-  }
-  .proto-item {
-    background: #332f2c;
-    border: 1px solid #3d3632;
-    border-radius: 6px;
-    padding: 8px 10px;
-  }
-  .proto-name {
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: #d97757;
-    margin-bottom: 2px;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .proto-desc {
-    font-size: 0.66rem;
-    color: #8a7e72;
-  }
+.hstat-val {
+  font-size: 0.68rem;
+  color: var(--bright);
+  font-weight: 700;
+}
 
-  /* Quality gate table */
-  .gate-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.72rem;
-  }
-  .gate-table th {
-    text-align: left;
-    padding: 6px 10px;
-    color: #a89a8e;
-    font-weight: 600;
-    border-bottom: 1px solid #3d3632;
-    font-size: 0.68rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  .gate-table td {
-    padding: 6px 10px;
-    border-bottom: 1px solid #3d363280;
-    color: #a89a8e;
-  }
-  .gate-table td:first-child { color: #e8ddd3; font-weight: 600; }
-  .gate-table .infra-col { color: #e8a87c; }
+.header-ver {
+  margin-left: auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-left: 1px solid var(--rule);
+  flex-shrink: 0;
+}
 
-  /* Anytime commands grid */
-  .anytime-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 8px;
-    padding: 0 24px 24px;
-    min-width: 1200px;
-  }
-  .anytime-card {
-    background: #2a2725;
-    border: 1px solid #3d3632;
-    border-left: 3px solid #a89a8e;
-    border-radius: 8px;
-    padding: 10px 12px;
-  }
-  .anytime-cmd {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    color: #a89a8e;
-    font-weight: 600;
-    margin-bottom: 3px;
-  }
-  .anytime-desc {
-    font-size: 0.68rem;
-    color: #7a6e62;
-  }
+.ver-badge {
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  border: 1px solid var(--cyan);
+  padding: 3px 9px;
+  border-radius: 2px;
+}
 
-  /* ══════════════════════════════════════════
-     FOOTER
-     ══════════════════════════════════════════ */
-  .footer {
-    padding: 16px 24px;
-    border-top: 1px solid #3d3632;
-    text-align: center;
-    font-size: 0.7rem;
-    color: #5a4e44;
-  }
+/* ═══ ENTRY POINTS ═══ */
+.entry-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border-bottom: 1px solid var(--rule);
+  background: var(--navy-2);
+  overflow-x: auto;
+  animation: fadeIn 0.4s 0.05s ease both;
+}
 
-  /* ══════════════════════════════════════════
-     RESPONSIVE
-     ══════════════════════════════════════════ */
-  @media (max-width: 1300px) {
-    .phases-grid { grid-template-columns: 1fr; min-width: auto; }
-    .bottom-panels { grid-template-columns: 1fr; min-width: auto; }
-    .anytime-grid { min-width: auto; }
-  }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.entry-label {
+  padding: 10px 18px;
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-right: 1px solid var(--rule);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.entry-item {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border-right: 1px solid var(--rule);
+  flex-shrink: 0;
+}
+
+.entry-btn {
+  padding: 10px 16px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.entry-btn.p1 { color: var(--p1); }
+.entry-btn.p1:hover { background: var(--p1-dim); }
+.entry-btn.p2 { color: var(--p2); }
+.entry-btn.p2:hover { background: var(--p2-dim); }
+.entry-btn.p3 { color: var(--p3); }
+.entry-btn.p3:hover { background: var(--p3-dim); }
+.entry-btn.p4 { color: var(--p4); }
+.entry-btn.p4:hover { background: var(--p4-dim); }
+.entry-btn.dbg { color: var(--muted); }
+.entry-btn.dbg:hover { background: rgba(74,122,158,0.12); }
+
+.entry-arrow {
+  padding: 10px 10px;
+  color: var(--dim);
+  font-size: 0.8rem;
+}
+
+.entry-target {
+  padding: 10px 14px 10px 0;
+  font-size: 0.58rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+
+/* ═══ CONDUCTOR BAR ═══ */
+.conductor-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border-bottom: 1px solid var(--rule);
+  background: var(--navy-2);
+  overflow-x: auto;
+  animation: fadeIn 0.4s 0.1s ease both;
+}
+
+.conductor-label {
+  padding: 8px 18px;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  border-right: 1px solid var(--rule);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.c-rule {
+  padding: 8px 14px;
+  font-size: 0.58rem;
+  color: var(--body);
+  border-right: 1px solid var(--rule);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.c-rule code {
+  color: var(--cyan);
+  background: var(--cyan-dim);
+  padding: 1px 5px;
+  border-radius: 2px;
+  font-size: 0.56rem;
+}
+
+/* ═══ SWIM LANE GRID ═══ */
+.swim-lanes {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  min-width: 1280px;
+  border-bottom: 2px solid var(--rule);
+  animation: fadeIn 0.5s 0.15s ease both;
+}
+
+.lane {
+  border-right: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+}
+
+.lane:last-child { border-right: none; }
+
+.lane-header {
+  padding: 14px 16px 12px;
+  border-bottom: 3px solid;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  position: sticky;
+  top: var(--header-h);
+  z-index: 50;
+  background: var(--navy);
+}
+
+.lane-header.p1 { border-bottom-color: var(--p1); background: linear-gradient(180deg, rgba(255,107,53,0.06), var(--navy)); }
+.lane-header.p2 { border-bottom-color: var(--p2); background: linear-gradient(180deg, rgba(255,209,102,0.06), var(--navy)); }
+.lane-header.p3 { border-bottom-color: var(--p3); background: linear-gradient(180deg, rgba(6,214,160,0.06), var(--navy)); }
+.lane-header.p4 { border-bottom-color: var(--p4); background: linear-gradient(180deg, rgba(17,138,178,0.06), var(--navy)); }
+.lane-header.p5 { border-bottom-color: var(--p5); background: linear-gradient(180deg, rgba(155,93,229,0.06), var(--navy)); }
+
+.lane-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+  opacity: 0.1;
+  letter-spacing: -0.04em;
+}
+
+.lane-header.p1 .lane-num { color: var(--p1); }
+.lane-header.p2 .lane-num { color: var(--p2); }
+.lane-header.p3 .lane-num { color: var(--p3); }
+.lane-header.p4 .lane-num { color: var(--p4); }
+.lane-header.p5 .lane-num { color: var(--p5); }
+
+.lane-title-wrap { text-align: right; }
+
+.lane-phase-label {
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+
+.lane-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.lane-header.p1 .lane-title { color: var(--p1); }
+.lane-header.p2 .lane-title { color: var(--p2); }
+.lane-header.p3 .lane-title { color: var(--p3); }
+.lane-header.p4 .lane-title { color: var(--p4); }
+.lane-header.p5 .lane-title { color: var(--p5); }
+
+.lane-body {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+/* ═══ WORKFLOW CARDS ═══ */
+.wf {
+  background: var(--navy-3);
+  border: 1px solid var(--rule);
+  padding: 10px 12px;
+  border-top: 2px solid;
+  transition: background 0.15s, box-shadow 0.15s;
+  cursor: default;
+}
+
+.wf.p1 { border-top-color: var(--p1); }
+.wf.p2 { border-top-color: var(--p2); }
+.wf.p3 { border-top-color: var(--p3); }
+.wf.p4 { border-top-color: var(--p4); }
+.wf.p5 { border-top-color: var(--p5); }
+
+.wf.p1:hover { background: var(--p1-dim); box-shadow: 0 0 16px rgba(255,107,53,0.1); }
+.wf.p2:hover { background: var(--p2-dim); box-shadow: 0 0 16px rgba(255,209,102,0.1); }
+.wf.p3:hover { background: var(--p3-dim); box-shadow: 0 0 16px rgba(6,214,160,0.1); }
+.wf.p4:hover { background: var(--p4-dim); box-shadow: 0 0 16px rgba(17,138,178,0.1); }
+.wf.p5:hover { background: var(--p5-dim); box-shadow: 0 0 16px rgba(155,93,229,0.1); }
+
+.wf-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 5px;
+}
+
+.wf-cmd {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+}
+
+.wf.p1 .wf-cmd { color: var(--p1); }
+.wf.p2 .wf-cmd { color: var(--p2); }
+.wf.p3 .wf-cmd { color: var(--p3); }
+.wf.p4 .wf-cmd { color: var(--p4); }
+.wf.p5 .wf-cmd { color: var(--p5); }
+
+.wf-mode {
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 2px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+.wf-mode.seq  { background: rgba(74,122,158,0.15); color: var(--muted); border: 1px solid var(--dim); }
+.wf-mode.wave { background: var(--cyan-dim);        color: var(--cyan);  border: 1px solid rgba(0,212,255,0.4); text-shadow: 0 0 6px var(--cyan); }
+.wf-mode.ens  { background: rgba(255,209,102,0.1);  color: var(--p2);    border: 1px solid rgba(255,209,102,0.35); }
+
+.wf-desc {
+  font-size: 0.62rem;
+  color: var(--body);
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+
+.wf-owner {
+  font-size: 0.56rem;
+  color: var(--dim);
+  letter-spacing: 0.04em;
+}
+
+.wf-owner strong {
+  color: var(--muted);
+}
+
+.wf-flow {
+  margin-top: 7px;
+  padding-top: 7px;
+  border-top: 1px solid var(--rule);
+  font-size: 0.56rem;
+  color: var(--dim);
+  line-height: 1.6;
+}
+
+.wf-flow .nxt { color: var(--text); font-weight: 700; }
+.wf-flow .alt { color: var(--dim); font-style: italic; }
+.fa { color: var(--muted); margin: 0 3px; }
+
+.gate {
+  display: inline-block;
+  font-size: 0.5rem;
+  padding: 2px 7px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-radius: 2px;
+  margin-top: 5px;
+}
+
+.gate.pre  { background: rgba(255,209,102,0.1); color: var(--p2); border: 1px solid rgba(255,209,102,0.3); }
+.gate.post { background: rgba(255,107,53,0.1);  color: var(--p1); border: 1px solid rgba(255,107,53,0.3); }
+.gate.term { background: rgba(155,93,229,0.12); color: var(--p5); border: 1px solid rgba(155,93,229,0.35); }
+
+/* ═══ SECTION HEADERS ═══ */
+.sec-head {
+  display: flex;
+  align-items: stretch;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  background: var(--navy-2);
+  min-width: 1280px;
+}
+
+.sec-head-bar {
+  width: 3px;
+  flex-shrink: 0;
+}
+
+.sec-head-bar.overture { background: var(--p2); }
+.sec-head-bar.feature  { background: var(--p3); }
+.sec-head-bar.anytime  { background: var(--muted); }
+.sec-head-bar.engine   { background: var(--p4); }
+.sec-head-bar.creative { background: var(--p5); }
+.sec-head-bar.dev      { background: var(--p1); }
+
+.sec-head-text {
+  padding: 9px 20px;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--body);
+}
+
+.sec-head-meta {
+  margin-left: auto;
+  padding: 9px 20px;
+  font-size: 0.56rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  border-left: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+}
+
+/* ═══ MODULE PANELS ═══ */
+.module-panel {
+  margin: 0;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--rule);
+  min-width: 1280px;
+  animation: fadeIn 0.5s ease both;
+}
+
+.module-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.module-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.module-desc {
+  font-size: 0.62rem;
+  color: var(--body);
+  line-height: 1.6;
+  margin-bottom: 14px;
+  max-width: 900px;
+}
+
+.module-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.module-grid.col2 { grid-template-columns: 1fr 1fr; }
+.module-grid.col3 { grid-template-columns: 1fr 1fr 1fr; }
+.module-grid.col4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+.mod-block {
+  background: var(--navy-3);
+  border: 1px solid var(--rule);
+  padding: 12px 14px;
+}
+
+.mod-block-label {
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.mod-block-body {
+  font-size: 0.62rem;
+  color: var(--body);
+  line-height: 1.75;
+}
+
+.mod-block-body code {
+  color: var(--cyan);
+  font-size: 0.6rem;
+}
+
+.mod-block-body .dim { color: var(--muted); font-style: italic; }
+
+/* ═══ OVERTURE WAVES ═══ */
+.waves-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.wave-block {
+  background: var(--navy-3);
+  border: 1px solid var(--rule);
+  border-left: 2px solid var(--p2);
+  padding: 12px 14px;
+}
+
+.wave-label {
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--p2);
+  margin-bottom: 6px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.wave-body {
+  font-size: 0.62rem;
+  color: var(--body);
+  line-height: 1.75;
+}
+
+/* ═══ CASCADE FLOW ═══ */
+.cascade-flow {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-wrap: wrap;
+  overflow-x: auto;
+  padding: 12px 0 4px;
+}
+
+.cs-step {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 8px 16px;
+  border: 1px solid;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.cs-step.p2 { color: var(--p2); border-color: rgba(255,209,102,0.35); background: var(--p2-dim); }
+.cs-step.p3 { color: var(--p3); border-color: rgba(6,214,160,0.35);   background: var(--p3-dim); }
+.cs-step.p4 { color: var(--p4); border-color: rgba(17,138,178,0.35);  background: var(--p4-dim); }
+
+.cs-arrow {
+  color: var(--dim);
+  font-size: 1rem;
+  padding: 0 4px;
+  flex-shrink: 0;
+}
+
+/* ═══ ANYTIME GRID ═══ */
+.anytime-wrap {
+  padding: 16px 24px 20px;
+  min-width: 1280px;
+  border-bottom: 1px solid var(--rule);
+  animation: fadeIn 0.5s ease both;
+}
+
+.anytime-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+}
+
+.at-card {
+  background: var(--navy-3);
+  border: 1px solid var(--rule);
+  border-left: 2px solid var(--muted);
+  padding: 10px 12px;
+  transition: background 0.15s;
+}
+
+.at-card:hover { background: var(--navy-4); }
+.at-card.hi { border-left-color: var(--p1); }
+.at-card.hi2 { border-left-color: var(--p2); }
+
+.at-cmd {
+  font-size: 0.64rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 3px;
+  letter-spacing: 0.02em;
+}
+
+.at-card.hi  .at-cmd { color: var(--p1); }
+.at-card.hi2 .at-cmd { color: var(--p2); }
+
+.at-desc {
+  font-size: 0.58rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ═══ BOTTOM PANELS ═══ */
+.bottom-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-width: 1280px;
+  border-bottom: 1px solid var(--rule);
+  animation: fadeIn 0.5s ease both;
+}
+
+.bot-panel {
+  padding: 20px 24px;
+  border-right: 1px solid var(--rule);
+}
+
+.bot-panel:nth-child(2n) { border-right: none; }
+.bot-panel:nth-child(n+3) { border-top: 1px solid var(--rule); }
+
+.bot-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bot-title::before {
+  content: '';
+  width: 3px;
+  height: 16px;
+  background: var(--cyan);
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+
+/* Engine flow */
+.eng-flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.eng-box {
+  width: 100%;
+  max-width: 360px;
+  background: var(--navy-3);
+  border: 1px solid var(--rule);
+  padding: 10px 16px;
+  text-align: center;
+}
+
+.eng-box.conductor {
+  border-color: var(--cyan);
+  background: var(--cyan-dim);
+}
+
+.eng-box-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+.eng-box-name.cn { color: var(--cyan); text-shadow: 0 0 8px var(--cyan); }
+.eng-box-name.wf { color: var(--p2); }
+.eng-box-name.wv { color: var(--cyan); }
+.eng-box-name.gt { color: var(--p1); }
+.eng-box-name.tr { color: var(--text); }
+.eng-box-name.mm { color: var(--p3); }
+
+.eng-box-desc {
+  font-size: 0.58rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.eng-arrow {
+  color: var(--dim);
+  font-size: 1rem;
+  padding: 2px 0;
+  text-align: center;
+  width: 100%;
+  max-width: 360px;
+}
+
+.eng-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+  max-width: 360px;
+}
+
+.eng-modes {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule);
+  width: 100%;
+  max-width: 360px;
+}
+
+.eng-modes-label {
+  font-size: 0.52rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.eng-mode-pills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.eng-mode-pill {
+  font-size: 0.56rem;
+  padding: 3px 9px;
+  background: var(--navy-4);
+  border: 1px solid var(--rule);
+  color: var(--body);
+  letter-spacing: 0.04em;
+}
+
+/* Protocol grid */
+.proto-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+
+.proto-item {
+  background: var(--navy-3);
+  border: 1px solid var(--rule);
+  border-left: 2px solid var(--cyan);
+  padding: 8px 12px;
+}
+
+.proto-name {
+  font-size: 0.64rem;
+  font-weight: 700;
+  color: var(--cyan);
+  margin-bottom: 2px;
+  letter-spacing: 0.02em;
+}
+
+.proto-desc {
+  font-size: 0.56rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* Gate table */
+.gate-tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.62rem;
+}
+
+.gate-tbl th {
+  padding: 7px 12px;
+  text-align: left;
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--rule);
+  background: var(--navy-2);
+}
+
+.gate-tbl th.infra { color: var(--p4); }
+
+.gate-tbl td {
+  padding: 7px 12px;
+  border-bottom: 1px solid rgba(26,51,84,0.5);
+  color: var(--body);
+}
+
+.gate-tbl td:first-child { color: var(--text); font-weight: 700; }
+.gate-tbl td.infra { color: var(--p4); }
+.gate-tbl tr:hover td { background: var(--navy-4); }
+
+/* Adapter panel */
+.adapter-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.adapter-block {
+  background: var(--navy-3);
+  border: 1px solid var(--rule);
+  padding: 12px 14px;
+}
+
+.adapter-name {
+  font-size: 0.64rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.adapter-body {
+  font-size: 0.58rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.adapter-body code {
+  color: var(--body);
+  font-size: 0.56rem;
+}
+
+.adapter-rule {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--rule);
+  font-size: 0.58rem;
+  color: var(--cyan);
+  letter-spacing: 0.02em;
+}
+
+/* ═══ FOOTER ═══ */
+.footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-width: 1280px;
+  flex-wrap: wrap;
+  background: var(--navy-2);
+}
+
+.footer-brand {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+.footer-meta {
+  font-size: 0.56rem;
+  color: var(--dim);
+  letter-spacing: 0.06em;
+  text-align: right;
+}
+
+@media (max-width: 1300px) {
+  .swim-lanes, .sec-head, .module-panel, .anytime-wrap,
+  .bottom-wrap, .footer { min-width: auto; }
+  .swim-lanes { grid-template-columns: 1fr; }
+  .module-grid.col3 { grid-template-columns: 1fr 1fr; }
+  .module-grid.col4 { grid-template-columns: 1fr 1fr; }
+  .waves-row { grid-template-columns: 1fr 1fr; }
+  .bottom-wrap { grid-template-columns: 1fr; }
+  .bot-panel { border-right: none; border-top: 1px solid var(--rule); }
+  .bot-panel:first-child { border-top: none; }
+  .adapter-row { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
 
-<!-- ═══════════ HEADER ═══════════ -->
+<!-- HEADER -->
 <header class="header">
-  <div class="header-left">
-    <div class="header-logo">SYMPHONY</div>
-    <div class="header-subtitle">Full Lifecycle Activity Diagram</div>
+  <div class="header-brand">
+    <span class="header-wordmark">Symphony</span>
+    <span class="header-title">Full Lifecycle<br>Activity Diagram</span>
   </div>
   <div class="header-stats">
-    <span class="stat"><strong>v0.0.2-alpha.1</strong> ~95% implemented</span>
-    <span class="stat">Engine: <strong>5/5 runtime</strong></span>
-    <span class="stat">Protocols: <strong>9/9 runtime</strong></span>
-    <span class="stat">Adapters: <strong>4/4 registered</strong></span>
-    <span class="stat">Agents: <strong>30 built</strong></span>
-    <span class="stat">Workflows: <strong>75/75 built</strong></span>
-    <span class="stat">Skills: <strong>11</strong> | Knowledge: <strong>49</strong></span>
-    <span class="stat">Tests: <strong>1577 passing</strong></span>
+    <div class="hstat">
+      <span class="hstat-key">Version</span>
+      <span class="hstat-val">v0.0.2-alpha.2</span>
+    </div>
+    <div class="hstat">
+      <span class="hstat-key">Engine</span>
+      <span class="hstat-val">5/5 runtime</span>
+    </div>
+    <div class="hstat">
+      <span class="hstat-key">Protocols</span>
+      <span class="hstat-val">10/10</span>
+    </div>
+    <div class="hstat">
+      <span class="hstat-key">Adapters</span>
+      <span class="hstat-val">4/4</span>
+    </div>
+    <div class="hstat">
+      <span class="hstat-key">Agents</span>
+      <span class="hstat-val">32 built</span>
+    </div>
+    <div class="hstat">
+      <span class="hstat-key">Workflows</span>
+      <span class="hstat-val">76/76</span>
+    </div>
+    <div class="hstat">
+      <span class="hstat-key">Skills / Knowledge</span>
+      <span class="hstat-val">11 / 51</span>
+    </div>
+    <div class="hstat">
+      <span class="hstat-key">Tests</span>
+      <span class="hstat-val">1678 passing</span>
+    </div>
+  </div>
+  <div class="header-ver">
+    <span class="ver-badge">~100% implemented</span>
   </div>
 </header>
 
-<!-- ═══════════ ENTRY POINTS ═══════════ -->
+<!-- ENTRY POINTS -->
 <div class="entry-bar">
   <span class="entry-label">Entry Points</span>
-  <button class="entry-btn greenfield">Greenfield &middot; New Project &middot; 5 Phases</button>
-  <span class="entry-arrow">&rarr;</span>
-  <span class="entry-target">Phase 1</span>
-
-  <span style="width:16px"></span>
-  <button class="entry-btn overture">Overture &middot; Existing Codebase</button>
-  <span class="entry-arrow">&rarr;</span>
-  <span class="entry-target">Phase 3</span>
-
-  <span style="width:16px"></span>
-  <button class="entry-btn add-feature">Add Feature &middot; Cross-Phase Cascade</button>
-  <span class="entry-arrow">&rarr;</span>
-  <span class="entry-target">P2 &rarr; P3 &rarr; P4</span>
-
-  <span style="width:16px"></span>
-  <button class="entry-btn quick">Small Change &middot; Quick Path</button>
-  <span class="entry-arrow">&rarr;</span>
-  <span class="entry-target">Quick-spec &rarr; Quick-dev</span>
-
-  <span style="width:16px"></span>
-  <button class="entry-btn debug">Debug / Fix</button>
-  <span class="entry-arrow">&rarr;</span>
-  <span class="entry-target">Diagnose-then-fix</span>
+  <div class="entry-item">
+    <button class="entry-btn p1">Greenfield · New Project · 5 Phases</button>
+    <span class="entry-arrow">→</span>
+    <span class="entry-target">Phase 1</span>
+  </div>
+  <div class="entry-item">
+    <button class="entry-btn p2">Overture · Existing Codebase</button>
+    <span class="entry-arrow">→</span>
+    <span class="entry-target">Phase 3</span>
+  </div>
+  <div class="entry-item">
+    <button class="entry-btn p3">Add Feature · Cross-Phase Cascade</button>
+    <span class="entry-arrow">→</span>
+    <span class="entry-target">P2 → P3 → P4</span>
+  </div>
+  <div class="entry-item">
+    <button class="entry-btn p4">Small Change · Quick Path</button>
+    <span class="entry-arrow">→</span>
+    <span class="entry-target">Quick-spec → Quick-dev</span>
+  </div>
+  <div class="entry-item">
+    <button class="entry-btn dbg">Debug / Fix</button>
+    <span class="entry-arrow">→</span>
+    <span class="entry-target">Diagnose-then-fix</span>
+  </div>
 </div>
 
-<!-- ═══════════ CONDUCTOR DETECTION ═══════════ -->
+<!-- CONDUCTOR -->
 <div class="conductor-bar">
-  <span class="conductor-label">&#9834; Conductor Phase Detection</span>
-  <span class="conductor-rule"><code>fix/debug/error</code> &rarr; diagnose-then-fix</span>
-  <span class="conductor-rule"><code>onboard/scan/analyze</code> &rarr; Overture</span>
-  <span class="conductor-rule"><code>src exists + no artifacts</code> &rarr; Overture (auto)</span>
-  <span class="conductor-rule"><code>small scope + arch exists</code> &rarr; Quick path</span>
-  <span class="conductor-rule"><code>no brief</code> &rarr; Phase 1</span>
-  <span class="conductor-rule"><code>brief, no PRD</code> &rarr; Phase 2</span>
-  <span class="conductor-rule"><code>PRD, no arch</code> &rarr; Phase 3</span>
-  <span class="conductor-rule"><code>arch + sprint active</code> &rarr; Phase 4</span>
-  <span class="conductor-rule"><code>all done, not shipped</code> &rarr; Phase 5</span>
-  <span class="conductor-rule">Confidence &ge; 0.80 &rarr; auto-dispatch | &lt; 0.80 &rarr; user picks</span>
+  <span class="conductor-label">⟡ Conductor Phase Detection</span>
+  <span class="c-rule"><code>fix/debug/error</code> → diagnose-then-fix</span>
+  <span class="c-rule"><code>onboard/scan/analyze</code> → Overture</span>
+  <span class="c-rule"><code>src exists + no artifacts</code> → Overture (auto)</span>
+  <span class="c-rule"><code>small scope + arch exists</code> → Quick path</span>
+  <span class="c-rule"><code>no brief</code> → Phase 1</span>
+  <span class="c-rule"><code>brief, no PRD</code> → Phase 2</span>
+  <span class="c-rule"><code>PRD, no arch</code> → Phase 3</span>
+  <span class="c-rule"><code>arch + sprint active</code> → Phase 4</span>
+  <span class="c-rule"><code>all done, not shipped</code> → Phase 5</span>
+  <span class="c-rule">Confidence ≥ 0.80 → auto-dispatch | &lt; 0.80 → user picks</span>
 </div>
 
-<!-- ═══════════ 5 PHASE COLUMNS ═══════════ -->
-<div class="phases-grid">
+<!-- 5 SWIM LANES -->
+<div class="swim-lanes">
 
   <!-- PHASE 1: ANALYSIS -->
-  <div class="phase-col">
-    <div class="phase-header p1">
-      Analysis
-      <span class="phase-num">1</span>
-    </div>
-
-    <div class="wf-card p1">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-brainstorm</span>
-        <span class="wf-mode ens">ensemble</span>
+  <div class="lane">
+    <div class="lane-header p1">
+      <span class="lane-num">1</span>
+      <div class="lane-title-wrap">
+        <div class="lane-phase-label">Phase 01</div>
+        <div class="lane-title">Analysis</div>
       </div>
-      <div class="wf-desc">Multi-agent brainstorming roundtable to explore the idea space</div>
-      <div class="wf-owner"><strong>Conductor</strong> + ensemble participants</div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> market-research <span class="alt">| domain-research | tech-research</span></div>
     </div>
-
-    <div class="wf-card p1">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-market-research</span>
-        <span class="wf-mode seq">sequential</span>
+    <div class="lane-body">
+      <div class="wf p1">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-brainstorm</span>
+          <span class="wf-mode ens">ensemble</span>
+        </div>
+        <div class="wf-desc">Multi-agent brainstorming roundtable to explore the idea space</div>
+        <div class="wf-owner"><strong>Conductor</strong> + ensemble participants</div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>market-research <span class="alt">| domain | tech</span></div>
       </div>
-      <div class="wf-desc">Market landscape, competitor analysis, opportunity gaps</div>
-      <div class="wf-owner"><strong>Research Analyst</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> domain-research <span class="alt">| product-brief</span></div>
-    </div>
-
-    <div class="wf-card p1">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-domain-research</span>
-        <span class="wf-mode seq">sequential</span>
+      <div class="wf p1">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-market-research</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Market landscape, competitor analysis, opportunity gaps</div>
+        <div class="wf-owner"><strong>Research Analyst</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>domain-research <span class="alt">| product-brief</span></div>
       </div>
-      <div class="wf-desc">Domain-specific deep dive, terminology, standards, regulations</div>
-      <div class="wf-owner"><strong>Research Analyst</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> tech-research <span class="alt">| product-brief</span></div>
-    </div>
-
-    <div class="wf-card p1">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-tech-research</span>
-        <span class="wf-mode seq">sequential</span>
+      <div class="wf p1">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-domain-research</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Domain-specific deep dive, terminology, standards, regulations</div>
+        <div class="wf-owner"><strong>Research Analyst</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>tech-research <span class="alt">| product-brief</span></div>
       </div>
-      <div class="wf-desc">Technology evaluation, stack selection, feasibility analysis</div>
-      <div class="wf-owner"><strong>Research Analyst</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> advanced-elicitation <span class="alt">| product-brief</span></div>
-    </div>
-
-    <div class="wf-card p1">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-advanced-elicitation</span>
-        <span class="wf-mode seq">sequential</span>
+      <div class="wf p1">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-tech-research</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Technology evaluation, stack selection, feasibility analysis</div>
+        <div class="wf-owner"><strong>Research Analyst</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>advanced-elicitation <span class="alt">| product-brief</span></div>
       </div>
-      <div class="wf-desc">Deep requirements elicitation with structured questioning</div>
-      <div class="wf-owner"><strong>Product Manager</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> product-brief</div>
-    </div>
-
-    <div class="wf-card p1">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-product-brief</span>
-        <span class="wf-mode seq">sequential</span>
+      <div class="wf p1">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-advanced-elicitation</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Deep requirements elicitation with structured questioning</div>
+        <div class="wf-owner"><strong>Product Manager</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>product-brief</div>
       </div>
-      <div class="wf-desc">Consolidated product brief — the origin of the traceability chain</div>
-      <div class="wf-owner"><strong>Product Manager</strong></div>
-      <span class="gate-badge post">POST-GATE: brief approved</span>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> create-prd (Phase 2)</div>
+      <div class="wf p1">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-product-brief</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Consolidated product brief — origin of the traceability chain</div>
+        <div class="wf-owner"><strong>Product Manager</strong></div>
+        <span class="gate post">POST-GATE: brief approved</span>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>create-prd (Phase 2)</div>
+      </div>
     </div>
   </div>
 
   <!-- PHASE 2: PLANNING -->
-  <div class="phase-col">
-    <div class="phase-header p2">
-      Planning
-      <span class="phase-num">2</span>
-    </div>
-
-    <div class="wf-card p2">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-create-prd</span>
-        <span class="wf-mode seq">sequential</span>
+  <div class="lane">
+    <div class="lane-header p2">
+      <span class="lane-num">2</span>
+      <div class="lane-title-wrap">
+        <div class="lane-phase-label">Phase 02</div>
+        <div class="lane-title">Planning</div>
       </div>
-      <div class="wf-desc">Product Requirements Document from approved brief</div>
-      <div class="wf-owner"><strong>Product Manager</strong></div>
-      <span class="gate-badge pre">PRE-GATE: brief exists</span>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> validate-prd</div>
     </div>
-
-    <div class="wf-card p2">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-validate-prd</span>
-        <span class="wf-mode seq">sequential</span>
+    <div class="lane-body">
+      <div class="wf p2">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-create-prd</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Product Requirements Document from approved brief</div>
+        <div class="wf-owner"><strong>Product Manager</strong></div>
+        <span class="gate pre">PRE-GATE: brief exists</span>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>validate-prd</div>
       </div>
-      <div class="wf-desc">Validate PRD against brief, check completeness and consistency</div>
-      <div class="wf-owner"><strong>Gate Enforcer</strong></div>
-      <div class="wf-flow"><span class="next">Pass:</span> <span class="flow-arrow">&rarr;</span> create-ux | <span class="next">Fail:</span> <span class="flow-arrow">&rarr;</span> edit-prd</div>
-    </div>
-
-    <div class="wf-card p2">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-edit-prd</span>
-        <span class="wf-mode seq">sequential</span>
+      <div class="wf p2">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-validate-prd</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Validate PRD against brief, check completeness and consistency</div>
+        <div class="wf-owner"><strong>Gate Enforcer</strong></div>
+        <div class="wf-flow"><span class="nxt">Pass:</span><span class="fa">→</span>create-ux <span class="alt">| Fail → edit-prd</span></div>
       </div>
-      <div class="wf-desc">Revise PRD based on validation feedback</div>
-      <div class="wf-owner"><strong>Product Manager</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> validate-prd (re-validate)</div>
-    </div>
-
-    <div class="wf-card p2">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-create-ux</span>
-        <span class="wf-mode seq">sequential</span>
+      <div class="wf p2">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-edit-prd</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Revise PRD based on validation feedback</div>
+        <div class="wf-owner"><strong>Product Manager</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>validate-prd (re-validate)</div>
       </div>
-      <div class="wf-desc">UX design spec — wireframes, user flows, interaction patterns</div>
-      <div class="wf-owner"><strong>UX Designer</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> review-a11y <span class="alt">| create-arch</span></div>
-    </div>
-
-    <div class="wf-card p2">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-review-a11y</span>
-        <span class="wf-mode seq">sequential</span>
+      <div class="wf p2">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-create-ux</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">UX design spec — wireframes, user flows, interaction patterns</div>
+        <div class="wf-owner"><strong>UX Designer</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>review-a11y <span class="alt">| create-arch</span></div>
       </div>
-      <div class="wf-desc">Accessibility review of UX design before architecture</div>
-      <div class="wf-owner"><strong>Test Architect</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> create-arch (Phase 3)</div>
+      <div class="wf p2">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-review-a11y</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Accessibility review of UX design before architecture</div>
+        <div class="wf-owner"><strong>Test Architect</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>create-arch (Phase 3)</div>
+      </div>
     </div>
   </div>
 
   <!-- PHASE 3: SOLUTIONING -->
-  <div class="phase-col">
-    <div class="phase-header p3">
-      Solutioning
-      <span class="phase-num">3</span>
-    </div>
-
-    <div class="wf-card p3">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-create-arch</span>
-        <span class="wf-mode seq">sequential</span>
+  <div class="lane">
+    <div class="lane-header p3">
+      <span class="lane-num">3</span>
+      <div class="lane-title-wrap">
+        <div class="lane-phase-label">Phase 03</div>
+        <div class="lane-title">Solutioning</div>
       </div>
-      <div class="wf-desc">System architecture design — components, APIs, data model</div>
-      <div class="wf-owner"><strong>Architect</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> test-design <span class="alt">| threat-model &#8214; infra-design (parallel)</span></div>
     </div>
-
-    <div class="wf-card p3">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-edit-arch</span>
-        <span class="wf-mode seq">sequential</span>
+    <div class="lane-body">
+      <div class="wf p3">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-create-arch</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">System architecture — components, APIs, data model</div>
+        <div class="wf-owner"><strong>Architect</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>test-design <span class="alt">‖ threat-model ‖ infra-design (parallel)</span></div>
       </div>
-      <div class="wf-desc">Revise architecture after review or change request</div>
-      <div class="wf-owner"><strong>Architect</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> readiness-check</div>
-    </div>
-
-    <div class="wf-card p3">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-test-design</span>
-        <span class="wf-mode seq">sequential</span>
+      <div class="wf p3">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-edit-arch</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Revise architecture after review or change request</div>
+        <div class="wf-owner"><strong>Architect</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>readiness-check</div>
       </div>
-      <div class="wf-desc">Test strategy and plan — coverage goals, approach, tooling</div>
-      <div class="wf-owner"><strong>Test Architect</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> create-epics</div>
-    </div>
-
-    <div class="wf-card p3">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-create-epics</span>
-        <span class="wf-mode seq">sequential</span>
+      <div class="wf p3">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-test-design</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Test strategy and plan — coverage goals, approach, tooling</div>
+        <div class="wf-owner"><strong>Test Architect</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>create-epics</div>
       </div>
-      <div class="wf-desc">Break architecture into epics with acceptance criteria</div>
-      <div class="wf-owner"><strong>Product Manager</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> atdd <span class="alt">| threat-model</span></div>
-    </div>
-
-    <div class="wf-card p3">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-atdd</span>
-        <span class="wf-mode seq">sequential</span>
+      <div class="wf p3">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-create-epics</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Break architecture into epics with acceptance criteria</div>
+        <div class="wf-owner"><strong>Product Manager</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>atdd <span class="alt">| threat-model</span></div>
       </div>
-      <div class="wf-desc">Acceptance-test-driven development — tests before stories</div>
-      <div class="wf-owner"><strong>Test Architect</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> threat-model <span class="alt">| trace</span></div>
-    </div>
-
-    <div class="wf-card p3">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-threat-model</span>
-        <span class="wf-mode seq">sequential</span>
+      <div class="wf p3">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-atdd</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Acceptance-test-driven development — tests before stories</div>
+        <div class="wf-owner"><strong>Test Architect</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>threat-model <span class="alt">| trace</span></div>
       </div>
-      <div class="wf-desc">Security threat model — STRIDE, attack surfaces, mitigations</div>
-      <div class="wf-owner"><strong>Security Agent</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> infra-design</div>
-    </div>
-
-    <div class="wf-card p3">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-infra-design</span>
-        <span class="wf-mode seq">sequential</span>
+      <div class="wf p3">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-threat-model</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Security threat model — STRIDE, attack surfaces, mitigations</div>
+        <div class="wf-owner"><strong>Security Agent</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>infra-design</div>
       </div>
-      <div class="wf-desc">Infrastructure architecture — hosting, CI/CD, scaling, IaC</div>
-      <div class="wf-owner"><strong>DevOps Agent</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> trace</div>
-    </div>
-
-    <div class="wf-card p3">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-trace</span>
-        <span class="wf-mode seq">sequential</span>
+      <div class="wf p3">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-infra-design</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Infrastructure architecture — hosting, CI/CD, scaling, IaC</div>
+        <div class="wf-owner"><strong>DevOps Agent</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>trace</div>
       </div>
-      <div class="wf-desc">Build traceability matrix — brief &rarr; PRD &rarr; arch &rarr; epics &rarr; stories &rarr; tests</div>
-      <div class="wf-owner"><strong>Test Architect</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> readiness-check</div>
-    </div>
-
-    <div class="wf-card p3">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-readiness-check</span>
-        <span class="wf-mode seq">sequential</span>
+      <div class="wf p3">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-trace</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Build traceability matrix — brief → PRD → arch → epics → stories → tests</div>
+        <div class="wf-owner"><strong>Test Architect</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>readiness-check</div>
       </div>
-      <div class="wf-desc">Implementation readiness gate — all artifacts verified</div>
-      <div class="wf-owner"><strong>Conductor</strong></div>
-      <span class="gate-badge post">POST-GATE: all artifacts ready</span>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> create-story (Phase 4)</div>
+      <div class="wf p3">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-readiness-check</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Implementation readiness gate — all artifacts verified</div>
+        <div class="wf-owner"><strong>Conductor</strong></div>
+        <span class="gate post">POST-GATE: all artifacts ready</span>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>create-story (Phase 4)</div>
+      </div>
     </div>
   </div>
 
   <!-- PHASE 4: IMPLEMENTATION -->
-  <div class="phase-col">
-    <div class="phase-header p4">
-      Implementation
-      <span class="phase-num">4</span>
-    </div>
-
-    <div class="wf-card p4">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-create-story</span>
-        <span class="wf-mode seq">sequential</span>
+  <div class="lane">
+    <div class="lane-header p4">
+      <span class="lane-num">4</span>
+      <div class="lane-title-wrap">
+        <div class="lane-phase-label">Phase 04</div>
+        <div class="lane-title">Implementation</div>
       </div>
-      <div class="wf-desc">Create user story with acceptance criteria from epic</div>
-      <div class="wf-owner"><strong>Product Manager</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> validate-story</div>
     </div>
-
-    <div class="wf-card p4">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-validate-story</span>
-        <span class="wf-mode seq">sequential</span>
+    <div class="lane-body">
+      <div class="wf p4">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-create-story</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Create user story with acceptance criteria from epic</div>
+        <div class="wf-owner"><strong>Product Manager</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>validate-story</div>
       </div>
-      <div class="wf-desc">Validate story against epic and architecture</div>
-      <div class="wf-owner"><strong>Gate Enforcer</strong></div>
-      <div class="wf-flow"><span class="next">Pass:</span> <span class="flow-arrow">&rarr;</span> sprint-plan | <span class="next">Fail:</span> <span class="flow-arrow">&rarr;</span> fix story</div>
-    </div>
-
-    <div class="wf-card p4">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-sprint-plan</span>
-        <span class="wf-mode seq">sequential</span>
+      <div class="wf p4">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-validate-story</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Validate story against epic and architecture</div>
+        <div class="wf-owner"><strong>Gate Enforcer</strong></div>
+        <div class="wf-flow"><span class="nxt">Pass:</span><span class="fa">→</span>sprint-plan <span class="alt">| Fail → fix story</span></div>
       </div>
-      <div class="wf-desc">Plan sprint — select stories, estimate, set goals</div>
-      <div class="wf-owner"><strong>Conductor</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> dev-story</div>
-    </div>
-
-    <div class="wf-card p4">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-dev-story</span>
-        <span class="wf-mode seq">sequential</span>
+      <div class="wf p4">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-sprint-plan</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Plan sprint — select stories, estimate, set goals</div>
+        <div class="wf-owner"><strong>Conductor</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>dev-story</div>
       </div>
-      <div class="wf-desc">Implement story end-to-end — code, tests, documentation</div>
-      <div class="wf-owner"><strong>Developer</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> check-dod <span class="alt">| run-all-reviews</span></div>
-    </div>
-
-    <div class="wf-card p4">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-check-dod</span>
-        <span class="wf-mode seq">sequential</span>
+      <div class="wf p4">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-dev-story</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Implement story end-to-end — code, tests, documentation</div>
+        <div class="wf-owner"><strong>Developer</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>check-dod <span class="alt">| run-all-reviews</span></div>
       </div>
-      <div class="wf-desc">Definition of Done verification before review</div>
-      <div class="wf-owner"><strong>Gate Enforcer</strong></div>
-      <div class="wf-flow"><span class="next">Pass:</span> <span class="flow-arrow">&rarr;</span> run-all-reviews | <span class="next">Fail:</span> <span class="flow-arrow">&rarr;</span> dev-story</div>
-    </div>
-
-    <div class="wf-card p4">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-code-review</span>
-        <span class="wf-mode seq">sequential</span>
+      <div class="wf p4">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-check-dod</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Definition of Done verification before review</div>
+        <div class="wf-owner"><strong>Gate Enforcer</strong></div>
+        <div class="wf-flow"><span class="nxt">Pass:</span><span class="fa">→</span>run-all-reviews <span class="alt">| Fail → dev-story</span></div>
       </div>
-      <div class="wf-desc">Code quality, patterns, best practices review</div>
-      <div class="wf-owner"><strong>Reviewer</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> run-all-reviews <span class="alt">| dev-story (issues)</span></div>
-    </div>
-
-    <div class="wf-card p4">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-qa-tests</span>
-        <span class="wf-mode seq">sequential</span>
+      <div class="wf p4">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-code-review</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Code quality, patterns, best practices review</div>
+        <div class="wf-owner"><strong>Reviewer</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>run-all-reviews <span class="alt">| dev-story (issues)</span></div>
       </div>
-      <div class="wf-desc">Generate and run QA tests — unit, integration, e2e</div>
-      <div class="wf-owner"><strong>Test Architect</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> run-all-reviews</div>
-    </div>
-
-    <div class="wf-card p4">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-security-review</span>
-        <span class="wf-mode seq">sequential</span>
+      <div class="wf p4">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-qa-tests</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Generate and run QA tests — unit, integration, e2e</div>
+        <div class="wf-owner"><strong>Test Architect</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>run-all-reviews</div>
       </div>
-      <div class="wf-desc">Security audit — OWASP top 10, dependency scan, secrets check</div>
-      <div class="wf-owner"><strong>Security Agent</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> run-all-reviews</div>
-    </div>
-
-    <div class="wf-card p4">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-run-all-reviews</span>
-        <span class="wf-mode wave">parallel-waves</span>
+      <div class="wf p4">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-security-review</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Security audit — OWASP top 10, dependency scan, secrets check</div>
+        <div class="wf-owner"><strong>Security Agent</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>run-all-reviews</div>
       </div>
-      <div class="wf-desc">6-gate review orchestration — all reviews dispatched in parallel</div>
-      <div class="wf-owner"><strong>Conductor</strong></div>
-      <span class="gate-badge post">POST-GATE: all 6 gates pass</span>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> review-gate</div>
-    </div>
-
-    <div class="wf-card p4">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-review-gate</span>
-        <span class="wf-mode seq">sequential</span>
+      <div class="wf p4">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-run-all-reviews</span>
+          <span class="wf-mode wave">parallel-waves</span>
+        </div>
+        <div class="wf-desc">6-gate review orchestration — all reviews dispatched in parallel</div>
+        <div class="wf-owner"><strong>Conductor</strong></div>
+        <span class="gate post">POST-GATE: all 6 gates pass</span>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>review-gate</div>
       </div>
-      <div class="wf-desc">Final gate check — aggregate review results, HALT on failure</div>
-      <div class="wf-owner"><strong>Gate Enforcer</strong></div>
-      <div class="wf-flow"><span class="next">All pass:</span> <span class="flow-arrow">&rarr;</span> sprint-status | <span class="next">Fail:</span> <span class="flow-arrow">&rarr;</span> dev-story</div>
-    </div>
-
-    <div class="wf-card p4">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-sprint-status</span>
-        <span class="wf-mode seq">sequential</span>
+      <div class="wf p4">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-review-gate</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Final gate check — aggregate review results, HALT on failure</div>
+        <div class="wf-owner"><strong>Gate Enforcer</strong></div>
+        <div class="wf-flow"><span class="nxt">All pass:</span><span class="fa">→</span>sprint-status <span class="alt">| Fail → dev-story</span></div>
       </div>
-      <div class="wf-desc">Sprint progress — stories remaining, burndown, blockers</div>
-      <div class="wf-owner"><strong>Conductor</strong></div>
-      <div class="wf-flow"><span class="next">Stories left:</span> <span class="flow-arrow">&rarr;</span> dev-story | <span class="next">All done:</span> <span class="flow-arrow">&rarr;</span> retro</div>
-    </div>
-
-    <div class="wf-card p4">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-retro</span>
-        <span class="wf-mode ens">ensemble</span>
+      <div class="wf p4">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-sprint-status</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Sprint progress — stories remaining, burndown, blockers</div>
+        <div class="wf-owner"><strong>Conductor</strong></div>
+        <div class="wf-flow"><span class="nxt">Stories left:</span><span class="fa">→</span>dev-story <span class="alt">| All done → retro</span></div>
       </div>
-      <div class="wf-desc">Sprint retrospective — multi-agent roundtable discussion</div>
-      <div class="wf-owner"><strong>Conductor</strong> + team</div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> sprint-plan <span class="alt">| release-plan (Phase 5)</span></div>
-    </div>
-
-    <div class="wf-card p4">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-change-request</span>
-        <span class="wf-mode seq">sequential</span>
+      <div class="wf p4">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-retro</span>
+          <span class="wf-mode ens">ensemble</span>
+        </div>
+        <div class="wf-desc">Sprint retrospective — multi-agent roundtable discussion</div>
+        <div class="wf-owner"><strong>Conductor</strong> + team</div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>sprint-plan <span class="alt">| release-plan (Phase 5)</span></div>
       </div>
-      <div class="wf-desc">Scope change — new requirements mid-sprint</div>
-      <div class="wf-owner"><strong>Product Manager</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> correct-course <span class="alt">| edit-arch</span></div>
-    </div>
-
-    <div class="wf-card p4">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-correct-course</span>
-        <span class="wf-mode seq">sequential</span>
+      <div class="wf p4">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-change-request</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Scope change — new requirements mid-sprint</div>
+        <div class="wf-owner"><strong>Product Manager</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>correct-course <span class="alt">| edit-arch</span></div>
       </div>
-      <div class="wf-desc">Re-scope sprint — reprioritize, drop, or add stories</div>
-      <div class="wf-owner"><strong>Conductor</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> sprint-status <span class="alt">| sprint-plan</span></div>
+      <div class="wf p4">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-correct-course</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Re-scope sprint — reprioritize, drop, or add stories</div>
+        <div class="wf-owner"><strong>Conductor</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>sprint-status <span class="alt">| sprint-plan</span></div>
+      </div>
     </div>
   </div>
 
   <!-- PHASE 5: DEPLOYMENT -->
-  <div class="phase-col">
-    <div class="phase-header p5">
-      Deployment
-      <span class="phase-num">5</span>
-    </div>
-
-    <div class="wf-card p5">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-release-plan</span>
-        <span class="wf-mode seq">sequential</span>
+  <div class="lane">
+    <div class="lane-header p5">
+      <span class="lane-num">5</span>
+      <div class="lane-title-wrap">
+        <div class="lane-phase-label">Phase 05</div>
+        <div class="lane-title">Deployment</div>
       </div>
-      <div class="wf-desc">Release plan — versioning, changelog, migration notes</div>
-      <div class="wf-owner"><strong>DevOps Agent</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> rollback-plan <span class="alt">&#8214; deploy-checklist (parallel)</span></div>
     </div>
-
-    <div class="wf-card p5">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-rollback-plan</span>
-        <span class="wf-mode seq">sequential</span>
+    <div class="lane-body">
+      <div class="wf p5">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-release-plan</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Release plan — versioning, changelog, migration notes</div>
+        <div class="wf-owner"><strong>DevOps Agent</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>rollback-plan <span class="alt">‖ deploy-checklist (parallel)</span></div>
       </div>
-      <div class="wf-desc">Rollback strategy — triggers, steps, verification</div>
-      <div class="wf-owner"><strong>DevOps Agent</strong></div>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> deploy-checklist</div>
+      <div class="wf p5">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-rollback-plan</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Rollback strategy — triggers, steps, verification</div>
+        <div class="wf-owner"><strong>DevOps Agent</strong></div>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>deploy-checklist</div>
+      </div>
+      <div class="wf p5">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-deploy-checklist</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Pre-deploy verification — env ready, secrets set, smoke tests</div>
+        <div class="wf-owner"><strong>DevOps Agent</strong></div>
+        <span class="gate pre">PRE-GATE: rollback plan exists</span>
+        <div class="wf-flow"><span class="nxt">Next:</span><span class="fa">→</span>post-deploy</div>
+      </div>
+      <div class="wf p5">
+        <div class="wf-top">
+          <span class="wf-cmd">/symphony-post-deploy</span>
+          <span class="wf-mode seq">seq</span>
+        </div>
+        <div class="wf-desc">Post-deploy verification — health checks, monitoring, alerts</div>
+        <div class="wf-owner"><strong>DevOps Agent</strong></div>
+        <span class="gate term">TERMINAL: lifecycle complete</span>
+        <div class="wf-flow"><span class="alt">Start new cycle → /symphony-retro</span></div>
+      </div>
     </div>
+  </div>
 
-    <div class="wf-card p5">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-deploy-checklist</span>
-        <span class="wf-mode seq">sequential</span>
+</div><!-- /swim-lanes -->
+
+<!-- OVERTURE -->
+<div class="sec-head">
+  <div class="sec-head-bar overture"></div>
+  <div class="sec-head-text">Overture — Existing Codebase Onboarding</div>
+  <div class="sec-head-meta">parallel-waves execution</div>
+</div>
+<div class="module-panel">
+  <div class="module-desc">For existing codebases. Conductor auto-detects when source code exists but no Symphony artifacts are present. Scans in parallel waves, generates discovery documentation, and produces a gap-focused PRD.</div>
+  <div class="waves-row">
+    <div class="wave-block">
+      <div class="wave-label">Wave 1 — Discovery</div>
+      <div class="wave-body">
+        · Architecture map<br>
+        · API catalog<br>
+        · Dependency graph
       </div>
-      <div class="wf-desc">Pre-deploy verification — env ready, secrets set, smoke tests</div>
-      <div class="wf-owner"><strong>DevOps Agent</strong></div>
-      <span class="gate-badge pre">PRE-GATE: rollback plan exists</span>
-      <div class="wf-flow"><span class="next">Next:</span> <span class="flow-arrow">&rarr;</span> post-deploy</div>
     </div>
-
-    <div class="wf-card p5">
-      <div class="wf-card-top">
-        <span class="wf-cmd">/symphony-post-deploy</span>
-        <span class="wf-mode seq">sequential</span>
+    <div class="wave-block">
+      <div class="wave-label">Wave 2 — Analysis</div>
+      <div class="wave-body">
+        · UX flow map<br>
+        · NFR baseline<br>
+        · Tech debt scan
       </div>
-      <div class="wf-desc">Post-deploy verification — health checks, monitoring, alerts</div>
-      <div class="wf-owner"><strong>DevOps Agent</strong></div>
-      <span class="gate-badge post">TERMINAL: lifecycle complete</span>
-      <div class="wf-flow"><span class="alt">Start new cycle with /symphony-retro for lessons learned</span></div>
+    </div>
+    <div class="wave-block">
+      <div class="wave-label">Wave 3 — Synthesis</div>
+      <div class="wave-body">
+        · Gap-focused PRD<br>
+        · Traceability roots<br>
+        · Recommended phase entry
+      </div>
+    </div>
+    <div class="wave-block">
+      <div class="wave-label">Integration Gate</div>
+      <div class="wave-body">
+        · Cross-reference all outputs<br>
+        · Conflict detection<br>
+        · Self-critique ≥ 0.85<br>
+        · <strong>→ Phase 3: Solutioning</strong>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════ OVERTURE (BROWNFIELD) ═══════════ -->
-<div class="section-divider overture">Overture — Existing Codebase Onboarding (parallel-waves)</div>
-<div class="overture-panel">
-  <div class="overture-title">&#9834; Overture: Parallel-Wave Scan &rarr; Gap PRD &rarr; Phase 3</div>
-  <div class="overture-desc">For existing codebases. Conductor auto-detects when source code exists but no Symphony artifacts are present. Scans in parallel waves, generates discovery documentation, and produces a gap-focused PRD.</div>
-  <div class="overture-waves">
-    <div class="overture-wave">
-      <div class="overture-wave-label">Wave 1 — Discovery</div>
-      <div class="overture-wave-items">
-        &bull; Architecture map<br>
-        &bull; API catalog<br>
-        &bull; Dependency graph
-      </div>
-    </div>
-    <div class="overture-wave">
-      <div class="overture-wave-label">Wave 2 — Analysis</div>
-      <div class="overture-wave-items">
-        &bull; UX flow map<br>
-        &bull; NFR baseline<br>
-        &bull; Tech debt scan
-      </div>
-    </div>
-    <div class="overture-wave">
-      <div class="overture-wave-label">Wave 3 — Synthesis</div>
-      <div class="overture-wave-items">
-        &bull; Gap-focused PRD<br>
-        &bull; Traceability roots<br>
-        &bull; Recommended phase entry
-      </div>
-    </div>
-    <div class="overture-wave">
-      <div class="overture-wave-label">Integration Gate</div>
-      <div class="overture-wave-items">
-        &bull; Cross-reference all outputs<br>
-        &bull; Conflict detection<br>
-        &bull; Self-critique &ge; 0.85<br>
-        &bull; <strong>&rarr; Phase 3: Solutioning</strong>
-      </div>
-    </div>
-  </div>
+<!-- ADD FEATURE CASCADE -->
+<div class="sec-head">
+  <div class="sec-head-bar feature"></div>
+  <div class="sec-head-text">Add Feature — Cross-Phase Cascade</div>
+  <div class="sec-head-meta">PRD → Architecture → Test Plan → Stories → Traceability → Readiness</div>
 </div>
-
-<!-- ═══════════ ADD FEATURE CASCADE ═══════════ -->
-<div class="section-divider feature">Add Feature — Cross-Phase Cascade</div>
-<div class="cascade-panel">
-  <div class="cascade-title">Feature Addition Cascade: PRD &rarr; Architecture &rarr; Test Plan &rarr; Stories &rarr; Traceability &rarr; Readiness</div>
+<div class="module-panel">
   <div class="cascade-flow">
-    <span class="cascade-step s2">Edit PRD</span>
-    <span class="cascade-arrow">&rarr;</span>
-    <span class="cascade-step s3">Edit Architecture</span>
-    <span class="cascade-arrow">&rarr;</span>
-    <span class="cascade-step s3">Edit Test Plan</span>
-    <span class="cascade-arrow">&rarr;</span>
-    <span class="cascade-step s3">Add Stories</span>
-    <span class="cascade-arrow">&rarr;</span>
-    <span class="cascade-step s3">Update Trace</span>
-    <span class="cascade-arrow">&rarr;</span>
-    <span class="cascade-step s3">Readiness Check</span>
-    <span class="cascade-arrow">&rarr;</span>
-    <span class="cascade-step s4">Sprint Plan</span>
+    <span class="cs-step p2">Edit PRD</span>
+    <span class="cs-arrow">→</span>
+    <span class="cs-step p3">Edit Architecture</span>
+    <span class="cs-arrow">→</span>
+    <span class="cs-step p3">Edit Test Plan</span>
+    <span class="cs-arrow">→</span>
+    <span class="cs-step p3">Add Stories</span>
+    <span class="cs-arrow">→</span>
+    <span class="cs-step p3">Update Trace</span>
+    <span class="cs-arrow">→</span>
+    <span class="cs-step p3">Readiness Check</span>
+    <span class="cs-arrow">→</span>
+    <span class="cs-step p4">Sprint Plan</span>
   </div>
 </div>
 
-<!-- ═══════════ CREATIVE MODULE ═══════════ -->
-<div class="section-divider creative">Creative Module — 6 Agents &amp; 7 Workflows (Spec 6a)</div>
-<div class="creative-panel">
-  <div class="creative-title">&#9834; Creative Module: Design Thinking, Innovation, Storytelling, Decks</div>
-  <div class="creative-desc">Cross-lifecycle creative capabilities. Four ensemble-mode workflows drive multi-agent collaborative thinking; three sequential workflows produce concrete narrative and presentation artifacts. Available anytime via <code style="color:#c4b5a6;">/symphony</code>.</div>
-  <div class="creative-grid">
-    <div class="creative-block">
-      <div class="creative-block-label">Agents (6)</div>
-      <div class="creative-block-items">
-        &bull; <code>brainstorming-coach</code> — idea generation, divergent thinking<br>
-        &bull; <code>design-thinking-coach</code> — empathize &rarr; define &rarr; ideate &rarr; prototype &rarr; test<br>
-        &bull; <code>innovation-strategist</code> — jobs-to-be-done, opportunity framing<br>
-        &bull; <code>problem-solver</code> — root-cause, systems thinking, reframing<br>
-        &bull; <code>storyteller</code> — narrative arc, audience framing<br>
-        &bull; <code>presentation-designer</code> — slide structure, visual hierarchy
-      </div>
-    </div>
-    <div class="creative-block">
-      <div class="creative-block-label">Ensemble Workflows (4)</div>
-      <div class="creative-block-items">
-        &bull; <code>/symphony-design-thinking</code> <span class="mode">(ensemble)</span><br>
-        &bull; <code>/symphony-innovation-strategy</code> <span class="mode">(ensemble)</span><br>
-        &bull; <code>/symphony-problem-solving</code> <span class="mode">(ensemble)</span><br>
-        &bull; <code>/symphony-creative-sprint</code> <span class="mode">(ensemble)</span>
-      </div>
-    </div>
-    <div class="creative-block">
-      <div class="creative-block-label">Sequential Workflows (3)</div>
-      <div class="creative-block-items">
-        &bull; <code>/symphony-storytelling</code> <span class="mode">(sequential)</span> &mdash; narrative deliverable<br>
-        &bull; <code>/symphony-slide-deck</code> <span class="mode">(sequential)</span> &mdash; slide deck artifact<br>
-        &bull; <code>/symphony-pitch-deck</code> <span class="mode">(sequential)</span> &mdash; investor/exec pitch
-      </div>
-    </div>
-    <div class="creative-block">
-      <div class="creative-block-label">Integration</div>
-      <div class="creative-block-items">
-        &bull; Invokable anytime, independent of lifecycle phase<br>
-        &bull; Ensemble workflows use turn policies (round-robin / facilitator / user)<br>
-        &bull; Outputs feed Phase 1 (Analysis) or Phase 2 (Planning) artifacts<br>
-        &bull; Self-critique &ge; 0.85 + anti-rationalization enforced
-      </div>
-    </div>
-  </div>
+<!-- CREATIVE MODULE -->
+<div class="sec-head">
+  <div class="sec-head-bar creative"></div>
+  <div class="sec-head-text">Creative Module — 6 Agents &amp; 7 Workflows</div>
+  <div class="sec-head-meta">Spec 6a · available anytime</div>
 </div>
-
-<!-- ═══════════ DEV MODULE ═══════════ -->
-<div class="section-divider engine">Dev Module — 2 Agents, 11 Skills, 19 Knowledge Fragments (Spec 7a)</div>
-<div style="margin:0 24px 16px; background:#2a2725; border:1px solid #e8a87c30; border-radius:10px; padding:16px 20px;">
-  <div style="font-size:0.9rem; font-weight:700; color:#e8a87c; margin-bottom:8px;">&#128736; Dev Module: Universal Developer + Mobile Specialist</div>
-  <div style="font-size:0.75rem; color:#a89a8e; margin-bottom:12px;">JIT knowledge loading based on stack detection. Developer agent detects project markers (package.json, angular.json, pubspec.yaml, pyproject.toml, go.mod) and loads matching language knowledge + shared skills on demand.</div>
-  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;">
-    <div style="background:#332f2c; border:1px solid #e8a87c20; border-radius:6px; padding:10px 12px;">
-      <div style="font-size:0.68rem; font-weight:700; color:#e8a87c; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Agents (2 + 1 enhanced)</div>
-      <div style="font-size:0.7rem; color:#a89a8e; line-height:1.7;">
-        &bull; <code style="color:#c4b5a6;">_base-dev</code> &mdash; abstract template (8-step TDD protocol)<br>
-        &bull; <code style="color:#c4b5a6;">mobile-dev</code> &mdash; React Native, Flutter, Kotlin, Swift<br>
-        &bull; <code style="color:#c4b5a6;">developer</code> &mdash; enhanced with skills-registry + knowledge-detection
+<div class="module-panel">
+  <div class="module-desc">Cross-lifecycle creative capabilities. Four ensemble-mode workflows drive multi-agent collaborative thinking; three sequential workflows produce concrete narrative and presentation artifacts.</div>
+  <div class="module-grid col4">
+    <div class="mod-block">
+      <div class="mod-block-label" style="color: var(--p5);">Agents (6)</div>
+      <div class="mod-block-body">
+        · <code>brainstorming-coach</code> — divergent thinking<br>
+        · <code>design-thinking-coach</code> — empathize → test<br>
+        · <code>innovation-strategist</code> — JTBD, framing<br>
+        · <code>problem-solver</code> — root-cause, systems<br>
+        · <code>storyteller</code> — narrative arc<br>
+        · <code>presentation-designer</code> — slide structure
       </div>
     </div>
-    <div style="background:#332f2c; border:1px solid #e8a87c20; border-radius:6px; padding:10px 12px;">
-      <div style="font-size:0.68rem; font-weight:700; color:#e8a87c; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Skills (11)</div>
-      <div style="font-size:0.7rem; color:#a89a8e; line-height:1.7;">
-        &bull; git-workflow, api-design, database-design<br>
-        &bull; docker-workflow, testing-patterns, code-review-standards<br>
-        &bull; documentation-standards, security-basics<br>
-        &bull; figma-integration, edge-cases, validation-patterns
+    <div class="mod-block">
+      <div class="mod-block-label" style="color: var(--p5);">Ensemble Workflows (4)</div>
+      <div class="mod-block-body">
+        · <code>/symphony-design-thinking</code><br>
+        · <code>/symphony-innovation-strategy</code><br>
+        · <code>/symphony-problem-solving</code><br>
+        · <code>/symphony-creative-sprint</code>
       </div>
     </div>
-    <div style="background:#332f2c; border:1px solid #e8a87c20; border-radius:6px; padding:10px 12px;">
-      <div style="font-size:0.68rem; font-weight:700; color:#e8a87c; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Knowledge (19 fragments, 5 languages)</div>
-      <div style="font-size:0.7rem; color:#a89a8e; line-height:1.7;">
-        &bull; TypeScript (4): conventions, React, Next.js, Express<br>
-        &bull; Angular (4): conventions, patterns, NgRx, RxJS<br>
-        &bull; Flutter (4): Dart, widgets, state, platform channels<br>
-        &bull; Python (4): conventions, Django, FastAPI, pipelines<br>
-        &bull; Go (3): conventions, stdlib, testing
+    <div class="mod-block">
+      <div class="mod-block-label" style="color: var(--p5);">Sequential Workflows (3)</div>
+      <div class="mod-block-body">
+        · <code>/symphony-storytelling</code> <span class="dim">narrative deliverable</span><br>
+        · <code>/symphony-slide-deck</code> <span class="dim">slide deck artifact</span><br>
+        · <code>/symphony-pitch-deck</code> <span class="dim">investor/exec pitch</span>
+      </div>
+    </div>
+    <div class="mod-block">
+      <div class="mod-block-label" style="color: var(--p5);">Integration</div>
+      <div class="mod-block-body">
+        · Invokable anytime, independent of phase<br>
+        · Ensemble turn policies: round-robin / facilitator / user<br>
+        · Outputs feed Phase 1 (Analysis) or Phase 2 (Planning)<br>
+        · Self-critique ≥ 0.85 + anti-rationalization enforced
       </div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════ TESTING MODULE (Spec 7b) ═══════════ -->
-<div class="section-divider engine">Testing Module — 12 Workflows, 30 Knowledge, 5 Adapters (Spec 7b)</div>
-<div style="margin:0 24px 16px; background:#2a2725; border:1px solid #e8a87c30; border-radius:10px; padding:16px 20px;">
-  <div style="font-size:0.9rem; font-weight:700; color:#e8a87c; margin-bottom:8px;">&#128269; Testing Module: Test Architect + Knowledge + Adapters</div>
-  <div style="font-size:0.75rem; color:#a89a8e; margin-bottom:12px;">JIT knowledge loading by workflow context. Test-architect detects project stack and selects matching test execution adapter. 30 knowledge fragments across 6 categories loaded on demand.</div>
-  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;">
-    <div style="background:#332f2c; border:1px solid #e8a87c20; border-radius:6px; padding:10px 12px;">
-      <div style="font-size:0.68rem; font-weight:700; color:#e8a87c; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Workflows (12 new)</div>
-      <div style="font-size:0.7rem; color:#a89a8e; line-height:1.7;">
-        &bull; gap-analysis, performance-testing, mobile-testing<br>
-        &bull; ci-setup, test-review, fill-test-gaps<br>
-        &bull; edit-test-plan, nfr-assessment, test-automation<br>
-        &bull; test-execution, security-testing, teach-me-testing
+<!-- DEV MODULE -->
+<div class="sec-head">
+  <div class="sec-head-bar dev"></div>
+  <div class="sec-head-text">Dev Module — 4 Agents, 11 Skills, 21 Knowledge Fragments</div>
+  <div class="sec-head-meta">Specs 7a + 7d</div>
+</div>
+<div class="module-panel">
+  <div class="module-desc">JIT knowledge loading based on stack detection. Developer agent detects project markers (package.json, angular.json, pubspec.yaml, pyproject.toml, go.mod) and loads matching language knowledge + shared skills on demand.</div>
+  <div class="module-grid col3">
+    <div class="mod-block">
+      <div class="mod-block-label" style="color: var(--p1);">Agents (4 + 1 enhanced)</div>
+      <div class="mod-block-body">
+        · <code>_base-dev</code> — abstract template (8-step TDD protocol)<br>
+        · <code>mobile-dev</code> — React Native, Flutter, Kotlin, Swift<br>
+        · <code>designer-mobile</code> — iOS HIG + Material Design 3 (7d)<br>
+        · <code>mobile-tester</code> — device matrix, Detox/Maestro/Appium (7d)<br>
+        · <code>developer</code> — enhanced with skills-registry + knowledge-detection
       </div>
     </div>
-    <div style="background:#332f2c; border:1px solid #e8a87c20; border-radius:6px; padding:10px 12px;">
-      <div style="font-size:0.68rem; font-weight:700; color:#e8a87c; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Knowledge (30 fragments, 6 categories)</div>
-      <div style="font-size:0.7rem; color:#a89a8e; line-height:1.7;">
-        &bull; Strategies (6): pyramid, risk, BDD, contract, mutation, regression<br>
-        &bull; Frameworks (6): Vitest/Jest, pytest, Flutter, Go, Playwright, Cypress<br>
-        &bull; Patterns (6): doubles, fixtures, builders, snapshots, property, visual<br>
-        &bull; Performance (4) &bull; Security (4) &bull; Mobile (4)
+    <div class="mod-block">
+      <div class="mod-block-label" style="color: var(--p1);">Skills (11)</div>
+      <div class="mod-block-body">
+        · git-workflow · api-design · database-design<br>
+        · docker-workflow · testing-patterns · code-review-standards<br>
+        · documentation-standards · security-basics<br>
+        · figma-integration · edge-cases · validation-patterns
       </div>
     </div>
-    <div style="background:#332f2c; border:1px solid #e8a87c20; border-radius:6px; padding:10px 12px;">
-      <div style="font-size:0.68rem; font-weight:700; color:#e8a87c; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Test Execution Bridge (5 adapters)</div>
-      <div style="font-size:0.7rem; color:#a89a8e; line-height:1.7;">
-        &bull; <code style="color:#c4b5a6;">vitest-adapter</code> &mdash; JS/TS (Vitest, Jest)<br>
-        &bull; <code style="color:#c4b5a6;">pytest-adapter</code> &mdash; Python<br>
-        &bull; <code style="color:#c4b5a6;">go-test-adapter</code> &mdash; Go<br>
-        &bull; <code style="color:#c4b5a6;">flutter-test-adapter</code> &mdash; Dart/Flutter<br>
-        &bull; <code style="color:#c4b5a6;">xctest-adapter</code> &mdash; iOS/Swift
+    <div class="mod-block">
+      <div class="mod-block-label" style="color: var(--p1);">Knowledge (21 fragments, 5 languages + patterns)</div>
+      <div class="mod-block-body">
+        · TypeScript (4): conventions, React, Next.js, Express<br>
+        · Angular (4): conventions, patterns, NgRx, RxJS<br>
+        · Flutter (4): Dart, widgets, state, platform channels<br>
+        · Python (4): conventions, Django, FastAPI, pipelines<br>
+        · Go (3): conventions, stdlib, testing<br>
+        · Patterns (2): workspace-isolation, internationalization
       </div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════ UTILITY MODULE (Spec 7c) ═══════════ -->
-<div class="section-divider engine">Utility Module — 3 Agents, 5 Stakeholder Personas (Spec 7c)</div>
-<div style="margin:0 24px 16px; background:#2a2725; border:1px solid #e8a87c30; border-radius:10px; padding:16px 20px;">
-  <div style="font-size:0.9rem; font-weight:700; color:#e8a87c; margin-bottom:8px;">&#128295; Utility Module: Critic + Code Simplifier + Browser Tester</div>
-  <div style="font-size:0.75rem; color:#a89a8e; margin-bottom:12px;">Standalone agents invocable from any workflow. Plus pre-defined stakeholder personas for role-play reviews, and new adapter registries for Gemini CLI and Cursor.</div>
-  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;">
-    <div style="background:#332f2c; border:1px solid #e8a87c20; border-radius:6px; padding:10px 12px;">
-      <div style="font-size:0.68rem; font-weight:700; color:#e8a87c; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Utility Agents (3)</div>
-      <div style="font-size:0.7rem; color:#a89a8e; line-height:1.7;">
-        &bull; <code style="color:#c4b5a6;">critic</code> &mdash; adversarial review, assumption stress-testing<br>
-        &bull; <code style="color:#c4b5a6;">code-simplifier</code> &mdash; refactoring, complexity reduction<br>
-        &bull; <code style="color:#c4b5a6;">browser-tester</code> &mdash; E2E, visual regression, a11y audit
+<!-- TESTING MODULE -->
+<div class="sec-head">
+  <div class="sec-head-bar engine"></div>
+  <div class="sec-head-text">Testing Module — 12 Workflows, 30 Knowledge, 5 Adapters</div>
+  <div class="sec-head-meta">Spec 7b</div>
+</div>
+<div class="module-panel">
+  <div class="module-desc">JIT knowledge loading by workflow context. Test-architect detects project stack and selects matching test execution adapter. 30 knowledge fragments across 6 categories loaded on demand.</div>
+  <div class="module-grid col3">
+    <div class="mod-block">
+      <div class="mod-block-label" style="color: var(--p4);">Workflows (12 new)</div>
+      <div class="mod-block-body">
+        · gap-analysis · performance-testing · mobile-testing<br>
+        · ci-setup · test-review · fill-test-gaps<br>
+        · edit-test-plan · nfr-assessment · test-automation<br>
+        · test-execution · security-testing · teach-me-testing
       </div>
     </div>
-    <div style="background:#332f2c; border:1px solid #e8a87c20; border-radius:6px; padding:10px 12px;">
-      <div style="font-size:0.68rem; font-weight:700; color:#e8a87c; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Stakeholder Personas (5)</div>
-      <div style="font-size:0.7rem; color:#a89a8e; line-height:1.7;">
-        &bull; <code style="color:#c4b5a6;">cto</code> &mdash; scalability, tech debt, architecture<br>
-        &bull; <code style="color:#c4b5a6;">product-owner</code> &mdash; value, timeline, scope<br>
-        &bull; <code style="color:#c4b5a6;">end-user</code> &mdash; usability, accessibility<br>
-        &bull; <code style="color:#c4b5a6;">security-officer</code> &mdash; OWASP, data protection<br>
-        &bull; <code style="color:#c4b5a6;">qa-lead</code> &mdash; coverage, quality gates
+    <div class="mod-block">
+      <div class="mod-block-label" style="color: var(--p4);">Knowledge (30 fragments, 6 categories)</div>
+      <div class="mod-block-body">
+        · Strategies (6): pyramid, risk, BDD, contract, mutation, regression<br>
+        · Frameworks (6): Vitest/Jest, pytest, Flutter, Go, Playwright, Cypress<br>
+        · Patterns (6): doubles, fixtures, builders, snapshots, property, visual<br>
+        · Performance (4) · Security (4) · Mobile (4)
       </div>
     </div>
-    <div style="background:#332f2c; border:1px solid #e8a87c20; border-radius:6px; padding:10px 12px;">
-      <div style="font-size:0.68rem; font-weight:700; color:#e8a87c; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">New Anytime Workflows (9)</div>
-      <div style="font-size:0.7rem; color:#a89a8e; line-height:1.7;">
-        &bull; spike, explore-codebase, discuss<br>
-        &bull; adversarial-review, hub, status<br>
-        &bull; trello-sync, trello-setup, toggle
+    <div class="mod-block">
+      <div class="mod-block-label" style="color: var(--p4);">Test Execution Bridge (5 adapters)</div>
+      <div class="mod-block-body">
+        · <code>vitest-adapter</code> — JS/TS (Vitest, Jest)<br>
+        · <code>pytest-adapter</code> — Python<br>
+        · <code>go-test-adapter</code> — Go<br>
+        · <code>flutter-test-adapter</code> — Dart/Flutter<br>
+        · <code>xctest-adapter</code> — iOS/Swift
       </div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════ ANYTIME COMMANDS ═══════════ -->
-<div class="section-divider anytime">Anytime Commands — No Lifecycle Position</div>
-<div class="anytime-grid">
-  <div class="anytime-card">
-    <div class="anytime-cmd">/symphony-quick-spec</div>
-    <div class="anytime-desc">Lightweight spec for small changes — skip full lifecycle</div>
-  </div>
-  <div class="anytime-card">
-    <div class="anytime-cmd">/symphony-quick-dev</div>
-    <div class="anytime-desc">Fast implementation from quick-spec — code + review</div>
-  </div>
-  <div class="anytime-card">
-    <div class="anytime-cmd">/symphony-memory-hygiene</div>
-    <div class="anytime-desc">Detect stale/contradicted decisions in agent sidecars</div>
-  </div>
-  <div class="anytime-card">
-    <div class="anytime-cmd">/symphony-document-project</div>
-    <div class="anytime-desc">Generate comprehensive project documentation</div>
-  </div>
-  <div class="anytime-card">
-    <div class="anytime-cmd">/symphony-performance-review</div>
-    <div class="anytime-desc">Performance analysis and optimization recommendations</div>
-  </div>
-  <div class="anytime-card">
-    <div class="anytime-cmd">/symphony-tech-debt-review</div>
-    <div class="anytime-desc">Identify and prioritize technical debt items</div>
-  </div>
-  <div class="anytime-card" style="border-left-color:#d97757;">
-    <div class="anytime-cmd" style="color:#d97757;">/symphony-party</div>
-    <div class="anytime-desc">Party Mode — multi-agent roundtable with stakeholder personas. Brainstorm, debate, or triage any topic with your virtual team.</div>
-  </div>
-  <div class="anytime-card" style="border-left-color:#b8977a;">
-    <div class="anytime-cmd" style="color:#b8977a;">/symphony-create-stakeholder</div>
-    <div class="anytime-desc">Create a stakeholder persona — define role, perspective, expertise, biases. Available for Party Mode and ensemble discussions.</div>
-  </div>
-  <div class="anytime-card">
-    <div class="anytime-cmd">/symphony-spike</div>
-    <div class="anytime-desc">Timeboxed exploration — research a question, prototype, document findings with go/no-go recommendation</div>
-  </div>
-  <div class="anytime-card">
-    <div class="anytime-cmd">/symphony-explore-codebase</div>
-    <div class="anytime-desc">Analyze codebase structure, patterns, dependencies, and generate intelligence report</div>
-  </div>
-  <div class="anytime-card">
-    <div class="anytime-cmd">/symphony-discuss</div>
-    <div class="anytime-desc">Surface gray areas, ambiguities, unstated assumptions in any artifact</div>
-  </div>
-  <div class="anytime-card" style="border-left-color:#d97757;">
-    <div class="anytime-cmd" style="color:#d97757;">/symphony-adversarial-review</div>
-    <div class="anytime-desc">Devil's advocate review — challenge assumptions, find weaknesses, stress-test claims</div>
-  </div>
-  <div class="anytime-card">
-    <div class="anytime-cmd">/symphony-hub</div>
-    <div class="anytime-desc">Launch the Symphony Hub dashboard for project visibility</div>
-  </div>
-  <div class="anytime-card">
-    <div class="anytime-cmd">/symphony-status</div>
-    <div class="anytime-desc">Generate current project status summary across all lifecycle phases</div>
-  </div>
-  <div class="anytime-card">
-    <div class="anytime-cmd">/symphony-trello-sync</div>
-    <div class="anytime-desc">Sync Symphony workflow state with Trello board bidirectionally</div>
-  </div>
-  <div class="anytime-card">
-    <div class="anytime-cmd">/symphony-trello-setup</div>
-    <div class="anytime-desc">Initialize Trello board structure for Symphony project</div>
-  </div>
-  <div class="anytime-card">
-    <div class="anytime-cmd">/symphony-toggle</div>
-    <div class="anytime-desc">Toggle Symphony feature flags and configuration settings</div>
+<!-- UTILITY MODULE -->
+<div class="sec-head">
+  <div class="sec-head-bar engine"></div>
+  <div class="sec-head-text">Utility Module — 3 Agents, 5 Stakeholder Personas</div>
+  <div class="sec-head-meta">Spec 7c</div>
+</div>
+<div class="module-panel">
+  <div class="module-desc">Standalone agents invocable from any workflow. Plus pre-defined stakeholder personas for role-play reviews and new adapter registries for Gemini CLI and Cursor.</div>
+  <div class="module-grid col3">
+    <div class="mod-block">
+      <div class="mod-block-label" style="color: var(--p4);">Utility Agents (3)</div>
+      <div class="mod-block-body">
+        · <code>critic</code> — adversarial review, assumption stress-testing<br>
+        · <code>code-simplifier</code> — refactoring, complexity reduction<br>
+        · <code>browser-tester</code> — E2E, visual regression, a11y audit
+      </div>
+    </div>
+    <div class="mod-block">
+      <div class="mod-block-label" style="color: var(--p4);">Stakeholder Personas (5)</div>
+      <div class="mod-block-body">
+        · <code>cto</code> — scalability, tech debt, architecture<br>
+        · <code>product-owner</code> — value, timeline, scope<br>
+        · <code>end-user</code> — usability, accessibility<br>
+        · <code>security-officer</code> — OWASP, data protection<br>
+        · <code>qa-lead</code> — coverage, quality gates
+      </div>
+    </div>
+    <div class="mod-block">
+      <div class="mod-block-label" style="color: var(--p4);">New Anytime Workflows (9)</div>
+      <div class="mod-block-body">
+        · spike · explore-codebase · discuss<br>
+        · adversarial-review · hub · status<br>
+        · trello-sync · trello-setup · toggle
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- ═══════════ BOTTOM PANELS ═══════════ -->
-<div class="section-divider engine">Engine Architecture &amp; Reference</div>
-<div class="bottom-panels">
+<!-- FINAL GAP CLOSURE -->
+<div class="sec-head">
+  <div class="sec-head-bar engine"></div>
+  <div class="sec-head-text">Final Gap Closure — Presets, Vault, CLI, Isolation, i18n</div>
+  <div class="sec-head-meta">Spec 7d · all heatmap gaps resolved</div>
+</div>
+<div class="module-panel">
+  <div class="module-desc">Closes the last 6 gaps from the framework comparison heatmap. Environment presets scale Symphony from solo dev to enterprise. Vault provides codebase knowledge graph. CLI registry maps all 52 slash commands.</div>
+  <div class="module-grid col3">
+    <div class="mod-block">
+      <div class="mod-block-label" style="color: var(--p3);">Environment Presets (3)</div>
+      <div class="mod-block-body">
+        · <code>solo.yaml</code> — no gates, single-agent, weekly hygiene<br>
+        · <code>team.yaml</code> — code review gate, multi-agent, daily hygiene<br>
+        · <code>enterprise.yaml</code> — all gates + compliance audit trail
+      </div>
+    </div>
+    <div class="mod-block">
+      <div class="mod-block-label" style="color: var(--p3);">Vault / Knowledge Graph (3 files)</div>
+      <div class="mod-block-body">
+        · <code>schema.yaml</code> — 7 node types, 6 edge types<br>
+        · <code>codebase-index.yaml</code> — file discovery, AST extractors<br>
+        · <code>query-patterns.md</code> — YAML + JSONL query interface
+      </div>
+    </div>
+    <div class="mod-block">
+      <div class="mod-block-label" style="color: var(--p3);">CLI + Protocol + i18n</div>
+      <div class="mod-block-body">
+        · <code>command-registry.yaml</code> — 52 slash commands<br>
+        · <code>sdk-interface.yaml</code> — 6 methods, 4 hooks<br>
+        · <code>workspace-isolation.xml</code> — agent sandboxing protocol<br>
+        · <code>i18n-setup</code> — workflow + knowledge fragment
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ANYTIME COMMANDS -->
+<div class="sec-head">
+  <div class="sec-head-bar anytime"></div>
+  <div class="sec-head-text">Anytime Commands — No Lifecycle Position</div>
+  <div class="sec-head-meta">18 commands · available at any phase</div>
+</div>
+<div class="anytime-wrap">
+  <div class="anytime-grid">
+    <div class="at-card"><div class="at-cmd">/symphony-quick-spec</div><div class="at-desc">Lightweight spec for small changes — skip full lifecycle</div></div>
+    <div class="at-card"><div class="at-cmd">/symphony-quick-dev</div><div class="at-desc">Fast implementation from quick-spec — code + review</div></div>
+    <div class="at-card"><div class="at-cmd">/symphony-memory-hygiene</div><div class="at-desc">Detect stale/contradicted decisions in agent sidecars</div></div>
+    <div class="at-card"><div class="at-cmd">/symphony-document-project</div><div class="at-desc">Generate comprehensive project documentation</div></div>
+    <div class="at-card"><div class="at-cmd">/symphony-performance-review</div><div class="at-desc">Performance analysis and optimization recommendations</div></div>
+    <div class="at-card"><div class="at-cmd">/symphony-tech-debt-review</div><div class="at-desc">Identify and prioritize technical debt items</div></div>
+    <div class="at-card hi"><div class="at-cmd">/symphony-party</div><div class="at-desc">Party Mode — multi-agent roundtable with stakeholder personas. Brainstorm, debate, or triage any topic with your virtual team.</div></div>
+    <div class="at-card hi2"><div class="at-cmd">/symphony-create-stakeholder</div><div class="at-desc">Create a stakeholder persona — define role, perspective, expertise, biases.</div></div>
+    <div class="at-card"><div class="at-cmd">/symphony-spike</div><div class="at-desc">Timeboxed exploration — research a question, prototype, document findings with go/no-go</div></div>
+    <div class="at-card"><div class="at-cmd">/symphony-explore-codebase</div><div class="at-desc">Analyze codebase structure, patterns, dependencies, and generate intelligence report</div></div>
+    <div class="at-card"><div class="at-cmd">/symphony-discuss</div><div class="at-desc">Surface gray areas, ambiguities, unstated assumptions in any artifact</div></div>
+    <div class="at-card hi"><div class="at-cmd">/symphony-adversarial-review</div><div class="at-desc">Devil's advocate review — challenge assumptions, find weaknesses, stress-test claims</div></div>
+    <div class="at-card"><div class="at-cmd">/symphony-hub</div><div class="at-desc">Launch the Symphony Hub dashboard for project visibility</div></div>
+    <div class="at-card"><div class="at-cmd">/symphony-status</div><div class="at-desc">Generate current project status summary across all lifecycle phases</div></div>
+    <div class="at-card"><div class="at-cmd">/symphony-trello-sync</div><div class="at-desc">Sync Symphony workflow state with Trello board bidirectionally</div></div>
+    <div class="at-card"><div class="at-cmd">/symphony-trello-setup</div><div class="at-desc">Initialize Trello board structure for Symphony project</div></div>
+    <div class="at-card"><div class="at-cmd">/symphony-toggle</div><div class="at-desc">Toggle Symphony feature flags and configuration settings</div></div>
+    <div class="at-card"><div class="at-cmd">/symphony-i18n-setup</div><div class="at-desc">Initialize internationalization — audit strings, select library, configure locales, CI validation</div></div>
+  </div>
+</div>
+
+<!-- BOTTOM PANELS -->
+<div class="sec-head">
+  <div class="sec-head-bar engine"></div>
+  <div class="sec-head-text">Engine Architecture &amp; Reference</div>
+</div>
+<div class="bottom-wrap">
 
   <!-- Engine Architecture -->
-  <div class="panel">
-    <div class="panel-title">&#9834; Engine Architecture</div>
-    <div class="engine-flow">
-      <div class="engine-box conductor">
-        <div class="engine-box-name conductor-name">CONDUCTOR</div>
-        <div class="engine-box-desc">Goal parsing &rarr; Phase detection &rarr; Routing (confidence &ge; 0.80)</div>
+  <div class="bot-panel">
+    <div class="bot-title">Engine Architecture</div>
+    <div class="eng-flow">
+      <div class="eng-box conductor">
+        <div class="eng-box-name cn">CONDUCTOR</div>
+        <div class="eng-box-desc">Goal parsing → Phase detection → Routing (confidence ≥ 0.80)</div>
       </div>
-      <div class="engine-arrow">&darr;</div>
-      <div style="font-size:0.7rem; color:#5a6580;">execution.mode ?</div>
-      <div class="engine-split">
-        <div class="engine-box">
-          <div class="engine-box-name wf-name">WORKFLOW ENGINE</div>
-          <div class="engine-box-desc">sequential &amp; ensemble modes<br>Step loop / Turn loop</div>
+      <div class="eng-arrow">↓ execution.mode?</div>
+      <div class="eng-split">
+        <div class="eng-box">
+          <div class="eng-box-name wf">WORKFLOW ENGINE</div>
+          <div class="eng-box-desc">sequential &amp; ensemble modes<br>Step loop / Turn loop</div>
         </div>
-        <div class="engine-box">
-          <div class="engine-box-name wave-name">WAVE EXECUTOR</div>
-          <div class="engine-box-desc">parallel-waves mode<br>DAG &rarr; &le;4 per wave + integration gates</div>
-        </div>
-      </div>
-      <div class="engine-arrow">&darr;</div>
-      <div class="engine-box">
-        <div class="engine-box-name gate-name">GATE ENFORCER</div>
-        <div class="engine-box-desc">Pre-start &amp; post-complete gates &mdash; HALT on failure, never warn</div>
-      </div>
-      <div class="engine-arrow">&darr;</div>
-      <div class="engine-split">
-        <div class="engine-box">
-          <div class="engine-box-name" style="color:#e8ddd3;">TASK RUNNER</div>
-          <div class="engine-box-desc">Standalone tasks (reviews, audits, utils)</div>
-        </div>
-        <div class="engine-box">
-          <div class="engine-box-name" style="color:#e8ddd3;">MEMORY</div>
-          <div class="engine-box-desc">Per-agent sidecars + checkpoints (SHA256)</div>
+        <div class="eng-box">
+          <div class="eng-box-name wv">WAVE EXECUTOR</div>
+          <div class="eng-box-desc">parallel-waves mode<br>DAG → ≤4 per wave + integration gates</div>
         </div>
       </div>
-    </div>
-
-    <div style="margin-top:16px; padding-top:12px; border-top:1px solid #3d3632;">
-      <div style="font-size:0.75rem; font-weight:700; color:#a89a8e; margin-bottom:8px;">Interaction Modes (orthogonal to execution)</div>
-      <div style="display:flex; gap:8px; flex-wrap:wrap;">
-        <span class="stat"><strong>Normal</strong> — pause at each checkpoint</span>
-        <span class="stat"><strong>YOLO</strong> — auto-proceed (gates still HALT)</span>
-        <span class="stat"><strong>Planning</strong> — preview plan first, then execute</span>
+      <div class="eng-arrow">↓</div>
+      <div class="eng-box">
+        <div class="eng-box-name gt">GATE ENFORCER</div>
+        <div class="eng-box-desc">Pre-start &amp; post-complete gates — HALT on failure, never warn</div>
+      </div>
+      <div class="eng-arrow">↓</div>
+      <div class="eng-split">
+        <div class="eng-box">
+          <div class="eng-box-name tr">TASK RUNNER</div>
+          <div class="eng-box-desc">Standalone tasks (reviews, audits, utils)</div>
+        </div>
+        <div class="eng-box">
+          <div class="eng-box-name mm">MEMORY</div>
+          <div class="eng-box-desc">Per-agent sidecars + checkpoints (SHA256)</div>
+        </div>
+      </div>
+      <div class="eng-modes">
+        <div class="eng-modes-label">Interaction Modes (orthogonal to execution)</div>
+        <div class="eng-mode-pills">
+          <span class="eng-mode-pill">Normal — pause at each checkpoint</span>
+          <span class="eng-mode-pill">YOLO — auto-proceed (gates still HALT)</span>
+          <span class="eng-mode-pill">Planning — preview plan first, then execute</span>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Protocols -->
-  <div class="panel">
-    <div class="panel-title">9 Protocols</div>
+  <div class="bot-panel">
+    <div class="bot-title">10 Protocols</div>
     <div class="proto-grid">
-      <div class="proto-item">
-        <div class="proto-name">self-critique</div>
-        <div class="proto-desc">Confidence &ge; 0.85 or retry + escalate</div>
-      </div>
-      <div class="proto-item">
-        <div class="proto-name">trust-levels</div>
-        <div class="proto-desc">Trusted / Verify / Untrusted per source</div>
-      </div>
-      <div class="proto-item">
-        <div class="proto-name">anti-rationalization</div>
-        <div class="proto-desc">Excuse &rarr; Rebuttal table per agent</div>
-      </div>
-      <div class="proto-item">
-        <div class="proto-name">diagnose-then-fix</div>
-        <div class="proto-desc">Root-cause before retry, never blind</div>
-      </div>
-      <div class="proto-item">
-        <div class="proto-name">status-sync</div>
-        <div class="proto-desc">Atomic story/sprint status updates</div>
-      </div>
-      <div class="proto-item">
-        <div class="proto-name">review-gate-check</div>
-        <div class="proto-desc">6-gate review with adaptive criteria</div>
-      </div>
-      <div class="proto-item">
-        <div class="proto-name">checkpoint-resume</div>
-        <div class="proto-desc">SHA256-verified recovery from context loss</div>
-      </div>
-      <div class="proto-item">
-        <div class="proto-name">memory-hygiene</div>
-        <div class="proto-desc">Detect stale/contradicted sidecar decisions</div>
-      </div>
-      <div class="proto-item">
-        <div class="proto-name">artifact-enrichment</div>
-        <div class="proto-desc">Post-step hooks for optional integrations</div>
-      </div>
+      <div class="proto-item"><div class="proto-name">self-critique</div><div class="proto-desc">Confidence ≥ 0.85 or retry + escalate</div></div>
+      <div class="proto-item"><div class="proto-name">trust-levels</div><div class="proto-desc">Trusted / Verify / Untrusted per source</div></div>
+      <div class="proto-item"><div class="proto-name">anti-rationalization</div><div class="proto-desc">Excuse → Rebuttal table per agent</div></div>
+      <div class="proto-item"><div class="proto-name">diagnose-then-fix</div><div class="proto-desc">Root-cause before retry, never blind</div></div>
+      <div class="proto-item"><div class="proto-name">status-sync</div><div class="proto-desc">Atomic story/sprint status updates</div></div>
+      <div class="proto-item"><div class="proto-name">review-gate-check</div><div class="proto-desc">6-gate review with adaptive criteria</div></div>
+      <div class="proto-item"><div class="proto-name">checkpoint-resume</div><div class="proto-desc">SHA256-verified recovery from context loss</div></div>
+      <div class="proto-item"><div class="proto-name">memory-hygiene</div><div class="proto-desc">Detect stale/contradicted sidecar decisions</div></div>
+      <div class="proto-item"><div class="proto-name">artifact-enrichment</div><div class="proto-desc">Post-step hooks for optional integrations</div></div>
+      <div class="proto-item"><div class="proto-name">workspace-isolation</div><div class="proto-desc">Agent sandboxing, handoff schema, cleanup rules</div></div>
     </div>
   </div>
 
   <!-- Quality Gates -->
-  <div class="panel">
-    <div class="panel-title">6-Gate Review Process (Adaptive per &sect;2.8)</div>
-    <table class="gate-table">
+  <div class="bot-panel">
+    <div class="bot-title">6-Gate Review Process (Adaptive per §2.8)</div>
+    <table class="gate-tbl">
       <thead>
         <tr>
           <th>Gate</th>
           <th>Application Story</th>
-          <th class="infra-col">Infrastructure Story</th>
+          <th class="infra">Infrastructure Story</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1. Code Review</td>
-          <td>Standard code review</td>
-          <td class="infra-col">IaC Code Review</td>
-        </tr>
-        <tr>
-          <td>2. QA Tests</td>
-          <td>Unit / Integration / E2E</td>
-          <td class="infra-col">Policy-as-Code (checkov/tfsec/OPA)</td>
-        </tr>
-        <tr>
-          <td>3. Security Review</td>
-          <td>OWASP + dependency scan</td>
-          <td class="infra-col">Security Review (unchanged)</td>
-        </tr>
-        <tr>
-          <td>4. Test Automation</td>
-          <td>Automated test coverage</td>
-          <td class="infra-col">Plan Validation + Drift Checks</td>
-        </tr>
-        <tr>
-          <td>5. Test Review</td>
-          <td>Test quality review</td>
-          <td class="infra-col">Policy Review (OPA/Rego)</td>
-        </tr>
-        <tr>
-          <td>6. Performance</td>
-          <td>Load testing</td>
-          <td class="infra-col">Cost Review + Scaling Validation</td>
-        </tr>
+        <tr><td>1. Code Review</td><td>Standard code review</td><td class="infra">IaC Code Review</td></tr>
+        <tr><td>2. QA Tests</td><td>Unit / Integration / E2E</td><td class="infra">Policy-as-Code (checkov/tfsec/OPA)</td></tr>
+        <tr><td>3. Security Review</td><td>OWASP + dependency scan</td><td class="infra">Security Review (unchanged)</td></tr>
+        <tr><td>4. Test Automation</td><td>Automated test coverage</td><td class="infra">Plan Validation + Drift Checks</td></tr>
+        <tr><td>5. Test Review</td><td>Test quality review</td><td class="infra">Policy Review (OPA/Rego)</td></tr>
+        <tr><td>6. Performance</td><td>Load testing</td><td class="infra">Cost Review + Scaling Validation</td></tr>
       </tbody>
     </table>
   </div>
 
   <!-- Adapters -->
-  <div class="panel">
-    <div class="panel-title">Dual-Layer Adapter Model</div>
-    <div style="display:flex; gap:12px; flex-wrap:wrap;">
-      <div style="flex:1; min-width:180px;">
-        <div style="font-size:0.78rem; font-weight:700; color:#b8977a; margin-bottom:6px;">Claude Code Adapter</div>
-        <div style="font-size:0.68rem; color:#8a7e72; line-height:1.7;">
-          Output: <code style="color:#a89a8e;">.claude/commands/symphony-*.md</code><br>
-          Config: <code style="color:#a89a8e;">CLAUDE.md</code><br>
+  <div class="bot-panel">
+    <div class="bot-title">Dual-Layer Adapter Model</div>
+    <div class="adapter-row">
+      <div class="adapter-block">
+        <div class="adapter-name" style="color: var(--p2);">Claude Code Adapter</div>
+        <div class="adapter-body">
+          Output: <code>.claude/commands/symphony-*.md</code><br>
+          Config: <code>CLAUDE.md</code><br>
           Slash commands, model frontmatter, agent memory
         </div>
       </div>
-      <div style="flex:1; min-width:180px;">
-        <div style="font-size:0.78rem; font-weight:700; color:#7db8a0; margin-bottom:6px;">Copilot Adapter</div>
-        <div style="font-size:0.68rem; color:#8a7e72; line-height:1.7;">
-          Output: <code style="color:#a89a8e;">.github/prompts/symphony-*.prompt.md</code><br>
-          Config: <code style="color:#a89a8e;">copilot-instructions.md</code><br>
+      <div class="adapter-block">
+        <div class="adapter-name" style="color: var(--p3);">Copilot Adapter</div>
+        <div class="adapter-body">
+          Output: <code>.github/prompts/symphony-*.prompt.md</code><br>
+          Config: <code>copilot-instructions.md</code><br>
           Agent mode, no model selection
         </div>
       </div>
-      <div style="flex:1; min-width:180px;">
-        <div style="font-size:0.78rem; font-weight:700; color:#a89a8e; margin-bottom:6px;">Future Adapters</div>
-        <div style="font-size:0.68rem; color:#8a7e72; line-height:1.7;">
-          Cursor, Gemini CLI, Codex, ...<br>
-          Same Core, new translator<br>
+      <div class="adapter-block">
+        <div class="adapter-name" style="color: var(--muted);">Registered + Future</div>
+        <div class="adapter-body">
+          Gemini CLI, Cursor — registered<br>
+          Codex, Kilo, Trae, Cline — future<br>
           Zero Core changes required
         </div>
       </div>
     </div>
-    <div style="margin-top:12px; padding-top:10px; border-top:1px solid #3d3632; font-size:0.68rem; color:#e8a87c;">
-      <strong>Golden Rule:</strong> Adapters contain zero business logic. Pure file generators. If behavior changes, it changes in Core.
-    </div>
+    <div class="adapter-rule">Golden Rule: Adapters contain zero business logic. Pure file generators. If behavior changes, it changes in Core.</div>
   </div>
-</div>
 
-<!-- ═══════════ FOOTER ═══════════ -->
+</div><!-- /bottom-wrap -->
+
+<!-- FOOTER -->
 <div class="footer">
-  SYMPHONY Framework &mdash; Orchestrate your code. &mdash; Last updated: 2026-04-29 &mdash; Specs 1-7c complete (75 workflows, 30 agents, 11 skills, 49 knowledge, 1577 tests)
+  <span class="footer-brand">Symphony — Orchestrate your code</span>
+  <span class="footer-meta">
+    Last updated: 2026-04-30 · Specs 1–7d complete · 76 workflows · 32 agents · 11 skills · 51 knowledge · 1678 tests · All heatmap gaps closed
+  </span>
 </div>
 
 </body>
