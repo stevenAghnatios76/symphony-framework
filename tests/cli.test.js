@@ -11,7 +11,7 @@ describe('symphony-cli', () => {
     const out = execSync(`node ${resolve(root, 'bin/symphony-cli.js')} --version`, {
       encoding: 'utf8',
     }).trim();
-    expect(out).toBe('symphony-framework 0.0.2-alpha.1');
+    expect(out).toBe('symphony-framework 0.1.0');
   });
 
   it('prints help when run with no arguments', () => {

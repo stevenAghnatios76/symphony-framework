@@ -30,6 +30,7 @@ const workflows = [
   { id: 'trello-sync', mode: 'sequential', hasTemplate: true },
   { id: 'trello-setup', mode: 'sequential', hasTemplate: true },
   { id: 'toggle', mode: 'sequential', hasTemplate: true },
+  { id: 'i18n-setup', mode: 'sequential', hasTemplate: true },
 ];
 
 for (const wf of workflows) {

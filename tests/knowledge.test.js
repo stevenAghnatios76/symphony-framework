@@ -18,7 +18,7 @@ const languages = [
 describe('Knowledge fragment directories (Spec 7a)', () => {
   it('has 5 language directories', () => {
     const dir = resolve(root, '_symphony/dev/knowledge');
-    const dirs = readdirSync(dir, { withFileTypes: true }).filter(d => d.isDirectory());
+    const dirs = readdirSync(dir, { withFileTypes: true }).filter(d => d.isDirectory() && d.name !== 'patterns');
     expect(dirs.length).toBe(5);
   });
 

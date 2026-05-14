@@ -71,6 +71,69 @@ describe('Claude Code adapter', () => {
   });
 });
 
+describe('Codex adapter', () => {
+  let translate, metadata;
+
+  beforeAll(async () => {
+    const mod = await import('../adapters/codex/translator.js');
+    translate = mod.translate;
+    metadata = mod.metadata;
+  });
+
+  it('metadata.stub is false', () => {
+    expect(metadata.stub).toBe(false);
+  });
+
+  it('metadata.id is codex', () => {
+    expect(metadata.id).toBe('codex');
+  });
+
+  it('translate is a function', () => {
+    expect(typeof translate).toBe('function');
+  });
+
+  describe('translate with fixtures', () => {
+    let tmpDir;
+
+    beforeAll(async () => {
+      tmpDir = mkdtempSync(join(tmpdir(), 'symphony-codex-test-'));
+      await translate(root, tmpDir);
+    });
+
+    afterAll(() => {
+      rmSync(tmpDir, { recursive: true, force: true });
+    });
+
+    it('creates .codex/ directory', () => {
+      expect(existsSync(join(tmpDir, '.codex'))).toBe(true);
+    });
+
+    it('creates entry command AGENTS.md', () => {
+      const entryPath = join(tmpDir, 'AGENTS.md');
+      expect(existsSync(entryPath)).toBe(true);
+      const content = readFileSync(entryPath, 'utf8');
+      expect(content).toContain('conductor.xml');
+    });
+
+    it('creates command files for fixture workflows', () => {
+      const cmdsDir = join(tmpDir, '.codex');
+      const files = existsSync(cmdsDir)
+        ? readdirSync(cmdsDir).filter(f => f.startsWith('symphony-'))
+        : [];
+      expect(files.length).toBeGreaterThanOrEqual(1);
+    });
+
+    it('generated command files contain conductor.xml reference', () => {
+      const cmdsDir = join(tmpDir, '.codex');
+      const files = readdirSync(cmdsDir).filter(f => f.startsWith('symphony-'));
+      for (const file of files) {
+        const content = readFileSync(join(cmdsDir, file), 'utf8');
+        expect(content).toContain('conductor.xml');
+      }
+    });
+  });
+});
+
 describe('Copilot adapter', () => {
   let translate, metadata;
 

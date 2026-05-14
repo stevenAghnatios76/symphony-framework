@@ -302,6 +302,81 @@ describe('Symphony repo structure (architecture spec §4.1)', () => {
     });
   });
 
+  describe('_symphony/dev/agents — mobile agents (Spec 7d)', () => {
+    const mobileAgents = ['designer-mobile', 'mobile-tester'];
+    for (const a of mobileAgents) {
+      it(`has dev agent ${a}`, () => {
+        expect(exists(`_symphony/dev/agents/${a}.md`)).toBe(true);
+      });
+    }
+  });
+
+  describe('_symphony/_config/presets (Spec 7d)', () => {
+    const presets = ['solo', 'team', 'enterprise'];
+    for (const p of presets) {
+      it(`has preset ${p}.yaml`, () => {
+        expect(exists(`_symphony/_config/presets/${p}.yaml`)).toBe(true);
+      });
+    }
+  });
+
+  describe('_symphony/core/protocols — workspace isolation (Spec 7d)', () => {
+    it('has workspace-isolation.xml', () => {
+      expect(exists('_symphony/core/protocols/workspace-isolation.xml')).toBe(true);
+    });
+  });
+
+  describe('_symphony/core/vault (Spec 7d)', () => {
+    const vaultFiles = ['schema.yaml', 'codebase-index.yaml', 'query-patterns.md'];
+    for (const f of vaultFiles) {
+      it(`has vault/${f}`, () => {
+        expect(exists(`_symphony/core/vault/${f}`)).toBe(true);
+      });
+    }
+  });
+
+  describe('_symphony/core/cli (Spec 7d)', () => {
+    it('has command-registry.yaml', () => {
+      expect(exists('_symphony/core/cli/command-registry.yaml')).toBe(true);
+    });
+    it('has sdk-interface.yaml', () => {
+      expect(exists('_symphony/core/cli/sdk-interface.yaml')).toBe(true);
+    });
+  });
+
+  describe('_symphony/dev/knowledge/patterns (Spec 7d)', () => {
+    const patterns = ['workspace-isolation', 'internationalization'];
+    for (const p of patterns) {
+      it(`has knowledge pattern ${p}`, () => {
+        expect(exists(`_symphony/dev/knowledge/patterns/${p}.md`)).toBe(true);
+      });
+    }
+  });
+
+  describe('Anytime workflow — i18n-setup (Spec 7d)', () => {
+    it('has i18n-setup workflow', () => {
+      expect(exists('_symphony/lifecycle/workflows/anytime/i18n-setup/workflow.yaml')).toBe(true);
+    });
+  });
+
+  describe('adapters/codex', () => {
+    it('has adapter.yaml', () => {
+      expect(exists('adapters/codex/adapter.yaml')).toBe(true);
+    });
+    it('has translator.js', () => {
+      expect(exists('adapters/codex/translator.js')).toBe(true);
+    });
+    it('has templates/agents.md.tmpl', () => {
+      expect(exists('adapters/codex/templates/agents.md.tmpl')).toBe(true);
+    });
+  });
+
+  describe('_symphony/core/adapter-registry — codex (Spec 7d)', () => {
+    it('has adapter registry codex.yaml', () => {
+      expect(exists('_symphony/core/adapter-registry/codex.yaml')).toBe(true);
+    });
+  });
+
   describe('package.json sanity', () => {
     it('declares name as symphony-framework', () => {
       const pkg = JSON.parse(readText('package.json'));
