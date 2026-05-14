@@ -196,6 +196,13 @@ body::before {
   color: var(--green);
 }
 
+.masked-name {
+  filter: blur(3px);
+  opacity: 0.92;
+  letter-spacing: 0.02em;
+  user-select: none;
+}
+
 /* LEGEND STRIP */
 .legend-strip {
   display: flex;
@@ -802,7 +809,7 @@ body::before {
   <div class="header-meta">
     <div class="header-meta-item">
       <span class="header-meta-key">Version</span>
-      <span class="header-meta-val">v0.0.2-alpha.2</span>
+      <span class="header-meta-val">v0.1.0</span>
     </div>
     <div class="header-meta-item">
       <span class="header-meta-key">Compared</span>
@@ -810,15 +817,15 @@ body::before {
     </div>
     <div class="header-meta-item">
       <span class="header-meta-key">Agents</span>
-      <span class="header-meta-val">32 built</span>
+      <span class="header-meta-val">35 built</span>
     </div>
     <div class="header-meta-item">
       <span class="header-meta-key">Tests</span>
-      <span class="header-meta-val">1678 passing</span>
+      <span class="header-meta-val">1700+ passing</span>
     </div>
     <div class="header-meta-item">
       <span class="header-meta-key">Date</span>
-      <span class="header-meta-val">2026-04-30</span>
+      <span class="header-meta-val">2026-05-14</span>
     </div>
   </div>
   <div class="header-status">
@@ -845,14 +852,14 @@ body::before {
     <div class="fw-name">Symphony</div>
     <div class="fw-tagline">"The ultimate agentic framework"</div>
     <div class="fw-stat-row"><span class="fw-stat-key">Engine</span><span class="fw-stat-val">5/5 components</span></div>
-    <div class="fw-stat-row"><span class="fw-stat-key">Protocols</span><span class="fw-stat-val">13 (10 core + 3 engine)</span></div>
-    <div class="fw-stat-row"><span class="fw-stat-key">Adapters</span><span class="fw-stat-val">4 (Claude, Copilot, Gemini, Cursor)</span></div>
-    <div class="fw-stat-row"><span class="fw-stat-key">Agents</span><span class="fw-stat-val">32 built</span></div>
+    <div class="fw-stat-row"><span class="fw-stat-key">Protocols</span><span class="fw-stat-val">21 (10 core + 3 engine + 8 cross-cutting)</span></div>
+    <div class="fw-stat-row"><span class="fw-stat-key">Adapters</span><span class="fw-stat-val">3 (Claude, Copilot, Codex)</span></div>
+    <div class="fw-stat-row"><span class="fw-stat-key">Agents</span><span class="fw-stat-val">35 built</span></div>
     <div class="fw-stat-row"><span class="fw-stat-key">Workflows</span><span class="fw-stat-val">76 built</span></div>
     <div class="fw-stat-row"><span class="fw-stat-key">Skills / Knowledge</span><span class="fw-stat-val">11 / 51</span></div>
-    <div class="fw-stat-row"><span class="fw-stat-key">Tests</span><span class="fw-stat-val">1678 passing</span></div>
+    <div class="fw-stat-row"><span class="fw-stat-key">Tests</span><span class="fw-stat-val">1700+ passing</span></div>
     <div class="fw-stat-row"><span class="fw-stat-key">Hub</span><span class="fw-stat-val">Hono server + 6 panels</span></div>
-    <div class="fw-stat-row"><span class="fw-stat-key">Status</span><span class="fw-stat-val">v0.0.2-alpha.2</span></div>
+    <div class="fw-stat-row"><span class="fw-stat-key">Status</span><span class="fw-stat-val">v0.1.0 — Specification Complete</span></div>
   </div>
   <div class="fw-card gaia">
     <div class="fw-index">02 / 04</div>
@@ -1134,7 +1141,7 @@ body::before {
     </tr>
     <tr>
       <td>Total Agent Count</td>
-      <td class="cell-leads">32 <span class="pill pill-leads">BUILT</span></td>
+      <td class="cell-leads">35 <span class="pill pill-leads">BUILT</span></td>
       <td class="cell-strong">26</td>
       <td class="cell-leads">33</td>
       <td class="cell-dim">15</td>
@@ -1364,7 +1371,7 @@ body::before {
     <tr><td>Memory system + checkpoints</td><td><span class="hm-cell yes">✓</span></td><td><span class="hm-cell yes">✓</span></td><td><span class="hm-cell yes">✓</span></td><td><span class="hm-cell no">✗</span></td><td><span class="hm-cell yes">✓</span></td></tr>
     <tr><td>Brownfield / overture</td><td><span class="hm-cell yes">✓</span></td><td><span class="hm-cell yes">✓</span></td><td><span class="hm-cell part">~</span></td><td><span class="hm-cell no">✗</span></td><td><span class="hm-cell yes">✓</span></td></tr>
     <tr><td>Test execution bridge (5 adapters)</td><td><span class="hm-cell yes">✓</span></td><td><span class="hm-cell yes">✓</span></td><td><span class="hm-cell no">✗</span></td><td><span class="hm-cell no">✗</span></td><td><span class="hm-cell yes">✓</span></td></tr>
-    <tr><td>Adapters (Claude Code, Copilot, Gemini CLI, Cursor)</td><td><span class="hm-cell yes">✓</span></td><td><span class="hm-cell no">✗</span></td><td><span class="hm-cell yes">✓</span></td><td><span class="hm-cell no">✗</span></td><td><span class="hm-cell yes">✓</span></td></tr>
+    <tr><td>Adapters (Claude Code, Copilot, Codex, Gemini CLI, Cursor)</td><td><span class="hm-cell yes">✓</span></td><td><span class="hm-cell no">✗</span></td><td><span class="hm-cell yes">✓</span></td><td><span class="hm-cell no">✗</span></td><td><span class="hm-cell yes">✓</span></td></tr>
     <tr><td>Vault / knowledge graph (schema + index + queries)</td><td><span class="hm-cell yes">✓</span></td><td><span class="hm-cell no">✗</span></td><td><span class="hm-cell part">~</span></td><td><span class="hm-cell no">✗</span></td><td><span class="hm-cell yes">✓</span></td></tr>
     <tr><td>CLI tools layer / SDK (52 commands + 6 methods)</td><td><span class="hm-cell yes">✓</span></td><td><span class="hm-cell part">~</span></td><td><span class="hm-cell yes">✓</span></td><td><span class="hm-cell no">✗</span></td><td><span class="hm-cell yes">✓</span></td></tr>
     <tr><td>Environment presets (solo / team / enterprise)</td><td><span class="hm-cell yes">✓</span></td><td><span class="hm-cell yes">✓</span></td><td><span class="hm-cell no">✗</span></td><td><span class="hm-cell no">✗</span></td><td><span class="hm-cell yes">✓</span></td></tr>
@@ -1400,7 +1407,7 @@ body::before {
     </div>
     <div class="rm-item">
       <span class="rm-priority done">DONE</span>
-      <span>Dev module (Spec 7a), Testing module (Spec 7b), Utility module (Spec 7c). 1577 tests passing.</span>
+      <span>Dev module (Spec 7a), Testing module (Spec 7b), Utility module (Spec 7c), Final gaps (Spec 7d). 1700+ tests passing.</span>
     </div>
     <div class="rm-item">
       <span class="rm-priority done">DONE</span>
@@ -1430,8 +1437,8 @@ body::before {
       <span style="text-decoration:line-through;opacity:0.5;">Discuss phase — discuss workflow + adversarial-review for gray area detection.</span>
     </div>
     <div class="rm-item">
-      <span class="rm-priority med">MED</span>
-      <span>Multi-tool breadth — Symphony's adapter model is cleaner, but needs adapters for Gemini CLI, Cursor, Codex, Kilo, Trae, Cline (13 more runtimes).</span>
+      <span class="rm-priority done">DONE</span>
+      <span style="text-decoration:line-through;opacity:0.5;">Multi-tool breadth — Codex adapter added (Spec 7d). Gemini CLI and Cursor already present. Additional runtimes (Kilo, Trae, Cline) remain low priority.</span>
     </div>
     <div class="rm-item">
       <span class="rm-priority done">DONE</span>
@@ -1491,10 +1498,45 @@ body::before {
 <div class="footer">
   <div class="footer-left">Symphony Framework Comparison Dashboard</div>
   <div class="footer-right">
-    Last updated: 2026-04-30 &bull; Compared against: Gaia v1.7.1, GSD v1.39-rc, Gem Team v1.6.0<br>
-    All heatmap gaps closed — Specs 7a–7d complete
+    Last updated: 2026-05-14 &bull; Compared against: Gaia v1.7.1, GSD v1.39-rc, Gem Team v1.6.0<br>
+    All heatmap gaps closed — Specs 7a–7d complete &bull; v0.1.0 — Specification Complete
   </div>
 </div>
+
+<script>
+  (function maskCompetitorNames() {
+    const replacements = [
+      { pattern: /Gem Team/gi, alias: 'RND-883' },
+      { pattern: /Gaia/gi, alias: 'RND-241' },
+      { pattern: /GSD/gi, alias: 'RND-517' },
+      { pattern: /\bGem\b/gi, alias: 'RND-883' },
+      { pattern: /Claude Code/gi, alias: 'RND-112' },
+      { pattern: /Copilot plugin/gi, alias: 'RND-229' },
+      { pattern: /Copilot/gi, alias: 'RND-229' },
+      { pattern: /Gemini CLI/gi, alias: 'RND-334' },
+      { pattern: /Gemini/gi, alias: 'RND-334' },
+      { pattern: /Cursor/gi, alias: 'RND-445' },
+      { pattern: /Codex/gi, alias: 'RND-556' },
+      { pattern: /Kilo/gi, alias: 'RND-667' },
+      { pattern: /Trae/gi, alias: 'RND-778' },
+      { pattern: /Cline/gi, alias: 'RND-889' },
+      { pattern: /Augment/gi, alias: 'RND-990' }
+    ];
+
+    let html = document.body.innerHTML;
+
+    for (const item of replacements) {
+      html = html.replace(item.pattern, '<span class="masked-name">' + item.alias + '</span>');
+    }
+
+    html = html
+      .replace(/\/gaia-/gi, '/rnd-241-')
+      .replace(/\/gsd-/gi, '/rnd-517-')
+      .replace(/\/gem-/gi, '/rnd-883-');
+
+    document.body.innerHTML = html;
+  })();
+</script>
 
 </body>
 </html>
