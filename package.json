@@ -1,5 +1,5 @@
 {
-  "name": "@stevenaghnatios/symphony-framework",
+  "name": "symphony-framework",
   "version": "0.1.0",
   "description": "AI agent framework that dispatches a coordinated team of specialist agents in parallel. Orchestrate your code.",
   "type": "module",
