@@ -1,0 +1,149 @@
+id: command-registry
+version: "1.0"
+description: Maps Symphony commands to workflows. Adapters consume this registry to generate platform-native commands.
+
+categories:
+  - id: lifecycle
+    description: Full product lifecycle workflows
+  - id: dev
+    description: Developer tools and utilities
+  - id: creative
+    description: Creative and ideation workflows
+  - id: testing
+    description: Testing and quality assurance
+  - id: utility
+    description: Cross-cutting utilities
+  - id: admin
+    description: Framework administration
+
+commands:
+  - id: brainstorm
+    command: symphony-brainstorm
+    description: Multi-agent brainstorming roundtable
+    workflow_ref: lifecycle/workflows/1-analysis/brainstorm
+    category: lifecycle
+  - id: market-research
+    command: symphony-market-research
+    description: Market research and competitive analysis
+    workflow_ref: lifecycle/workflows/1-analysis/market-research
+    category: lifecycle
+  - id: domain-research
+    command: symphony-domain-research
+    description: Deep domain research
+    workflow_ref: lifecycle/workflows/1-analysis/domain-research
+    category: lifecycle
+  - id: tech-research
+    command: symphony-tech-research
+    description: Technology stack research
+    workflow_ref: lifecycle/workflows/1-analysis/tech-research
+    category: lifecycle
+  - id: product-brief
+    command: symphony-product-brief
+    description: Generate product brief from research
+    workflow_ref: lifecycle/workflows/1-analysis/product-brief
+    category: lifecycle
+  - id: advanced-elicitation
+    command: symphony-advanced-elicitation
+    description: Advanced requirements elicitation
+    workflow_ref: lifecycle/workflows/1-analysis/advanced-elicitation
+    category: lifecycle
+  - id: create-prd
+    command: symphony-create-prd
+    description: Create product requirements document
+    workflow_ref: lifecycle/workflows/2-planning/create-prd
+    category: lifecycle
+  - id: validate-prd
+    command: symphony-validate-prd
+    description: Validate PRD completeness
+    workflow_ref: lifecycle/workflows/2-planning/validate-prd
+    category: lifecycle
+  - id: create-ux
+    command: symphony-create-ux
+    description: Create UX specifications
+    workflow_ref: lifecycle/workflows/2-planning/create-ux
+    category: lifecycle
+  - id: create-arch
+    command: symphony-create-arch
+    description: Create architecture document
+    workflow_ref: lifecycle/workflows/3-solutioning/create-arch
+    category: lifecycle
+  - id: create-epics
+    command: symphony-create-epics
+    description: Break architecture into epics
+    workflow_ref: lifecycle/workflows/3-solutioning/create-epics
+    category: lifecycle
+  - id: test-design
+    command: symphony-test-design
+    description: Design test strategy
+    workflow_ref: lifecycle/workflows/3-solutioning/test-design
+    category: lifecycle
+  - id: threat-model
+    command: symphony-threat-model
+    description: Security threat modeling
+    workflow_ref: lifecycle/workflows/3-solutioning/threat-model
+    category: lifecycle
+  - id: sprint-plan
+    command: symphony-sprint-plan
+    description: Plan sprint from epics
+    workflow_ref: lifecycle/workflows/4-implementation/sprint-plan
+    category: lifecycle
+  - id: dev-story
+    command: symphony-dev-story
+    description: Implement a user story
+    workflow_ref: lifecycle/workflows/4-implementation/dev-story
+    category: lifecycle
+  - id: code-review
+    command: symphony-code-review
+    description: Review code changes
+    workflow_ref: lifecycle/workflows/4-implementation/code-review
+    category: lifecycle
+  - id: release-plan
+    command: symphony-release-plan
+    description: Create release plan
+    workflow_ref: lifecycle/workflows/5-deployment/release-plan
+    category: lifecycle
+  - id: deploy-checklist
+    command: symphony-deploy-checklist
+    description: Pre-deployment checklist
+    workflow_ref: lifecycle/workflows/5-deployment/deploy-checklist
+    category: lifecycle
+  - id: quick-spec
+    command: symphony-quick-spec
+    description: Fast-track specification for simple features
+    workflow_ref: lifecycle/workflows/anytime/quick-spec
+    category: dev
+  - id: quick-dev
+    command: symphony-quick-dev
+    description: Fast-track implementation for simple features
+    workflow_ref: lifecycle/workflows/anytime/quick-dev
+    category: dev
+  - id: spike
+    command: symphony-spike
+    description: Time-boxed technical investigation
+    workflow_ref: lifecycle/workflows/anytime/spike
+    category: dev
+  - id: explore-codebase
+    command: symphony-explore-codebase
+    description: Map and understand codebase architecture
+    workflow_ref: lifecycle/workflows/anytime/explore-codebase
+    category: dev
+  - id: adversarial-review
+    command: symphony-adversarial-review
+    description: Stress-test decisions with adversarial critique
+    workflow_ref: lifecycle/workflows/anytime/adversarial-review
+    category: utility
+  - id: hub
+    command: symphony-hub
+    description: Launch the Symphony dashboard
+    workflow_ref: lifecycle/workflows/anytime/hub
+    category: admin
+  - id: status
+    command: symphony-status
+    description: Show current workflow and project status
+    workflow_ref: lifecycle/workflows/anytime/status
+    category: admin
+  - id: i18n-setup
+    command: symphony-i18n-setup
+    description: Set up internationalization for a project
+    workflow_ref: lifecycle/workflows/anytime/i18n-setup
+    category: dev

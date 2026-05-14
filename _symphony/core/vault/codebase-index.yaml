@@ -1,0 +1,36 @@
+id: codebase-index
+version: "1.0"
+description: Rules for indexing the project codebase into the vault
+
+file_patterns:
+  typescript: ["*.ts", "*.tsx", "*.mts"]
+  javascript: ["*.js", "*.jsx", "*.mjs"]
+  python: ["*.py"]
+  go: ["*.go"]
+  dart: ["*.dart"]
+  kotlin: ["*.kt", "*.kts"]
+  swift: ["*.swift"]
+  yaml: ["*.yaml", "*.yml"]
+  xml: ["*.xml"]
+  markdown: ["*.md"]
+
+ignore_patterns:
+  - ".git/**"
+  - "node_modules/**"
+  - "build/**"
+  - "dist/**"
+  - ".next/**"
+  - "__pycache__/**"
+  - ".dart_tool/**"
+  - "*.min.js"
+  - "*.lock"
+
+indexing_frequency:
+  on_change: true
+  on_commit: true
+  scheduled: "daily"
+
+storage:
+  location: "_symphony/_memory/vault-index/"
+  format: "yaml"
+  max_index_size_mb: 50

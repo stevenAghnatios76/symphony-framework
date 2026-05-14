@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<protocol id="workspace-isolation" version="1.0">
+  <purpose>Ensure each agent operates within a bounded workspace, preventing cross-agent file collisions and enforcing explicit artifact handoffs.</purpose>
+
+  <rules>
+    <rule id="ws-1">Each agent activation receives a workspace root directory scoped to its current workflow step.</rule>
+    <rule id="ws-2">Agents may read shared artifact directories (docs/planning-artifacts/, docs/implementation-artifacts/) but must not write to another agent's workspace.</rule>
+    <rule id="ws-3">Cross-agent file access requires an explicit handoff entry in the workflow's output manifest.</rule>
+    <rule id="ws-4">On workflow completion, the gate-enforcer verifies all workspace artifacts are accounted for — committed, handed off, or explicitly discarded.</rule>
+    <rule id="ws-5">Orphaned workspaces older than the configured retention period are flagged by memory-hygiene protocol for cleanup.</rule>
+  </rules>
+
+  <workspace-layout>
+    <directory purpose="agent-private">_symphony/_memory/{agent-id}-sidecar/</directory>
+    <directory purpose="shared-read">docs/planning-artifacts/</directory>
+    <directory purpose="shared-read">docs/implementation-artifacts/</directory>
+    <directory purpose="handoff">docs/implementation-artifacts/handoffs/</directory>
+    <directory purpose="checkpoints">_symphony/_memory/checkpoints/</directory>
+  </workspace-layout>
+
+  <handoff-protocol>
+    <step>Producer agent writes artifact to its workspace.</step>
+    <step>Producer records handoff in checkpoint: artifact path, target agent, sha256 hash.</step>
+    <step>Consumer agent receives handoff reference via workflow-engine context.</step>
+    <step>Consumer verifies hash before reading.</step>
+  </handoff-protocol>
+
+  <integration>
+    <protocol ref="checkpoint-resume">Workspace state is included in checkpoint snapshots.</protocol>
+    <protocol ref="memory-hygiene">Orphaned workspaces are cleaned on the configured cadence.</protocol>
+    <protocol ref="gate-enforcer">Post-complete gate verifies workspace artifact accounting.</protocol>
+  </integration>
+</protocol>

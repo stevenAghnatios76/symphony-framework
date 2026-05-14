@@ -1,0 +1,50 @@
+id: sdk-interface
+version: "1.0"
+description: Programmatic API surface for Symphony. Adapters implement this interface to expose Symphony capabilities to their host platform.
+
+methods:
+  - id: start-workflow
+    description: Start a named workflow with optional inputs
+    params: [workflow_id, inputs, options]
+    returns: workflow_run_id
+  - id: get-status
+    description: Get current status of a workflow run or the framework
+    params: [workflow_run_id]
+    returns: status_snapshot
+  - id: list-agents
+    description: List all available agents with their capabilities
+    params: [filter]
+    returns: agent_list
+  - id: dispatch-agent
+    description: Activate an agent for a specific task
+    params: [agent_id, task, context]
+    returns: agent_run_id
+  - id: query-vault
+    description: Run a vault query against the codebase knowledge graph
+    params: [query_type, query_params]
+    returns: query_results
+  - id: get-checkpoint
+    description: Retrieve a checkpoint snapshot
+    params: [checkpoint_id]
+    returns: checkpoint_data
+
+events:
+  - id: on-workflow-start
+    payload: [workflow_id, workflow_run_id, timestamp]
+  - id: on-step-complete
+    payload: [workflow_run_id, step_id, status, artifacts]
+  - id: on-gate-check
+    payload: [workflow_run_id, gate_id, passed, details]
+  - id: on-workflow-end
+    payload: [workflow_run_id, status, duration, artifacts]
+
+extensions:
+  - id: custom-agent-registration
+    description: Register a user-defined agent with Symphony
+    params: [agent_spec_path]
+  - id: custom-workflow-registration
+    description: Register a user-defined workflow with Symphony
+    params: [workflow_dir_path]
+  - id: plugin-loader
+    description: Load a plugin that extends Symphony capabilities
+    params: [plugin_manifest_path]
