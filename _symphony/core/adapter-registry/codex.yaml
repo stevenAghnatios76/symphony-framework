@@ -1,0 +1,21 @@
+id: codex
+target_tool: "OpenAI Codex CLI"
+target_tool_url: "https://github.com/openai/codex"
+
+output_paths:
+  commands: ".codex/"
+  config: "AGENTS.md"
+
+command_file_extension: ".md"
+command_naming_pattern: "symphony-{action}"
+
+supports:
+  model_frontmatter: false
+  slash_commands: false
+  agent_memory: false
+  model_selection_per_command: false
+
+capabilities_declared:
+  - sequential_workflows
+  - gate_enforcement
+  - self_critique

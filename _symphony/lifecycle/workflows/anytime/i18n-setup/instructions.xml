@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions workflow="i18n-setup">
+  <step id="1" name="audit">
+    <action>Scan the codebase for hardcoded user-facing strings. Check UI components, error messages, validation messages, email templates, and CLI output. Record the count and locations.</action>
+    <output>String audit table: file path, line, string, context.</output>
+  </step>
+
+  <step id="2" name="select-library">
+    <action>Based on the project stack (detected from package.json, pubspec.yaml, go.mod, etc.), recommend an i18n library. Load knowledge fragment: patterns/internationalization.md.</action>
+    <output>Library recommendation with rationale.</output>
+  </step>
+
+  <step id="3" name="configure-locales">
+    <action>Create locale resource directory structure and base locale files. Set up the default locale (en) and any target locales specified in inputs.</action>
+    <output>Directory structure and base resource files created.</output>
+  </step>
+
+  <step id="4" name="extract-strings">
+    <action>Extract audited strings into the locale resource format chosen in step 2. Use ICU message format for any strings with plurals, numbers, or dates.</action>
+    <output>Populated resource bundles for the default locale.</output>
+  </step>
+
+  <step id="5" name="ci-validation">
+    <action>Document a CI step that validates locale file completeness — every key in the default locale must exist in all target locales. Missing keys fail the build.</action>
+    <output>CI validation configuration documented in the report.</output>
+  </step>
+
+  <apply-template path="template.md"/>
+</instructions>

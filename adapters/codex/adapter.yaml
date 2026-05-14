@@ -1,0 +1,11 @@
+id: codex
+target_tool: "OpenAI Codex CLI"
+translator_entry: "./translator.js"
+templates_dir: "./templates"
+
+output_paths:
+  commands: ".codex/"
+  config: "AGENTS.md"
+
+command_file_extension: ".md"
+command_naming_pattern: "symphony-{action}"

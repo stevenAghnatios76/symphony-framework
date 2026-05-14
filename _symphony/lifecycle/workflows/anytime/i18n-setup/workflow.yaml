@@ -1,0 +1,30 @@
+id: i18n-setup
+owner: developer
+model: sonnet
+phase: anytime
+description: Set up internationalization infrastructure for a project — audit strings, select library, configure locales, extract resources
+
+execution:
+  mode: sequential
+  wave_eligible: false
+
+inputs:
+  required: []
+  optional:
+    - project_path
+    - target_locales
+
+outputs:
+  primary: docs/planning-artifacts/i18n-setup-report.md
+  traceable_to: []
+
+gates:
+  pre_start: []
+  post_complete:
+    - At least one locale resource file exists
+    - CI validation step documented
+
+disciplines:
+  self_critique: true
+  anti_rationalization: true
+  trust_levels: true
