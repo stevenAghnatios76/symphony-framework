@@ -1,0 +1,50 @@
+id: vault-schema
+version: "1.0"
+description: Knowledge graph schema for codebase intelligence
+
+node_types:
+  - id: file
+    properties: [path, language, size_bytes, last_modified]
+  - id: function
+    properties: [name, file_path, line_start, line_end, signature]
+  - id: class
+    properties: [name, file_path, line_start, line_end]
+  - id: module
+    properties: [name, entry_path, exports]
+  - id: dependency
+    properties: [name, version, dev_only]
+  - id: test
+    properties: [name, file_path, covers]
+  - id: config
+    properties: [path, format, purpose]
+
+edge_types:
+  - id: imports
+    from: [file, module]
+    to: [file, module, dependency]
+  - id: calls
+    from: [function]
+    to: [function]
+  - id: tests
+    from: [test]
+    to: [function, class, module]
+  - id: depends-on
+    from: [module, dependency]
+    to: [module, dependency]
+  - id: owns
+    from: [module]
+    to: [file, function, class]
+  - id: implements
+    from: [class, function]
+    to: [class]
+
+metadata:
+  last_indexed: "ISO 8601 timestamp"
+  file_hash: "sha256"
+  line_range: "[start, end]"
+
+query_interface:
+  - by-node-type
+  - by-edge-type
+  - by-path-glob
+  - by-dependency-chain
