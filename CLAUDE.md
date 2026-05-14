@@ -1,41 +1,47 @@
 # Symphony Framework
 
-> Version: 0.0.1 (repo foundation — engine runtime not yet implemented)
+> Version: 0.1.0 (specification release)
 
-This project is the Symphony framework — an AI agent framework for Claude Code and GitHub Copilot that orchestrates software product development through a smart conductor, parallel wave execution, and a 5-phase lifecycle.
+Symphony is an AI agent framework that orchestrates software product development through a smart conductor, parallel wave execution, and a 5-phase lifecycle. It is **not a standalone CLI tool** — it runs inside AI coding platforms (Claude Code, GitHub Copilot, Codex) as the orchestration layer. Adapters translate Symphony specs into each platform's native format.
 
 ## Status
 
-This repo is at v0.0.1: the repo foundation. Directory scaffolding, stub engine files, and a minimal CLI are in place. The runtime engine, lifecycle agents, workflows, and adapter translators are under active development in follow-up plans.
+The framework has complete specifications: 33 agents, 75 workflows, 20 protocols, and 16 design specs — all structurally validated by 1,577 tests. The runtime engine is not yet implemented; current work is finalizing the v0.1.0 specification release.
 
-## Architecture reference
+## Key Principle: Symphony Has No Standalone CLI
+
+Symphony does NOT ship a CLI binary. Users interact with it through their AI coding tool of choice:
+- **Claude Code** — via slash commands and CLAUDE.md integration
+- **GitHub Copilot** — via workspace agents and chat participants
+- **Codex** — via AGENTS.md integration
+
+The `bin/symphony-cli.js` exists only for adapter installation/validation tooling, not for end-user interaction.
+
+## Architecture Reference
 
 The canonical architecture spec lives at:
 `docs/superpowers/specs/2026-04-08-symphony-architecture-design.md`
 
 All follow-up work must respect the principles and contracts defined there.
 
-## How to Start (when the runtime exists)
-
-The primary entry point will be `/symphony` — this activates the Conductor who routes you to the right agent or workflow. Until the runtime is implemented, `/symphony*` commands are not yet wired up.
-
 ## Framework Location
 
 ```
 _symphony/                    # Framework root (Core runtime)
-├── _config/                  # global.yaml, manifest.yaml
+├── _config/                  # global.yaml, manifest.yaml, lifecycle-sequence.yaml
 ├── core/                     # Engine, protocols, adapter registry
 │   ├── engine/               # conductor, wave-executor, workflow-engine, gate-enforcer, task-runner
-│   ├── protocols/            # cross-cutting behaviors (9 protocols)
-│   └── adapter-registry/     # adapter manifests Core is aware of
-├── lifecycle/                # 5-phase product lifecycle (empty at v0.0.1)
-├── dev/                      # Developer agents + skills (empty at v0.0.1)
-├── creative/                 # Creative agents + workflows (empty at v0.0.1)
-├── testing/                  # Test architect + workflows (empty at v0.0.1)
-└── _memory/                  # Persistent memory + checkpoints (empty at v0.0.1)
+│   ├── protocols/            # cross-cutting behaviors (20 protocols)
+│   └── adapter-registry/     # adapter manifests (claude-code, copilot, cursor, gemini-cli)
+├── lifecycle/                # 5-phase product lifecycle (15 agents, 39 workflows)
+├── dev/                      # Developer agents + skills + knowledge (2 agents, 12 skills, 20 knowledge fragments)
+├── creative/                 # Creative agents + workflows (6 agents, 6 workflows)
+├── testing/                  # Test architect + workflows (1 agent, 30 knowledge fragments)
+├── utility/                  # Utility agents (3 agents)
+└── _memory/                  # Persistent memory + checkpoints (schemas defined)
 ```
 
-Adapter source code lives at `adapters/` outside `_symphony/` — adapters run at install time only.
+Adapter source code lives at `adapters/` outside `_symphony/` — adapters are pure file generators that run at install time only.
 
 ## Context Budget Discipline
 
