@@ -1,6 +1,6 @@
 {
   "name": "@stevenaghnatios/symphony-framework",
-  "version": "0.0.2-alpha.1",
+  "version": "0.1.0",
   "description": "AI agent framework that dispatches a coordinated team of specialist agents in parallel. Orchestrate your code.",
   "type": "module",
   "bin": {

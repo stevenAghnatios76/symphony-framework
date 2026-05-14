@@ -4,7 +4,7 @@
 
 Symphony is an AI agent framework that lets you describe a goal and dispatches a coordinated team of specialist agents in parallel to deliver it.
 
-**Status:** v0.0.1 — repo foundation. Engine runtime, lifecycle agents, workflows, and adapters are under active development. See the architecture spec for the full vision.
+**Status:** v0.1.0 — specification release. 33 agents, 75 workflows, 20 protocols, and 16 design specs complete with structural validation by 1,577 tests. Runtime engine under active development. See the architecture spec for the full vision.
 
 ## What makes Symphony different
 
@@ -29,6 +29,17 @@ This repo currently contains:
 - A structure-validation test suite
 
 The runtime engine, lifecycle agents, workflows, and adapter translators land in follow-up plans.
+
+## Visual Reference
+
+### Framework Comparison
+![Symphony Framework Comparison](Symphony_Framework_Comparison.png)
+
+### How to Use Guide
+![Symphony How to Use](Symphony_How_To_Use.png)
+
+### Lifecycle Activity Diagram
+![Symphony Lifecycle Activity Diagram](Symphony_Lifecycle_Activity_Diagram.png)
 
 ## Running the tests
 
