@@ -3,26 +3,28 @@
 
 modules:
   core:
-    version: "0.0.2-alpha.1"
-    description: "Engine, protocols, adapter registry, memory"
+    version: "0.1.0"
+    description: "Engine, protocols, adapter registry, vault, CLI registry, memory"
   lifecycle:
-    version: "0.0.2-alpha.1"
+    version: "0.1.0"
     description: "5-phase lifecycle agents, workflows, stakeholder personas"
   dev:
-    version: "0.0.2-alpha.1"
+    version: "0.1.0"
     description: "Developer agents, skills, knowledge fragments"
   creative:
-    version: "0.0.2-alpha.1"
+    version: "0.1.0"
     description: "Creative agents and workflows"
   testing:
-    version: "0.0.2-alpha.1"
+    version: "0.1.0"
     description: "Test architect, testing workflows, knowledge, adapters"
   utility:
-    version: "0.0.2-alpha.1"
+    version: "0.1.0"
     description: "Utility agents — critic, code-simplifier, browser-tester"
 
 adapters:
   claude-code:
-    version: "0.0.1"
+    version: "0.1.0"
   copilot:
-    version: "0.0.1"
+    version: "0.1.0"
+  codex:
+    version: "0.1.0"

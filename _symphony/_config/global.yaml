@@ -2,7 +2,7 @@
 # See architecture spec §2.6, §2.9, §11.2 for schema reference.
 
 framework_name: "Symphony"
-framework_version: "0.0.1"
+framework_version: "0.1.0"
 user_name: "your-name"
 project_name: "your-project"
 
