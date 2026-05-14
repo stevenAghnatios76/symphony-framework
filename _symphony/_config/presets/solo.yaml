@@ -1,0 +1,32 @@
+id: solo
+name: Solo Developer
+description: Simplified gates and single-agent routing for individual developers
+
+conductor:
+  auto_dispatch_confidence: 0.70
+  multi_agent_routing: false
+
+gates:
+  code_review_required: false
+  security_review_required: false
+  architecture_review_required: false
+
+memory_hygiene:
+  cadence: weekly
+  auto_cleanup: true
+
+hub:
+  auto_refresh: false
+  port: 3100
+
+integrations:
+  trello: false
+  vault: false
+
+ensemble:
+  default_mode: self-review
+  max_participants: 1
+
+disciplines:
+  self_critique_threshold: 0.80
+  anti_rationalization: true

@@ -1,0 +1,32 @@
+id: team
+name: Team
+description: Full gate enforcement and multi-agent routing for small to mid-size teams
+
+conductor:
+  auto_dispatch_confidence: 0.80
+  multi_agent_routing: true
+
+gates:
+  code_review_required: true
+  security_review_required: false
+  architecture_review_required: false
+
+memory_hygiene:
+  cadence: daily
+  auto_cleanup: true
+
+hub:
+  auto_refresh: true
+  port: 3100
+
+integrations:
+  trello: true
+  vault: true
+
+ensemble:
+  default_mode: round-robin
+  max_participants: 4
+
+disciplines:
+  self_critique_threshold: 0.85
+  anti_rationalization: true

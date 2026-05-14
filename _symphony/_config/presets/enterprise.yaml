@@ -1,0 +1,36 @@
+id: enterprise
+name: Enterprise
+description: Strict compliance, mandatory reviews, and audit trails for regulated environments
+
+conductor:
+  auto_dispatch_confidence: 0.90
+  multi_agent_routing: true
+  audit_trail: mandatory
+
+gates:
+  code_review_required: true
+  security_review_required: true
+  architecture_review_required: true
+  stakeholder_review_on_prd: true
+
+memory_hygiene:
+  cadence: every-commit
+  auto_cleanup: false
+  retention_days: 90
+
+hub:
+  auto_refresh: true
+  authentication: true
+  port: 3100
+
+integrations:
+  trello: true
+  vault: true
+
+ensemble:
+  default_mode: round-robin
+  max_participants: 6
+
+disciplines:
+  self_critique_threshold: 0.90
+  anti_rationalization: true
