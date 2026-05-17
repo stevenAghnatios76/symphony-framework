@@ -1,5 +1,5 @@
 {
-  "name": "symphony-framework",
+  "name": "@stevenaghnatios/symphony-framework",
   "version": "0.1.0",
   "description": "AI agent framework that dispatches a coordinated team of specialist agents in parallel. Orchestrate your code.",
   "type": "module",
@@ -27,8 +27,8 @@
     "access": "public"
   },
   "dependencies": {
-    "hono": "^4.7.0",
     "@hono/node-server": "^1.14.0",
+    "hono": "^4.7.0",
     "yaml": "^2.8.3"
   },
   "devDependencies": {

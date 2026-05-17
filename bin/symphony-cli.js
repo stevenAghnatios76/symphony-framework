@@ -14,7 +14,8 @@ const pkg = JSON.parse(readFileSync(pkgPath, 'utf8'));
 const args = process.argv.slice(2);
 
 if (args.includes('--version') || args.includes('-v')) {
-  console.log(`${pkg.name} ${pkg.version}`);
+  const displayName = pkg.name.replace(/^@[^/]+\//, '');
+  console.log(`${displayName} ${pkg.version}`);
   process.exit(0);
 }
 

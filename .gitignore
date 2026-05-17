@@ -30,6 +30,9 @@ Thumbs.db
 .env.local
 .env.*.local
 
+# Local documentation
+docs/
+
 # Symphony runtime state (populated at install in user projects)
 _symphony/_memory/checkpoints/*
 _symphony/_memory/*-sidecar/*
