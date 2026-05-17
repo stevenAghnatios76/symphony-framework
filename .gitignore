@@ -24,6 +24,9 @@ coverage/
 # Claude Code local state
 .claude/
 
+# Editor/workspace files
+*.code-workspace
+
 # OS
 .DS_Store
 Thumbs.db
@@ -32,9 +35,6 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
-
-# Local documentation
-docs/
 
 # Symphony runtime state (populated at install in user projects)
 _symphony/_memory/checkpoints/*
